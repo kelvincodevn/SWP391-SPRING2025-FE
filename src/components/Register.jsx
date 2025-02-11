@@ -6,6 +6,9 @@ import { FaHome } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Navigate, useNavigate } from "react-router-dom";
+import { signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider } from "firebase/auth/web-extension";
+import { auth } from "../config/firebase";
 
 const UserRegistration = () => {
   const [formData, setFormData] = useState({
@@ -140,9 +143,26 @@ const UserRegistration = () => {
     }
   };
 
+  //xử lý login google những dưới back-end vẫn cần API xử lý login google
   const handleGoogleLogin = () => {
-    // Google OAuth integration logic
-    console.log("Google login clicked");
+    console.log("login google...");
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const token = result.user.accessToken;
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
   };
 
   return (
