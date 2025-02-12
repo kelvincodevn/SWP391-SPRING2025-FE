@@ -40,7 +40,7 @@ const Survey = () => {
   return (
     <div className="max-w-3xl mx-auto p-8 bg-gray-100 shadow-md rounded-lg mt-10">
       <h1 className="text-3xl font-bold text-center text-blue-600 mb-6">
-        Khảo Sát Sức Khỏe Tinh Thần
+      Mental Health Survey
       </h1>
       {!submitted ? (
         <div>
