@@ -44,7 +44,7 @@ const ServicesList = () => {
           icon={<RiMicroscopeLine size={35} className="text-backgroundColor" />} 
           title="Take Survey"
           description="Participate in a quick survey to assess your health."
-          link="/survey"
+          link="/surveytest"
         />
       </div>
 

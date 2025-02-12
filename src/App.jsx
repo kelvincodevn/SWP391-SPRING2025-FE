@@ -8,8 +8,9 @@ import Psychologist from "./components/Psychologist";
 import Blogs from "./components/Blogs";
 import Footer from "./components/Footer";
 import MentalHealthResources from "./components/MentalHealthResources";
-import SurveyManagement from "./components/SurveyManagement";
+import TestManagementSystem from "./components/SurveyManagement";
 import MentalHealthSeminar from "./components/Seminar";
+import Survey from "./components/SurveyTest";
 
 const App = () => {
   return (
@@ -23,7 +24,8 @@ const App = () => {
     <Route path="/services" element={<Services />} />
     <Route path="/psychologist" element={<Psychologist />} />
     <Route path="/resources" element={<MentalHealthResources/>}/>
-    <Route path="/survey" element={<SurveyManagement/>}/>
+    <Route path="/surveymanage" element={<TestManagementSystem/>}/>
+    <Route path="/surveytest" element={<Survey/>}/>
     <Route path="/seminar" element={<MentalHealthSeminar/>}/>
     <Route path="/blog" element={<Blogs />} />
     <Route path="*" element={<h2>404 - Page Not Found</h2>} />
