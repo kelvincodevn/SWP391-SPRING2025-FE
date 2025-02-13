@@ -1,3 +1,99 @@
+// import { useState } from "react";
+
+// export default function SurveyManagement() {
+//   const [surveys, setSurveys] = useState([]);
+//   const [newSurvey, setNewSurvey] = useState({ name: "", questions: [] });
+//   const [editingSurvey, setEditingSurvey] = useState(null);
+//   const [showForm, setShowForm] = useState(false);
+
+//   const addSurvey = () => {
+//     if (newSurvey.name.trim()) {
+//       setSurveys([...surveys, { ...newSurvey, id: Date.now() }]);
+//       setNewSurvey({ name: "", questions: [] });
+//       setShowForm(false);
+//     }
+//   };
+
+//   const deleteSurvey = (id) => {
+//     if (window.confirm("Are you sure you want to delete this survey?")) {
+//       setSurveys(surveys.filter((survey) => survey.id !== id));
+//     }
+//   };
+
+//   const editSurvey = (survey) => {
+//     setEditingSurvey(survey);
+//     setShowForm(true);
+//   };
+
+//   const updateSurvey = () => {
+//     setSurveys(surveys.map((s) => (s.id === editingSurvey.id ? editingSurvey : s)));
+//     setEditingSurvey(null);
+//     setShowForm(false);
+//   };
+
+//   return (
+//     <div className="flex">
+//       {/* Sidebar */}
+//       <aside className="w-1/4 bg-orange-500 text-white p-4 min-h-screen">
+//         <h2 className="text-xl font-bold mb-4">Manager Dashboard</h2>
+//         <ul>
+//           <li className="mb-2 p-2 bg-orange-400 rounded cursor-pointer">Manage Users</li>
+//           <li className="mb-2 p-2 bg-orange-400 rounded cursor-pointer">Manage Tests</li>
+//           <li className="mb-2 p-2 bg-orange-400 rounded cursor-pointer">Manage Surveys</li>
+//         </ul>
+//       </aside>
+
+//       {/* Main Content */}
+//       <main className="w-3/4 p-6 bg-orange-100 min-h-screen">
+//         <h2 className="text-2xl font-bold mb-4">Survey Management</h2>
+//         <button 
+//           className="bg-blue-500 text-white px-4 py-2 rounded mb-4" 
+//           onClick={() => setShowForm(true)}
+//         >
+//           Create New Survey
+//         </button>
+
+//         {/* Survey List */}
+//         <ul>
+//           {surveys.map((survey) => (
+//             <li key={survey.id} className="border p-3 rounded flex justify-between items-center mb-2 bg-white">
+//               <span>{survey.name}</span>
+//               <div>
+//                 <button className="bg-yellow-500 text-white px-3 py-1 rounded mr-2" onClick={() => editSurvey(survey)}>Edit</button>
+//                 <button className="bg-red-500 text-white px-3 py-1 rounded" onClick={() => deleteSurvey(survey.id)}>Delete</button>
+//               </div>
+//             </li>
+//           ))}
+//         </ul>
+
+//         {/* Survey Form */}
+//         {showForm && (
+//           <div className="border p-4 rounded mt-4 bg-white">
+//             <h3 className="text-lg font-semibold">{editingSurvey ? "Edit Survey" : "Create New Survey"}</h3>
+//             <input
+//               type="text"
+//               placeholder="Survey Name"
+//               className="border p-2 w-full rounded mb-2"
+//               value={editingSurvey ? editingSurvey.name : newSurvey.name}
+//               onChange={(e) => 
+//                 editingSurvey 
+//                   ? setEditingSurvey({ ...editingSurvey, name: e.target.value }) 
+//                   : setNewSurvey({ ...newSurvey, name: e.target.value })
+//               }
+//             />
+//             <button
+//               className="bg-green-500 text-white px-4 py-2 rounded w-full mt-2"
+//               onClick={editingSurvey ? updateSurvey : addSurvey}
+//             >
+//               {editingSurvey ? "Update Survey" : "Save Survey"}
+//             </button>
+//           </div>
+//         )}
+//       </main>
+//     </div>
+//   );
+// }
+
 import axios from "axios";
 import React, { useState, useCallback, useMemo, useEffect } from "react";
 import { FiEdit2, FiTrash2, FiPlus, FiSearch, FiX } from "react-icons/fi";
@@ -9,7 +105,7 @@ import "react-toastify/dist/ReactToastify.css";
 const initialTests = [
   {
     id: 1,
-    name: "Depression Assessment Scale",
+    name: "Survey Test",
     description: "Measures severity of depression symptoms",
     questions: [
       {
@@ -33,7 +129,7 @@ const initialTests = [
   }
 ];
 
-const API_URL = "http://localhost:8080/swagger-ui/index.html#/"; // Your API URL
+const API_URL = "http://127.0.0.1:3658/m2/812338-791499-default/13890318"; // Your API URL
 
 const TestManagementSystem = () => {
   const [tests, setTests] = useState(initialTests);
@@ -57,7 +153,7 @@ const TestManagementSystem = () => {
 
   const fetchTests = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/tests");
+      const response = await axios.get(API_URL);
       setTests(response.data);
     } catch (error) {
       console.error("Error fetching tests:", error);
@@ -156,10 +252,10 @@ const handleSubmit = async (e) => {
 
     try {
       if (selectedTest) {
-        await axios.put(`${"http://localhost:8080/api/tests"}/${selectedTest.id}`, formData); // Update
+        await axios.put(`${API_URL}/${selectedTest.id}`, formData); // Update
         toast.success("Test updated successfully");
       } else {
-        await axios.post("http://localhost:8080/api/tests", formData); // Create
+        await axios.post("http://127.0.0.1:3658/m2/812338-791499-default/13891684", formData); // Create
         toast.success("Test created successfully");
       }
 
@@ -203,8 +299,8 @@ const handleSubmit = async (e) => {
       
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">Mental Health Assessment Tests</h1>
-        <p className="text-gray-600 mt-2">Manage your assessment tests and questionnaires</p>
+        <h1 className="text-3xl font-bold text-gray-800">Survey Mental Health</h1>
+        <p className="text-gray-600 mt-2">Survey</p>
       </div>
 
       {/* Controls */}
@@ -213,7 +309,7 @@ const handleSubmit = async (e) => {
           <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           <input
             type="text"
-            placeholder="Search tests..."
+            placeholder="Search Survey..."
             className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -223,7 +319,7 @@ const handleSubmit = async (e) => {
           onClick={() => setShowModal(true)}
           className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
         >
-          <FiPlus /> Add New Test
+          <FiPlus /> Add New Survey
         </button>
       </div>
 
@@ -233,7 +329,7 @@ const handleSubmit = async (e) => {
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Test Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Survey </th>
                 {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th> */}
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
@@ -294,7 +390,7 @@ const handleSubmit = async (e) => {
                 <span className="font-medium">
                   {Math.min(currentPage * itemsPerPage, filteredTests.length)}
                 </span>{" "}
-                of <span className="font-medium">{filteredTests.length}</span> results
+                of <span className="font-medium">{filteredTests.length}</span> Results
               </p>
             </div>
             <div>
@@ -340,7 +436,7 @@ const handleSubmit = async (e) => {
                 </div>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Test Name</label>
+                    <label className="block text-sm font-medium text-gray-700">Survey</label>
                     <input
                       type="text"
                       required
@@ -487,10 +583,10 @@ const handleSubmit = async (e) => {
               <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div className="sm:flex sm:items-start">
                   <div className="mt-3 text-center sm:mt-0 sm:text-left">
-                    <h3 className="text-lg font-medium text-gray-900">Delete Test</h3>
+                    <h3 className="text-lg font-medium text-gray-900">Delete Survey</h3>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        Are you sure you want to delete this test? This action cannot be undone.
+                        Are you sure you want to delete this survey? This action cannot be undone.
                       </p>
                     </div>
                   </div>

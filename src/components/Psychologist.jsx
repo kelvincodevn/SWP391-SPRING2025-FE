@@ -8,31 +8,31 @@ import { IoMdClose } from "react-icons/io";
 const Psychologist = () => {
   const data = [
     {
-      img: "src/assets/Psychologist/nguyenthikim.jpg",
+      img: "src/assests1/Psychologist/nguyenthikim.jpg",
       name: "Nguyen Thi Kim",
       specialties: "Orthopedic Surgeon",
       contents: "Experienced in orthopedic surgery with over 10 years in the field.",
     },
     {
-      img: "src/assets/Psychologist/nguyen thi tham. jpg.jpg",
+      img: "src/assests1/Psychologist/nguyen thi tham. jpg.jpg",
       name: "Nguyen Thi Tham",
       specialties: "Cardiologist",
       contents: "Expert in heart diseases and cardiovascular treatments.",
     },
     {
-      img: "src/assets/Psychologist/Than-Thi-Man-500x592-1.jpg",
+      img: "src/assests1/Psychologist/Than-Thi-Man-500x592-1.jpg",
       name: "Than Thi Man",
       specialties: "Pediatrician",
       contents: "Passionate about children's health and well-being.",
     },
     {
-      img: "src/assets/Psychologist/1d7e7012c3053a5b6314_6680.jpg",
+      img: "src/assests1/Psychologist/1d7e7012c3053a5b6314_6680.jpg",
       name: "Nguyen Viet Chung",
       specialties: "Neurologist",
       contents: "Specialist in neurological disorders and treatments.",
     },
     {
-      img: "src/assets/Psychologist/ThS.-Tran-Dang-Hung.jpg",
+      img: "src/assests1/Psychologist/ThS.-Tran-Dang-Hung.jpg",
       name: "Tran Dang Hung",
       specialties: "Dermatologist",
       contents: "Skincare and dermatology expert with years of experience.",

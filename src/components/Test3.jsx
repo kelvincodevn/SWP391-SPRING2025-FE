@@ -45,7 +45,6 @@ const TestManagementSystem2 = () => {
 
   const [formData, setFormData] = useState({
     name: "",
-    type: "DASS21",
     description: "",
     questions: []
   });
