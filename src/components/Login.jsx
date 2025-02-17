@@ -1,8 +1,10 @@
 import axios from "axios";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useState } from "react";
 import { FaHome, FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { auth } from "../config/firebase";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -83,6 +85,28 @@ const LoginPage = () => {
       }));
     }
   };
+
+  //xử lý login google những dưới back-end vẫn cần API xử lý login google
+    const handleGoogleLogin = () => {
+      console.log("login google...");
+      const provider = new GoogleAuthProvider();
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          const token = result.user.accessToken;
+          const user = result.user;
+          console.log(user);
+        })
+        .catch((error) => {
+          // Handle Errors here.
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // The email of the user's account used.
+          const email = error.customData.email;
+          // The AuthCredential type that was used.
+          const credential = GoogleAuthProvider.credentialFromError(error);
+          // ...
+        });
+    };
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -198,6 +222,7 @@ const LoginPage = () => {
               <div className="mt-6">
                 <button
                   type="button"
+                  onClick={handleGoogleLogin}
                   className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   <FaGoogle className="mr-2" />
@@ -214,7 +239,7 @@ const LoginPage = () => {
                               type="button"
                               className="w-full flex justify-center items-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-600 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200"
                               aria-label="Back to Home"
-                              onClick={() => window.location.href = "/"}
+                              onClick={() => navigate("/")}
                             >
                               <FaHome className="w-5 h-5 mr-2" />
                               Back to Home

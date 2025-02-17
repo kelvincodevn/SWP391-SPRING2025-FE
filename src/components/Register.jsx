@@ -6,8 +6,6 @@ import { FaHome } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Navigate, useNavigate } from "react-router-dom";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "../config/firebase";
 
 const UserRegistration = () => {
   const [formData, setFormData] = useState({
@@ -143,26 +141,26 @@ const UserRegistration = () => {
   };
 
   //xử lý login google những dưới back-end vẫn cần API xử lý login google
-  const handleGoogleLogin = () => {
-    console.log("login google...");
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const token = result.user.accessToken;
-        const user = result.user;
-        console.log(user);
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
-      });
-  };
+  // const handleGoogleLogin = () => {
+  //   console.log("login google...");
+  //   const provider = new GoogleAuthProvider();
+  //   signInWithPopup(auth, provider)
+  //     .then((result) => {
+  //       const token = result.user.accessToken;
+  //       const user = result.user;
+  //       console.log(user);
+  //     })
+  //     .catch((error) => {
+  //       // Handle Errors here.
+  //       const errorCode = error.code;
+  //       const errorMessage = error.message;
+  //       // The email of the user's account used.
+  //       const email = error.customData.email;
+  //       // The AuthCredential type that was used.
+  //       const credential = GoogleAuthProvider.credentialFromError(error);
+  //       // ...
+  //     });
+  // };
 
   return (
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
@@ -336,15 +334,15 @@ const UserRegistration = () => {
                 >
                   {loading ? "Registering..." : "Register"}
                 </button>
-
+{/* 
                 <button
                   type="button"
-                  onClick={handleGoogleLogin}
+                  // onClick={handleGoogleLogin}
                   className="flex items-center justify-center gap-2 bg-white border border-gray-300 rounded-md px-4 py-2 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
                   <FcGoogle className="w-5 h-5" />
                   Continue with Google
-                </button>
+                </button> */}
 
                 <button
                 type="button"
