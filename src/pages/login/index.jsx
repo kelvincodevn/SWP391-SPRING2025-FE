@@ -4,11 +4,15 @@ import { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { auth } from "../config/firebase";
+
 import { FaGoogle, FaHome } from "react-icons/fa";
+import { auth } from "../../config/firebase";
 
-
-const LoginPage1 = () => {
+const images = [
+    "src/assests1/mental/mental_health_login.png",
+  ];
+  
+const LoginPage = () => {
   const [formData, setFormData] = useState({
     email: "", // Changed to email for consistency
     password: "",
@@ -18,6 +22,7 @@ const LoginPage1 = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+  const [currentImage, setCurrentImage] = useState(0);
 
   const validateForm = () => {
     const newErrors = {};
@@ -98,11 +103,12 @@ const LoginPage1 = () => {
       <div className="lg:w-1/2 h-screen absolute top-0 left-0">
         {/* ... (Same image and overlay code as RegistrationPage) */}
         <img
-          src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b"
+          src="src/assests1/mental/mental wellness img.jpg"
+          
           alt="Mental Health"
           className="h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/40 to-teal-500/40 backdrop-blur-sm">
+        <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1618401479427-c8ef9465fbe1"
             alt="Logo"
@@ -192,7 +198,7 @@ const LoginPage1 = () => {
 
             <p className="text-center text-gray-600">
               Don't have an account?{" "}
-              <Link to="/register1 " className="text-purple-600 hover:underline"> {/* Use Link */}
+              <Link to="/register " className="text-purple-600 hover:underline"> {/* Use Link */}
                 Register
             </Link>
             </p>
@@ -203,4 +209,4 @@ const LoginPage1 = () => {
   );
 };
 
-export default LoginPage1;
+export default LoginPage;

@@ -6,6 +6,7 @@ import { FaHome } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Navigate, useNavigate } from "react-router-dom";
+import api from "../config/axios";
 
 const UserRegistration = () => {
   const [formData, setFormData] = useState({
@@ -121,19 +122,14 @@ const UserRegistration = () => {
       try {
         // API call simulation
         console.log(formData);
-        const response = await axios.post("https://67a8962b6e9548e44fc1712a.mockapi.io/api/v1/User",
-          formData        
-        );
+        // const response = await axios.post("https://67a8962b6e9548e44fc1712a.mockapi.io/api/v1/User",
+        //   formData        
+        // );
+        const response = await api.post('register', formData);
         toast.success("Register Successfully"); // Show success message
         navigate("/login"); // Navigate to login page
-        // toast.success("Register Successfully");
-        // await new Promise((resolve) => setTimeout(resolve, 2000));
-        // console.log("Form submitted:", formData);
-        // alert("Registration successful!");
       } catch (error) {
         toast.error(error.response.data);
-        // console.error("Registration failed:", error);
-        // alert("Registration failed. Please try again.");
       } finally {
         setLoading(false);
       }

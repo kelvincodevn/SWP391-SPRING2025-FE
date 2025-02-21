@@ -8,7 +8,7 @@ const Contact = ({ closeForm }) => {
 
   const handlePhoneChange = (e) => {
     const value = e.target.value.replace(/\D/g, "");
-    if (value.length <= 10) {
+    if (value.length <= 10) {a
       setPhoneNumber(value);
     }
   };

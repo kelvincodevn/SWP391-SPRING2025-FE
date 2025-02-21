@@ -5,6 +5,7 @@ import { FaHome, FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { auth } from "../config/firebase";
+import api from "../config/axios";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -46,23 +47,27 @@ const LoginPage = () => {
       try {
         // Simulating API call
         console.log(formData);
-        //chỗ này đáng lẽ là check login 
-        // bằng cách call API get toàn bộ User
-        // rồi bỏ vào List 
-        // xong đó lấy ra từng thằng và check username và password có trùng với bất cứ thằng nào ko
-        // nếu có thì mới login success
-        // còn ko có thì báo toast error Invalid username or password
-        const response = await axios.post("https://67a8962b6e9548e44fc1712a.mockapi.io/api/v1/User",
-            formData        
-          );
-          // Store user data in localStorage after successful login
-        // localStorage.setItem("user", JSON.stringify(response.data));  // Store user data
-         // Show success message
-        navigate("/");
-        toast.success("Login Successfully"); // Navigate to login page
-        
-        // await new Promise(resolve => setTimeout(resolve, 1500));
-        // console.log("Form submitted:", formData);
+        // const response = await axios.post("https://67a8962b6e9548e44fc1712a.mockapi.io/api/v1/User",
+        //     formData        
+        //   );
+
+        const response = await api.post('login', formData);
+        const { token, role } = response.data.data
+        localStorage.setItem('token', token);
+        // Store user data in localStorage after successful login
+        toast.success("Login Successfully");
+          
+        //kiểm tra role của user
+        if (role === "MANAGER") {
+          navigate('/dashboard')
+        }else if(role === 'STUDENT') {
+          navigate("/")
+        }else if(role === 'PARENT') {
+          navigate("/")
+        }else if(role === 'PSYCHOLOGIST') {
+          navigate("/workplace")
+        }
+
       } catch (error) {
         toast.error(error.response.data);
         // console.error("Login error:", error);

@@ -94,11 +94,11 @@ const RegistrationPage = () => {
       {/* Left Side - Image (No longer fixed) */}
       <div className="hidden lg:flex flex-1 relative"> {/* Changed to relative */}
         <img
-          src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b"
+          src="src/assests1/mental/mental_health_register.jpg"        
           alt="Mental Health"
-          className="h-full w-full object-cover"
+          className="object-cover w-full h-full" // Key changes here
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/40 to-teal-500/40 backdrop-blur-sm">
+        <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1618401479427-c8ef9465fbe1"
             alt="Logo"
@@ -266,7 +266,7 @@ const RegistrationPage = () => {
 
             <p className="text-center text-gray-600">
                 Already have an account?{" "}
-            <Link to="/login1" className="text-purple-600 hover:underline"> {/* Use Link */}
+            <Link to="/login" className="text-purple-600 hover:underline"> {/* Use Link */}
                 Log in
             </Link>
             </p>
