@@ -29,15 +29,17 @@ import ManageProgram from "./pages/manager/manage-program";
 import ManageOverview from "./pages/manager/manage-overview";
 import RegistrationPage from "./pages/register.jsx";
 import LoginPage from "./pages/login/index.jsx";
+import Layout from "./components/LayoutDash.jsx";
+import ManagerProfile from "./pages/manager/manage-profile.jsx";
 
 const App = () => {
 
   const location = useLocation(); // Get the current route
 
   // Define routes where Navbar and Footer should be hidden
-  const hideNavbarFooterRoutes = ["/register", "/login", "/dashboard",
+  const hideNavbarFooterRoutes = ["/register", "/login", "/profile", "/dashboard",
      "dashboard1", "/dashboard/test", "/dashboard/survey", "/dashboard/user", "/dashboard/program",
-    "/dashboard/overview"];
+    "/dashboard/overview", "/dashboard/profile"];
 
   return (
     <>
@@ -64,12 +66,14 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="*" element={<h2>404 - Page Not Found</h2>} />
           <Route path="/dashboard1" element={<ManagerDashboard />} />
+          <Route path="/dashboardM" element={<Layout />} />
           {/* <Route path="/dashboard" element={<AdminLayout />} /> */}
           
           
           {/* Dashboard Layout with Nested Routes */}
           <Route path="/dashboard" element={<AdminLayout />}>
             <Route path="overview" element={<ManageOverview />} />
+            <Route path="profile" element={<ManagerProfile />} />
             <Route path="user" element={<ManageUser />} />
             <Route path="test" element={<ManageTest />} />
             <Route path="survey" element={<ManageSurvey />} />

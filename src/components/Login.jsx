@@ -65,7 +65,8 @@ const LoginPage = () => {
         }else if(role === 'PARENT') {
           navigate("/")
         }else if(role === 'PSYCHOLOGIST') {
-          navigate("/workplace")
+          navigate("/")
+          // navigate("/workplace")
         }
 
       } catch (error) {
