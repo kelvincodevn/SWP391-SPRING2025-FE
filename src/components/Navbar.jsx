@@ -89,12 +89,12 @@ const Navbar = () => {
             <Link to="/register" className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out">
               Register
             </Link>
-            <button
+            {/* <button
               className="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out"
               onClick={openForm}
             >
               Contact Us
-            </button>
+            </button> */}
           </div>
 
           {showForm && <Contact closeForm={closeForm} />}

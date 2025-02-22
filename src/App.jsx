@@ -31,6 +31,8 @@ import RegistrationPage from "./pages/register.jsx";
 import LoginPage from "./pages/login/index.jsx";
 import Layout from "./components/LayoutDash.jsx";
 import ManagerProfile from "./pages/manager/manage-profile.jsx";
+import NavbarT from "./components/NavbarTest.jsx";
+import DoubleNavbar from "./components/NavbarCombine.jsx";
 
 const App = () => {
 
@@ -44,8 +46,9 @@ const App = () => {
   return (
     <>
       {/* Render Navbar only if the current path is not in the hide list */}
-      {!hideNavbarFooterRoutes.includes(location.pathname) && <Navbar />}
-
+      {/* {!hideNavbarFooterRoutes.includes(location.pathname) && <Navbar />} */}
+      {/* {!hideNavbarFooterRoutes.includes(location.pathname) && <NavbarT />} */}
+      {!hideNavbarFooterRoutes.includes(location.pathname) && <DoubleNavbar />}
       <main>
         <Routes>
           <Route path="/" element={<Home />} />

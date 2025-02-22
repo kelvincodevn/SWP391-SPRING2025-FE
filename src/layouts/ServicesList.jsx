@@ -49,6 +49,16 @@ const ServicesList = () => {
       </div>
 
       {/* Service 2 */}
+      {/* <div>
+        <ServicesCard 
+          icon={<RiMicroscopeLine size={35} className="text-backgroundColor" />} 
+          title="Take Test"
+          description="Take a test to quickly evaluate your mental health"
+          link="/test"
+        />
+      </div> */}
+
+      {/* Service 2 */}
       <div>
         <ServicesCard 
           icon={<MdHealthAndSafety size={35} className="text-backgroundColor" />} 

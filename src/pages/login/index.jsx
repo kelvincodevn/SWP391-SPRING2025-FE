@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 
 import { FaGoogle, FaHome } from "react-icons/fa";
 import { auth } from "../../config/firebase";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/slices/userSlice";
 
 const images = [
     "src/assests1/mental/mental_health_login.png",
@@ -36,6 +38,8 @@ const LoginPage = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const dispatch = useDispatch(); // Initialize useDispatch
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
@@ -44,6 +48,15 @@ const LoginPage = () => {
         const response = await axios.post("https://67a8962b6e9548e44fc1712a.mockapi.io/api/v1/User",
             formData        
           );
+
+      // Store user data in localStorage and Redux store after successful login
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('userName', response.data.fullname);
+      localStorage.setItem('userAvatar', response.data.avatar);
+
+      // Dispatch the setUser action with user data
+      dispatch(setUser(response.data)); // Update Redux store with user data
+
       toast.success("Login Successfully");  
       navigate("/")
 
