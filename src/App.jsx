@@ -31,7 +31,6 @@ import RegistrationPage from "./pages/register.jsx";
 import LoginPage from "./pages/login/index.jsx";
 import Layout from "./components/LayoutDash.jsx";
 import ManagerProfile from "./pages/manager/manage-profile.jsx";
-import NavbarT from "./components/NavbarTest.jsx";
 import DoubleNavbar from "./components/NavbarCombine.jsx";
 
 const App = () => {

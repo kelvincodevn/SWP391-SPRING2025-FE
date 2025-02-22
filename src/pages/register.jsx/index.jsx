@@ -98,13 +98,27 @@ const RegistrationPage = () => {
           alt="Mental Health"
           className="object-cover w-full h-full" // Key changes here
         />
-        <div className="absolute inset-0">
+        {/* <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1618401479427-c8ef9465fbe1"
+            src="src/assests1/mental/medical-aid.png"
             alt="Logo"
             className="w-24 h-24 object-contain m-8"
           />
-        </div>
+        </div> */}
+
+<div className="absolute inset-0">
+  <Link to="/" className="flex items-center">
+    <img
+      src="src/assests1/mental/medical-aid.png"
+      alt="FCare Logo"
+      className="w-16 h-16 object-contain m-4" // Reduced logo size and margin
+    />
+    <span className="self-center text-2xl font-semibold whitespace-nowrap text-gray-800"> 
+      FCare 
+    </span>
+  </Link>
+</div>
+
       </div>
 
 
