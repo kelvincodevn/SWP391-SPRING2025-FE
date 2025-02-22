@@ -32,15 +32,22 @@ import LoginPage from "./pages/login/index.jsx";
 import Layout from "./components/LayoutDash.jsx";
 import ManagerProfile from "./pages/manager/manage-profile.jsx";
 import DoubleNavbar from "./components/NavbarCombine.jsx";
+import RegistrationPage1 from "./pages/register.jsx/registerpage.jsx";
+import PsychologistLayout from "./layouts/psychologistLayout.jsx";
+import PsychologistOverview from "./pages/psychologist/psycho-overview.jsx";
+import PsychologistProfile from "./pages/psychologist/psycho-profile.jsx";
+import PsychologistBooking from "./pages/psychologist/psycho-booking.jsx";
+import PsychologistClients from "./pages/psychologist/psycho-clients.jsx";
 
 const App = () => {
 
   const location = useLocation(); // Get the current route
 
   // Define routes where Navbar and Footer should be hidden
-  const hideNavbarFooterRoutes = ["/register", "/login", "/profile", "/dashboard",
+  const hideNavbarFooterRoutes = ["/register", "/register1", "/login", "/profile", "/dashboard",
      "dashboard1", "/dashboard/test", "/dashboard/survey", "/dashboard/user", "/dashboard/program",
-    "/dashboard/overview", "/dashboard/profile"];
+    "/dashboard/overview", "/dashboard/profile", "/workview/profile", "/workview/booking", "/workview/overview",
+      "/workview/clients"];
 
   return (
     <>
@@ -65,6 +72,7 @@ const App = () => {
           <Route path="/register" element={<UserRegistration />} /> */}
           {/* <Route path="/LR" element={<LR />} /> */}
           <Route path="/register" element={<RegistrationPage />} />
+          <Route path="/register1" element={<RegistrationPage1 />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="*" element={<h2>404 - Page Not Found</h2>} />
           <Route path="/dashboard1" element={<ManagerDashboard />} />
@@ -82,7 +90,12 @@ const App = () => {
             <Route path="program" element={<ManageProgram />} />
           </Route>
 
-          
+          <Route path="/workview" element={<PsychologistLayout />}>
+            <Route path="overview" element={<PsychologistOverview />} />
+            <Route path="clients" element={<PsychologistClients />} />
+            <Route path="profile" element={<PsychologistProfile />} />
+            <Route path="booking" element={<PsychologistBooking />} />
+          </Route>
 
         </Routes>
       </main>

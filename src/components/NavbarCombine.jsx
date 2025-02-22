@@ -8,44 +8,18 @@ const DoubleNavbar = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userName, setUserName] = useState(""); // Store user's name
-  const [userAvatar, setUserAvatar] = useState(""); // Store user's avatar URL
-  const navigate = useNavigate(); // Import and use useNavigate
+  const [userName, setUserName] = useState("");
+  const [userAvatar, setUserAvatar] = useState("");
+  const navigate = useNavigate();
   
-  const dispatch = useDispatch(); // Initialize useDispatch
-  const user = useSelector((state) => state.user.user); // Get user from Redux store
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.user);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-//   useEffect(() => {
-//     // Check local storage for login status on component mount
-//     const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
-//     const storedUserName = localStorage.getItem("userName");
-//     const storedUserAvatar = localStorage.getItem("userAvatar");
-
-//     if (storedIsLoggedIn) {
-//       setIsLoggedIn(true);
-//       setUserName(storedUserName);
-//       setUserAvatar(storedUserAvatar);
-//     }
-//   }, []);
-
-
-//   const handleLogout = () => {
-//     localStorage.removeItem("isLoggedIn");
-//     localStorage.removeItem("userName");
-//     localStorage.removeItem("userAvatar");
-//     setIsLoggedIn(false);
-//     setUserName("");
-//     setUserAvatar("");
-//     navigate("/login"); // Navigate to login page after logout
-//     // No navigation here, stays on the same page
-//   };
-
-useEffect(() => {
-    // Check local storage for login status on component mount
+  useEffect(() => {
     const storedIsLoggedIn = localStorage.getItem('isLoggedIn');
     if (storedIsLoggedIn) {
       setIsLoggedIn(true);
@@ -61,8 +35,17 @@ useEffect(() => {
     setIsLoggedIn(false);
     setUserName('');
     setUserAvatar('');
-    dispatch(clearUser()); // Clear user data in Redux store
+    dispatch(clearUser());
     navigate('/login');
+  };
+
+  const getNavLinkClass = (path) => {
+    const isActive = location.pathname === path;
+    return `relative px-4 py-2 text-gray-700 hover:text-gray-900 font-medium transition-all duration-200 ${
+      isActive 
+        ? "text-blue-600 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-blue-600 after:rounded-full"
+        : "hover:after:content-[''] hover:after:absolute hover:after:bottom-0 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-gray-300 hover:after:rounded-full"
+    }`;
   };
 
   return (
@@ -93,43 +76,43 @@ useEffect(() => {
           {!isLoggedIn ? (
             <>
               <Link
-                to="/register" // Keep as Link for navigation
-                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-sm md:text-base"
+                to="/register"
+                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded text-sm md:text-base transition-colors duration-200"
               >
                 Register
               </Link>
               <Link
-                to="/login"  // Keep as Link for navigation
-                className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded text-sm md:text-base"
+                to="/login"
+                className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded text-sm md:text-base transition-colors duration-200"
               >
                 Login
               </Link>
               <Link
                 to="/appointment"
-                className="text-blue-600 hover:text-blue-700 font-medium text-sm md:text-base"
+                className="text-blue-600 hover:text-blue-700 font-medium text-sm md:text-base transition-colors duration-200"
               >
                 Appointment
               </Link>
             </>
           ) : (
             <div className="flex items-center gap-2">
-              <div className="flex items-center"> {/* Added flex and items-center */}
+              <div className="flex items-center">
                 <img
-                  src={userAvatar || "default_avatar.png"} // Display avatar or default
+                  src={userAvatar || "default_avatar.png"}
                   alt="Avatar"
-                  className="h-8 w-8 rounded-full" // Added rounded-full class
+                  className="h-8 w-8 rounded-full"
                 />
                 <span className="ml-2 text-gray-800">{userName}</span>
               </div>
               <button
                 onClick={handleLogout}
-                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded text-sm md:text-base"
+                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded text-sm md:text-base transition-colors duration-200"
               >
                 Logout
               </button>
               <Link
                 to="/appointment"
-                className="text-blue-600 hover:text-blue-700 font-medium text-sm md:text-base"
+                className="text-blue-600 hover:text-blue-700 font-medium text-sm md:text-base transition-colors duration-200"
               >
                 Appointment
               </Link>
@@ -141,52 +124,22 @@ useEffect(() => {
       {/* Second Navbar */}
       <div className="bg-gray-100 shadow-sm p-3">
         <div className="flex flex-col md:flex-row justify-around items-center">
-          <Link
-            to="/"
-            className={`text-gray-700 hover:text-gray-900 font-medium p-2 ${
-              location.pathname === "/" ? "text-blue-600" : ""
-            }`}
-          >
+          <Link to="/" className={getNavLinkClass("/")}>
             Home
           </Link>
-          <Link
-            to="/about"
-            className={`text-gray-700 hover:text-gray-900 font-medium p-2 ${
-              location.pathname === "/about" ? "text-blue-600" : ""
-            }`}
-          >
+          <Link to="/about" className={getNavLinkClass("/about")}>
             About
           </Link>
-          <Link
-            to="/services"
-            className={`text-gray-700 hover:text-gray-900 font-medium p-2 ${
-              location.pathname === "/services" ? "text-blue-600" : ""
-            }`}
-          >
+          <Link to="/services" className={getNavLinkClass("/services")}>
             Services
           </Link>
-          <Link
-            to="/psychologist"
-            className={`text-gray-700 hover:text-gray-900 font-medium p-2 ${
-              location.pathname === "/psychologist" ? "text-blue-600" : ""
-            }`}
-          >
+          <Link to="/psychologist" className={getNavLinkClass("/psychologist")}>
             Psychologist
           </Link>
-          <Link
-            to="/blog"
-            className={`text-gray-700 hover:text-gray-900 font-medium p-2 ${
-              location.pathname === "/blog" ? "text-blue-600" : ""
-            }`}
-          >
+          <Link to="/blog" className={getNavLinkClass("/blog")}>
             Blog
           </Link>
-          <Link
-            to="/cooperate"
-            className={`text-gray-700 hover:text-gray-900 font-medium p-2 ${
-              location.pathname === "/cooperate" ? "text-blue-600" : ""
-            }`}
-          >
+          <Link to="/cooperate" className={getNavLinkClass("/cooperate")}>
             Cooperate
           </Link>
         </div>
