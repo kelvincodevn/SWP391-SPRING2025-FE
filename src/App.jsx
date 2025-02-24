@@ -38,13 +38,14 @@ import PsychologistOverview from "./pages/psychologist/psycho-overview.jsx";
 import PsychologistProfile from "./pages/psychologist/psycho-profile.jsx";
 import PsychologistBooking from "./pages/psychologist/psycho-booking.jsx";
 import PsychologistClients from "./pages/psychologist/psycho-clients.jsx";
+import RegistrationPage2 from "./pages/register.jsx/registerTest.jsx";
 
 const App = () => {
 
   const location = useLocation(); // Get the current route
 
   // Define routes where Navbar and Footer should be hidden
-  const hideNavbarFooterRoutes = ["/register", "/register1", "/login", "/profile", "/dashboard",
+  const hideNavbarFooterRoutes = ["/register", "/register1", "/register2", "/login", "/profile", "/dashboard",
      "dashboard1", "/dashboard/test", "/dashboard/survey", "/dashboard/user", "/dashboard/program",
     "/dashboard/overview", "/dashboard/profile", "/workview/profile", "/workview/booking", "/workview/overview",
       "/workview/clients"];
@@ -73,6 +74,7 @@ const App = () => {
           {/* <Route path="/LR" element={<LR />} /> */}
           <Route path="/register" element={<RegistrationPage />} />
           <Route path="/register1" element={<RegistrationPage1 />} />
+          <Route path="/register2" element={<RegistrationPage2 />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="*" element={<h2>404 - Page Not Found</h2>} />
           <Route path="/dashboard1" element={<ManagerDashboard />} />
