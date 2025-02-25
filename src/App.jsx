@@ -11,7 +11,8 @@ import MentalHealthResources from "./components/MentalHealthResources";
 import TestManagementSystem from "./components/SurveyManagement";
 import MentalHealthSeminar from "./components/Seminar";
 import Survey from "./components/SurveyTest";
-import TestSelectionPage from "./components/TestOption";
+import TestSelectionPage from "./components/test/TestOption";
+import GAD7TestPage from "./components/test/GAD7TestPage";
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
     <Route path="/testoption" element={<TestSelectionPage/>}/>
     <Route path="/seminar" element={<MentalHealthSeminar/>}/>
     <Route path="/blog" element={<Blogs />} />
+    <Route path="/gad7" element={<GAD7TestPage/>}/>
     <Route path="*" element={<h2>404 - Page Not Found</h2>} />
     </Routes>
 </main>
