@@ -97,7 +97,7 @@ const BeckTestPage = () => {
         )}
         <button
           className="bg-gray-400 hover:bg-gray-500 text-white py-2 px-4 rounded-lg w-full mt-4 transition-colors"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/testoption")}
         >
           Back to Test Selection
         </button>
