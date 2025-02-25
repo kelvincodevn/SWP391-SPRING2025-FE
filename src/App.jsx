@@ -14,6 +14,8 @@ import Survey from "./components/SurveyTest";
 import TestSelectionPage from "./components/test/TestOption";
 import GAD7TestPage from "./components/test/GAD7TestPage";
 import PHQ9TestPage from "./components/test/PHQ9TestPage";
+import DASS21TestPage from "./components/test/DASS21TestPage";
+import BeckTestPage from "./components/test/BECKTestPage";
 const App = () => {
   return (
     <>
@@ -32,7 +34,9 @@ const App = () => {
     <Route path="/seminar" element={<MentalHealthSeminar/>}/>
     <Route path="/blog" element={<Blogs />} />
     <Route path="/gad7" element={<GAD7TestPage/>}/>
-    <Route path="phq9" element={<PHQ9TestPage/>}/>
+    <Route path="/phq9" element={<PHQ9TestPage/>}/>
+    <Route path="/dass21" element={<DASS21TestPage/>}/>
+    <Route path="/beck" element={<BeckTestPage/>}/>
     <Route path="*" element={<h2>404 - Page Not Found</h2>} />
     </Routes>
 </main>

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const tests = [
   { id: 1, name: "GAD-7", description: "Generalized Anxiety Disorder Assessment", route: "/gad7" },
   { id: 2, name: "PHQ-9", description: "Patient Health Questionnaire for Depression", route: "/phq9" },
-  { id: 3, name: "TDASS-21", description: "Test for Stress, Anxiety, and Depression", route: "/tdass21" },
+  { id: 3, name: "DASS-21", description: "Test for Stress, Anxiety, and Depression", route: "/dass21" },
   { id: 4, name: "BECK", description: "Beck Depression Inventory", route: "/beck" },
 ];
 
