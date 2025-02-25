@@ -11,6 +11,7 @@ import MentalHealthResources from "./components/MentalHealthResources";
 import TestManagementSystem from "./components/SurveyManagement";
 import MentalHealthSeminar from "./components/Seminar";
 import Survey from "./components/SurveyTest";
+import TestSelectionPage from "./components/TestOption";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
     <Route path="/resources" element={<MentalHealthResources/>}/>
     <Route path="/surveymanage" element={<TestManagementSystem/>}/>
     <Route path="/surveytest" element={<Survey/>}/>
+    <Route path="/testoption" element={<TestSelectionPage/>}/>
     <Route path="/seminar" element={<MentalHealthSeminar/>}/>
     <Route path="/blog" element={<Blogs />} />
     <Route path="*" element={<h2>404 - Page Not Found</h2>} />
