@@ -9,14 +9,19 @@ import { FaGoogle, FaHome } from "react-icons/fa";
 import { auth } from "../../config/firebase";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/slices/userSlice";
+import api from "../../config/axios";
 
 const images = [
     "src/assests1/mental/mental_health_login.png",
   ];
-  
+
+const DEFAULT_AVATAR = [
+  "src/assests1/profile/user.png"
+]
+
 const LoginPage = () => {
   const [formData, setFormData] = useState({
-    email: "", // Changed to email for consistency
+    username: "", // Changed to email for consistency
     password: "",
   });
 
@@ -24,12 +29,12 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
-  const [currentImage, setCurrentImage] = useState(0);
+  // const [currentImage, setCurrentImage] = useState(0);
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.email) {
-      newErrors.email = "Email is required";
+    if (!formData.username) {
+      newErrors.username = "username is required";
     }
     if (!formData.password) {
       newErrors.password = "Password is required";
@@ -40,53 +45,114 @@ const LoginPage = () => {
 
   const dispatch = useDispatch(); // Initialize useDispatch
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (validateForm()) {
+  //     setIsLoading(true);
+  //     try{
+  //       // const response = await axios.post("https://67a8962b6e9548e44fc1712a.mockapi.io/api/v1/User",
+  //       //     formData        
+  //       //   );
+
+  //       const response = await api.post('login', formData);
+  //       const { token, role } = response.data.data
+  //       localStorage.setItem('token', token);
+
+  //       // Store user data in localStorage and Redux store after successful login
+  //       localStorage.setItem('isLoggedIn', 'true');
+  //       localStorage.setItem('userName', response.data.fullname);
+  //       // localStorage.setItem('userAvatar', response.data.avatar);
+  //       // Dispatch the setUser action with user data
+  //       dispatch(setUser(response.data)); // Update Redux store with user data
+
+  //       toast.success("Login Successfully");  
+  //       // Store user data in localStorage after successful login
+          
+  //       //kiểm tra role của user
+  //       if (role === "MANAGER") {
+  //         navigate('/dashboard')
+  //       }else if(role === 'STUDENT') {
+  //         navigate("/")
+  //       }else if(role === 'PARENT') {
+  //         navigate("/")
+  //       }else if(role === 'PSYCHOLOGIST') {
+  //         navigate("/workplace")
+  //       }
+
+  //     // const response = await api.post('login', formData);
+  //     //   const { token, role } = response.data.data
+  //     //   localStorage.setItem('token', token);
+  //     //   // Store user data in localStorage after successful login
+  //     //   toast.success("Login Successfully");
+          
+  //     //   //kiểm tra role của user
+  //     //   if (role === "MANAGER") {
+  //     //     navigate('/dashboard')
+  //     //   }else if(role === 'STUDENT') {
+  //     //     navigate("/")
+  //     //   }else if(role === 'PARENT') {
+  //     //     navigate("/")
+  //     //   }else if(role === 'PSYCHOLOGIST') {
+  //     //     navigate("/workplace")
+  //     //   }
+  //     } catch (error) {
+  //             toast.error(error.response.data);
+  //             // console.error("Login error:", error);
+  //           } finally {
+  //             setIsLoading(false);
+  //           }
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      setIsLoading(true);
-      try{
-        const response = await axios.post("https://67a8962b6e9548e44fc1712a.mockapi.io/api/v1/User",
-            formData        
-          );
+        setIsLoading(true);
+        try {
+            const response = await api.post('login', formData);
+            const { token, roleEnum } = response.data;
+            localStorage.setItem('token', token);
 
-      // Store user data in localStorage and Redux store after successful login
-      localStorage.setItem('isLoggedIn', 'true');
-      localStorage.setItem('userName', response.data.fullname);
-      localStorage.setItem('userAvatar', response.data.avatar);
+            // Store user data in localStorage and Redux store after successful login
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('fullName', response.data.fullName);
+            // localStorage.setItem('userAvatar', response.data.avatar);
 
-      // Dispatch the setUser action with user data
-      dispatch(setUser(response.data)); // Update Redux store with user data
+             // Set default avatar if user hasn't uploaded one
+             const userAvatar = DEFAULT_AVATAR;
+             localStorage.setItem('userAvatar', userAvatar);
 
-      toast.success("Login Successfully");  
-      navigate("/")
+            // Dispatch the setUser action with user data
+            dispatch(setUser({ ...response.data, avatar: userAvatar }));
 
-      // const response = await api.post('login', formData);
-      //   const { token, role } = response.data.data
-      //   localStorage.setItem('token', token);
-      //   // Store user data in localStorage after successful login
-      //   toast.success("Login Successfully");
-          
-      //   //kiểm tra role của user
-      //   if (role === "MANAGER") {
-      //     navigate('/dashboard')
-      //   }else if(role === 'STUDENT') {
-      //     navigate("/")
-      //   }else if(role === 'PARENT') {
-      //     navigate("/")
-      //   }else if(role === 'PSYCHOLOGIST') {
-      //     navigate("/workplace")
-      //   }
+            toast.success("Login Successfully");
 
+            console.log(roleEnum); // Log the role
 
-
-      } catch (error) {
-              toast.error(error.response.data);
-              // console.error("Login error:", error);
-            } finally {
-              setIsLoading(false);
+            //kiểm tra role của user
+            console.log(roleEnum) //check the role
+            if (roleEnum === "MANAGER") {
+                navigate('/dashboard');
+            } else if (roleEnum === 'STUDENT' || roleEnum === 'PARENT') {
+                navigate("/");
+            } else if (roleEnum === 'PSYCHOLOGIST') {
+                navigate("/workplace");
+            } else {
+                // Handle unknown roles or navigate to a default page
+                navigate("/"); // Default navigation
             }
+          } catch (error) {
+            if (error.response && error.response.data) {
+                toast.error(error.response.data);
+            } else {
+                toast.error("An unexpected error occurred.");
+                console.error("Login error:", error);
+            }
+        } finally {
+            setIsLoading(false);
+        }
     }
-  };
+};
 
   //xử lý login google những dưới back-end vẫn cần API xử lý login google
       const handleGoogleLogin = () => {
@@ -154,15 +220,15 @@ const LoginPage = () => {
           <form onSubmit={handleSubmit} className="mt-8 space-y-6">
             <div className="space-y-4">
               <input
-                type="email" // Use email input for consistency
-                placeholder="Email Address"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                type="username" // Use email input for consistency
+                placeholder="Username"
+                value={formData.username}
+                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                 className={`w-full px-4 py-2 rounded-lg border ${
-                  errors.email ? "border-red-300" : "border-gray-300"
+                  errors.username ? "border-red-300" : "border-gray-300"
                 } focus:ring-2 focus:ring-purple-200 outline-none`}
               />
-              {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+              {errors.username && <p className="text-red-500 text-sm mt-1">{errors.username}</p>}
 
               <div className="relative">
                 <input

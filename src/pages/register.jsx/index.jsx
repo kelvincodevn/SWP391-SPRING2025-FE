@@ -5,47 +5,58 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FaHome } from "react-icons/fa";
 import axios from "axios";
+import api from "../../config/axios";
 
 const RegistrationPage = () => {
   const [formData, setFormData] = useState({
-    accountType: "individual",
-    firstName: "",
-    lastName: "",
+    // accountType: "individual",
+    fullName: "",
+    // lastName: "",
     email: "",
-    phone: "",
-    dob: "",
-    gender: "",
+    username: "",
+    // phone: "",
+    // dob: "",
+    // gender: "",
     password: "",
-    confirmPassword: "",
-    avatar: null
+    // confirmPassword: "",
+    // avatar: null
   });
 
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const [avatarPreview, setAvatarPreview] = useState(null);
+  // const [avatarPreview, setAvatarPreview] = useState(null);
   const navigate = useNavigate(); // Initialize useNavigate
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.firstName || formData.firstName.length < 2) {
-      newErrors.firstName = "First name must be at least 2 characters";
+  
+    if (!formData.fullName) {
+      newErrors.fullName = "Full name is required";
+    } else if (formData.fullName.length < 5) {
+      newErrors.fullName = "Full name must be at least 5 characters";
+    } else if (!/^[A-Za-z\s]+$/.test(formData.fullName)) {
+      newErrors.fullName = "Name should not contain numbers";
     }
-    if (!/^[A-Za-z\s]+$/.test(formData.firstName)) {
-      newErrors.firstName = "Name should not contain numbers";
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+  
+    if (!formData.email) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "Invalid email format";
     }
-    if (!/^\d{10}$/.test(formData.phone)) {
-      newErrors.phone = "Phone number must be 10 digits";
+  
+    if (!formData.username) {
+      newErrors.username = "Username is required";
+    } else if (formData.username.length < 3) {
+      newErrors.username = "Username must be at least 3 characters";
     }
-    if (!formData.password || formData.password.length < 8) {
-      newErrors.password = "Password must be at least 8 characters";
+  
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 5) {
+      newErrors.password = "Password must be at least 5 characters";
     }
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match";
-    }
+  
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -55,12 +66,12 @@ const RegistrationPage = () => {
     if (validateForm()) {
         setLoading(true);
         try{
-          // const response = await api.post('register', formData);
-          const response = await axios.post("https://67a8962b6e9548e44fc1712a.mockapi.io/api/v1/User",
-          formData        
-        );
+          const response = await api.post('register', formData);
+        //   const response = await axios.post("https://67a8962b6e9548e44fc1712a.mockapi.io/api/v1/User",
+        //   formData        
+        // );
           toast.success("Register Successfully"); // Show success message
-          navigate("/login1"); // Navigate to login page
+          navigate("/login"); // Navigate to login page
         } catch (error) {
                 toast.error(error.response.data);
               } finally {
@@ -69,25 +80,25 @@ const RegistrationPage = () => {
       }
   };
 
-  const handleAvatarChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (file.size > 5000000) {
-        setErrors({ ...errors, avatar: "File size should be less than 5MB" });
-        return;
-      }
-      if (!file.type.match(/image\/(png|jpg|jpeg)/)) {
-        setErrors({ ...errors, avatar: "Only PNG, JPG files are allowed" });
-        return;
-      }
-      setFormData({ ...formData, avatar: file });
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setAvatarPreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  // const handleAvatarChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     if (file.size > 5000000) {
+  //       setErrors({ ...errors, avatar: "File size should be less than 5MB" });
+  //       return;
+  //     }
+  //     if (!file.type.match(/image\/(png|jpg|jpeg)/)) {
+  //       setErrors({ ...errors, avatar: "Only PNG, JPG files are allowed" });
+  //       return;
+  //     }
+  //     setFormData({ ...formData, avatar: file });
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setAvatarPreview(reader.result);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
   return (
     <div className="min-h-screen flex overflow-y-auto">
@@ -132,7 +143,7 @@ const RegistrationPage = () => {
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-6">
             {/* Account Type Buttons */}
-            <div className="flex gap-4 justify-center mt-4">
+            {/* <div className="flex gap-4 justify-center mt-4">
               {["individual", "therapist"].map((type) => (
                 <button
                   key={type}
@@ -147,21 +158,21 @@ const RegistrationPage = () => {
                   {type}
                 </button>
               ))}
-            </div>
+            </div> */}
 
             <div className="space-y-4">
-              <div className="flex gap-4">
+              {/* <div className="flex gap-4"> */}
                 <div>
                   <input
                     type="text"
-                    placeholder="First Name"
-                    value={formData.firstName}
-                    onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                    className={`w-full px-4 py-2 rounded-lg border ${errors.firstName ? "border-red-300" : "border-gray-300"} focus:ring-2 focus:ring-purple-200 outline-none`}
+                    placeholder="Full Name"
+                    value={formData.fullName}
+                    onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                    className={`w-full px-4 py-2 rounded-lg border ${errors.fullName ? "border-red-300" : "border-gray-300"} focus:ring-2 focus:ring-purple-200 outline-none`}
                   />
-                  {errors.firstName && <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>}
+                  {errors.fullName && <p className="text-red-500 text-sm mt-1">{errors.fullName}</p>}
                 </div>
-                <div>
+                {/* <div>
                   <input
                     type="text"
                     placeholder="Last Name"
@@ -169,8 +180,24 @@ const RegistrationPage = () => {
                     onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                     className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-200 outline-none"
                   />
-                </div>
-              </div>
+                </div> */}
+              {/* </div> */}
+
+
+              <input
+                type="text"
+                placeholder="Username"
+                value={formData.username}
+                onChange={(e) =>
+                  setFormData({ ...formData, username: e.target.value })
+                }
+                className={`w-full px-4 py-2 rounded-lg border ${
+                  errors.username ? "border-red-300" : "border-gray-300"
+                } focus:ring-2 focus:ring-purple-200 outline-none`}
+              />
+              {errors.username && (
+                <p className="text-red-500 text-sm mt-1">{errors.username}</p>
+              )}
 
               <input
                 type="email"
@@ -181,24 +208,26 @@ const RegistrationPage = () => {
               />
               {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
 
-              <input
+              
+
+              {/* <input
                 type="tel"
                 placeholder="Phone Number"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 className={`w-full px-4 py-2 rounded-lg border ${errors.phone ? "border-red-300" : "border-gray-300"} focus:ring-2 focus:ring-purple-200 outline-none`}
               />
-              {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+              {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>} */}
 
-              <input
+              {/* <input
                 type="date"
                 value={formData.dob}
                 max={format(new Date(), "yyyy-MM-dd")}
                 onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
                 className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-200 outline-none"
-              />
+              /> */}
 
-              <div className="flex gap-4">
+              {/* <div className="flex gap-4">
                 {["male", "female", "other"].map((gender) => (
                   <label key={gender} className="flex items-center space-x-2">
                     <input
@@ -212,7 +241,7 @@ const RegistrationPage = () => {
                     <span className="capitalize">{gender}</span>
                   </label>
                 ))}
-              </div>
+              </div> */}
 
               <div className="relative">
                 <input
@@ -232,16 +261,16 @@ const RegistrationPage = () => {
                 {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
               </div>
 
-              <input
+              {/* <input
                 type="password"
                 placeholder="Confirm Password"
                 value={formData.confirmPassword}
                 onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                 className={`w-full px-4 py-2 rounded-lg border ${errors.confirmPassword ? "border-red-300" : "border-gray-300"} focus:ring-2 focus:ring-purple-200 outline-none`}
               />
-              {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>}
+              {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>} */}
 
-              <div className="flex flex-col items-center justify-center">
+              {/* <div className="flex flex-col items-center justify-center">
                 <div className="w-32 h-32 rounded-full border-2 border-dashed border-gray-300 flex items-center justify-center relative overflow-hidden">
                   {avatarPreview ? (
                     <img src={avatarPreview} alt="Avatar Preview" className="w-full h-full object-cover rounded-full" />
@@ -256,7 +285,7 @@ const RegistrationPage = () => {
                   />
                 </div>
                 {errors.avatar && <p className="text-red-500 text-sm mt-1">{errors.avatar}</p>}
-              </div>
+              </div> */}
             </div>
 
             <button

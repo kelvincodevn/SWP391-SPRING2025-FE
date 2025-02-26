@@ -39,6 +39,16 @@ import PsychologistProfile from "./pages/psychologist/psycho-profile.jsx";
 import PsychologistBooking from "./pages/psychologist/psycho-booking.jsx";
 import PsychologistClients from "./pages/psychologist/psycho-clients.jsx";
 import RegistrationPage2 from "./pages/register.jsx/registerTest.jsx";
+import TestList from "./pages/mentalhealth-test/testlist.jsx";
+import Dass21TestPage from "./pages/mentalhealth-test/dass21.jsx";
+import TestLayout from "./pages/mentalhealth-test/testpage.jsx";
+import TestQuestionAndAnswer from "./pages/mentalhealth-test/testrun.jsx";
+import GAD7TestPage from "./pages/testpage/GAD_7TestPage.jsx";
+import PHQ9TestPage from "./pages/testpage/PHQ_9TestPage.jsx";
+import DASS21TestPage from "./pages/testpage/DASS21TestPage.jsx";
+import BeckTestPage from "./pages/testpage/BECKTestPage.jsx";
+import TestSelectionPage from "./pages/testpage/TestOption.jsx";
+import ProfileSettings from "./pages/student/ProfileSettings.jsx";
 
 const App = () => {
 
@@ -68,7 +78,7 @@ const App = () => {
           <Route path="/surveytest" element={<Survey />} />
           <Route path="/seminar" element={<MentalHealthSeminar />} />
           <Route path="/blog" element={<Blogs />} />
-          <Route path="/profile" element={<UserProfile2 />} />
+          {/* <Route path="/profile" element={<UserProfile2 />} /> */}
           {/* <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<UserRegistration />} /> */}
           {/* <Route path="/LR" element={<LR />} /> */}
@@ -79,6 +89,7 @@ const App = () => {
           <Route path="*" element={<h2>404 - Page Not Found</h2>} />
           <Route path="/dashboard1" element={<ManagerDashboard />} />
           <Route path="/dashboardM" element={<Layout />} />
+          
           {/* <Route path="/dashboard" element={<AdminLayout />} /> */}
           
           
@@ -98,6 +109,19 @@ const App = () => {
             <Route path="profile" element={<PsychologistProfile />} />
             <Route path="booking" element={<PsychologistBooking />} />
           </Route>
+
+          <Route path="/mentalhealth-test" element={<TestList />} />
+          <Route path="/mentalhealth-testDASS21" element={<Dass21TestPage />} /> 
+          <Route path="/test/:testId" element={<TestLayout />} />  
+          <Route path="/testrun" element={<TestQuestionAndAnswer />} /> 
+
+          <Route path="/testoption" element={<TestSelectionPage/>}/>
+          <Route path="/gad7" element={<GAD7TestPage/>} />
+          <Route path="/phq9" element={<PHQ9TestPage/>}/>
+          <Route path="/dass21" element={<DASS21TestPage/>}/>
+          <Route path="/beck" element={<BeckTestPage/>}/>
+
+          <Route path="/profile-settings" element={<ProfileSettings/>}/>
 
         </Routes>
       </main>

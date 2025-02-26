@@ -23,14 +23,14 @@ const DoubleNavbar = () => {
     const storedIsLoggedIn = localStorage.getItem('isLoggedIn');
     if (storedIsLoggedIn) {
       setIsLoggedIn(true);
-      setUserName(localStorage.getItem('userName'));
+      setUserName(localStorage.getItem('fullName'));
       setUserAvatar(localStorage.getItem('userAvatar'));
     }
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('userName');
+    localStorage.removeItem('fullName');
     localStorage.removeItem('userAvatar');
     setIsLoggedIn(false);
     setUserName('');
@@ -96,14 +96,14 @@ const DoubleNavbar = () => {
             </>
           ) : (
             <div className="flex items-center gap-2">
-              <div className="flex items-center">
-                <img
-                  src={userAvatar || "default_avatar.png"}
-                  alt="Avatar"
-                  className="h-8 w-8 rounded-full"
-                />
-                <span className="ml-2 text-gray-800">{userName}</span>
-              </div>
+              <Link to="/profile-settings" className="flex items-center"> {/* Wrap with Link */}
+                            <img
+                                src={userAvatar || "default_avatar.png"}
+                                alt="Avatar"
+                                className="h-8 w-8 rounded-full"
+                            />
+                            <span className="ml-2 text-gray-800">{userName}</span>
+                        </Link>
               <button
                 onClick={handleLogout}
                 className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded text-sm md:text-base transition-colors duration-200"
