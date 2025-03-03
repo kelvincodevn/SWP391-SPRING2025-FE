@@ -4,7 +4,7 @@ import api from "../config/axios";
 // Get all surveys
 export const getSurvey = async () => {
     try {
-        const response = await api.get("surveys"); // Update endpoint if needed
+        const response = await api.get("surveys");
         return response.data;
     } catch (error) {
         handleApiError(error, "fetching surveys");
@@ -12,20 +12,15 @@ export const getSurvey = async () => {
     }
 };
 
-// Create or update a survey
-export const createSurvey = async (survey, id = null) => {
+// Create a survey and send it to emails
+export const createAndSendSurvey = async (survey) => {
     try {
-        let response;
-        if (id) {
-            response = await api.put(`surveys/${id}`, survey); // PUT for update
-        } else {
-            response = await api.post("surveys", survey); // POST for create
-        }
+        const response = await api.post("survey/send", survey);
 
-        toast.success(id ? "Survey updated successfully" : "Survey created successfully");
+        toast.success("Survey emails sent successfully.");
         return response.data;
     } catch (error) {
-        handleApiError(error, "creating/updating survey");
+        handleApiError(error, "creating and sending survey");
         return null;
     }
 };

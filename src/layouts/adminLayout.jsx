@@ -9,6 +9,7 @@ import { Breadcrumb, Layout, Menu, theme, Input, Avatar, Dropdown, Space } from 
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { FiUsers } from 'react-icons/fi';
 import { UserOutlined } from '@ant-design/icons'; // Import UserOutlined icon
+import { toast } from 'react-toastify';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Search } = Input;
@@ -51,36 +52,41 @@ const AdminLayout = () => {
   const [managerName, setManagerName] = useState("Manager"); // Replace with actual name fetching
 
   useEffect(() => {
-    // Check if the current path is exactly /dashboard (no sub-route)
     if (location.pathname === '/dashboard') {
-        navigate('/dashboard/overview', { replace: true }); // Redirect to /dashboard/overview
+        navigate('/dashboard/overview', { replace: true });
     }
-}, [location]); // Add location as a dependency
+    // Retrieve full name from localStorage
+    const fullName = localStorage.getItem('fullName');
+    if (fullName) {
+        setManagerName(fullName);
+    }
+}, [location, navigate]);
 
-  const getCurrentBreadcrumb = () => {
-    const pathParts = location.pathname.split('/').filter(part => part !== ''); // Split path and remove empty parts
-    if (pathParts.length > 1) {
-        const currentSection = pathParts[1]; // Get the section (e.g., 'user', 'test')
-
-        const breadcrumbItems = ['Dashboard']; // Start with "Dashboard"
-
-        const matchedItem = items.find(item => item.key === currentSection);
-        if (matchedItem) {
+const getCurrentBreadcrumb = () => {
+  const pathParts = location.pathname.split('/').filter((part) => part !== '');
+  if (pathParts.length > 1) {
+      const currentSection = pathParts[1];
+      const breadcrumbItems = ['Dashboard'];
+      const matchedItem = items.find((item) => item.key === currentSection);
+      if (matchedItem) {
           breadcrumbItems.push(matchedItem.label);
-        }
-        return breadcrumbItems;
-    } else {
-      return ['Dashboard']; // Default to just "Dashboard"
-    }
+      }
+      return breadcrumbItems;
+  } else {
+      return ['Dashboard'];
+  }
 };
 
 const handleMenuClick = (e) => {
   if (e.key === 'logout') {
-      // Handle logout logic here (e.g., clear tokens, redirect to login)
-      console.log("logout");
-      navigate('/login', { replace: true }); // Example redirect
+      console.log('logout');
+      localStorage.removeItem('token');
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('fullName');
+      toast.success("Logout Successfully");
+      navigate('/login', { replace: true });
   } else if (e.key === 'profile') {
-      navigate('/dashboard/profile', { replace: true }); // Correct path
+      navigate('/dashboard/profile', { replace: true });
   }
 };
 
@@ -91,81 +97,56 @@ const menu = (
   </Menu>
 );
 
-  return (
-    <Layout
-      style={{
-        minHeight: '100vh',
-      }}
-    >
+return (
+  <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-      <Link to="/" className="logo-link"> {/* Link to homepage */}
-                    <div className="demo-logo-vertical" style={{ color: "orange", fontSize: "24px", textAlign: "center", marginBottom: "20px" }}>Fcare</div>
-      </Link>
-                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} selectedKeys={[location.pathname.split('/')[2] || 'overview']} /> {/* Highlight selected menu item */}
+          <Link to="/" className="logo-link">
+              <div className="demo-logo-vertical" style={{ color: 'orange', fontSize: '24px', textAlign: 'center', marginBottom: '20px' }}>
+                  Fcare
+              </div>
+          </Link>
+          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} selectedKeys={[location.pathname.split('/')[2] || 'overview']} />
       </Sider>
       <Layout>
-      <Header
-                    style={{
-                        // padding: 0,
-                        background: colorBgContainer,
-                        display: 'flex',
-                        justifyContent: 'space-between', // Align items to left and right
-                        alignItems: 'center', // Vertically center items
-                        padding: '0 20px', // Add some padding
-                    }}
-                >
-                   <div style={{ color: 'black' }}>Welcome back: <span style={{ fontWeight: 'bold' }}>{managerName}</span></div>
-                    <div style={{ display: 'flex', alignItems: 'center' }}> {/* Container for search and avatar */}
-                        <Search
-                            placeholder="Search..."
-                            style={{ width: 200, marginRight: 16 }} // Adjust width as needed
-                        />
-
-                        <Dropdown overlay={menu}>
-                            <Avatar size="large" icon={<UserOutlined />} style={{ cursor: 'pointer' }} />
-                        </Dropdown>
-                    </div>
-
-                </Header>
-         <Content
-          style={{
-            margin: '0 16px',
-          }}
-          className="flex-grow" // Key change
-        >
-          <Breadcrumb
-            style={{
-              margin: '16px 0',
-            }}
+          <Header
+              style={{
+                  background: colorBgContainer,
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '0 20px',
+              }}
           >
-            {getCurrentBreadcrumb().map((item, index) => (
-              <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
-            ))}
-          </Breadcrumb>
-          <div className="p-24 w-full"
-            style={{
-              padding: 24,
-              height: "100%",
-              minHeight: 360,
-              background: colorBgContainer,
-              // borderRadius: borderRadiusLG,
-            }}
-          >
-            <Outlet /> 
-          </div>
-        </Content>
-
-        
-        {/* Tag Outlet này cần để map với cái bên manage của admin */}
-        <Footer
-          style={{
-            textAlign: 'center',
-          }}
-        >
-          {/* Ant Design ©{new Date().getFullYear()} Created by Ant UED */}
-        </Footer>
+              <div style={{ color: 'black' }}>
+                  Welcome back: <span style={{ fontWeight: 'bold' }}>{managerName}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <Search placeholder="Search..." style={{ width: 200, marginRight: 16 }} />
+                  <Dropdown overlay={menu}>
+                      <Avatar size="large" icon={<UserOutlined />} style={{ cursor: 'pointer' }} />
+                  </Dropdown>
+              </div>
+          </Header>
+          <Content style={{ margin: '0 16px', height: '100%', minHeight: '100vh' }} className="flex-grow">
+              <Breadcrumb style={{ margin: '16px 0' }}>
+                  {getCurrentBreadcrumb().map((item, index) => (
+                      <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+                  ))}
+              </Breadcrumb>
+              <div
+    className="p-24 w-full h-full"
+    style={{
+        padding: 24,
+        height: '100%',
+        background: colorBgContainer,
+    }}
+>
+                  <Outlet />
+              </div>
+          </Content>
+          <Footer style={{ textAlign: 'center' }}></Footer>
       </Layout>
-    </Layout>
+  </Layout>
   );
 };
 export default AdminLayout;

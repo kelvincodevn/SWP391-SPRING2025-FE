@@ -116,6 +116,7 @@ const LoginPage = () => {
             // Store user data in localStorage and Redux store after successful login
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('fullName', response.data.fullName);
+            localStorage.setItem('role', response.data.roleEnum);
             // localStorage.setItem('userAvatar', response.data.avatar);
 
              // Set default avatar if user hasn't uploaded one
@@ -128,9 +129,6 @@ const LoginPage = () => {
             toast.success("Login Successfully");
 
             console.log(roleEnum); // Log the role
-
-            //kiểm tra role của user
-            console.log(roleEnum) //check the role
             if (roleEnum === "MANAGER") {
                 navigate('/dashboard');
             } else if (roleEnum === 'STUDENT' || roleEnum === 'PARENT') {

@@ -1,10 +1,10 @@
 import api from "../config/axios";
 import { toast } from "react-toastify";
 
-// Get all programs
+// Get all programs (filtered by isDeleted: false)
 export const getProgram = async () => {
     try {
-        const response = await api.get("programs"); // Adjust endpoint if needed
+        const response = await api.get("Program");
         return response.data;
     } catch (error) {
         handleApiError(error, "fetching programs");
@@ -17,9 +17,9 @@ export const createProgram = async (program, id = null) => {
     try {
         let response;
         if (id) {
-            response = await api.put(`programs/${id}`, program); // PUT for update
+            response = await api.put(`Program/${id}`, program); // PUT for update
         } else {
-            response = await api.post("programs", program); // POST for create
+            response = await api.post("Program", program); // POST for create
         }
 
         toast.success(id ? "Program updated successfully" : "Program created successfully");
@@ -30,10 +30,10 @@ export const createProgram = async (program, id = null) => {
     }
 };
 
-// Delete a program
+// Delete a program (sets isDeleted: true)
 export const deleteProgram = async (id) => {
     try {
-        const response = await api.delete(`programs/${id}`);
+        const response = await api.put(`Program/${id}`, { isDeleted: true }); // PUT to update isDeleted
         toast.success("Program deleted successfully");
         return response.data;
     } catch (error) {

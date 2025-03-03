@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Input } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../redux/slices/userSlice";
+import { toast } from "react-toastify";
 
 const DoubleNavbar = () => {
   const location = useLocation();
@@ -36,6 +37,7 @@ const DoubleNavbar = () => {
     setUserName('');
     setUserAvatar('');
     dispatch(clearUser());
+     toast.success("Logout Successfully");
     navigate('/login');
   };
 

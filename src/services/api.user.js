@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 // Get all users
 export const getUser = async () => {
     try {
-        const response = await api.get("users"); // Adjust endpoint if needed
+        const response = await api.get("Manager"); // Updated endpoint
         return response.data;
     } catch (error) {
         handleApiError(error, "fetching users");
@@ -15,7 +15,7 @@ export const getUser = async () => {
 // Create a new user
 export const createUser = async (user) => {
     try {
-        const response = await api.post("users", user);
+        const response = await api.post("Manager", user); // Updated endpoint
         toast.success("User created successfully");
         return response.data;
     } catch (error) {
@@ -27,7 +27,7 @@ export const createUser = async (user) => {
 // Update an existing user
 export const updateUser = async (user, id) => {
     try {
-        const response = await api.put(`users/${id}`, user); // Use PUT for updates
+        const response = await api.put(`Manager/${id}`, user); // Updated endpoint
         toast.success("User updated successfully");
         return response.data;
     } catch (error) {
@@ -36,11 +36,10 @@ export const updateUser = async (user, id) => {
     }
 };
 
-
 // Delete a user
 export const deleteUser = async (id) => {
     try {
-        const response = await api.delete(`users/${id}`);
+        const response = await api.delete(`Manager/${id}`); // Updated endpoint
         toast.success("User deleted successfully");
         return response.data;
     } catch (error) {

@@ -11,7 +11,7 @@ import Psychologist from "./components/Psychologist";
 import Blogs from "./components/Blogs";
 import Footer from "./components/Footer";
 import MentalHealthResources from "./components/MentalHealthResources";
-import { createBrowserRouter, Outlet, Route, RouterProvider, Routes, useLocation } from "react-router-dom";
+import { createBrowserRouter, Navigate, Outlet, Route, RouterProvider, Routes, useLocation } from "react-router-dom";
 import UserProfile from "./components/Profile";
 import UserProfile1 from "./components/Profile1";
 import UserProfile2 from "./components/Profile2";
@@ -49,6 +49,29 @@ import DASS21TestPage from "./pages/testpage/DASS21TestPage.jsx";
 import BeckTestPage from "./pages/testpage/BECKTestPage.jsx";
 import TestSelectionPage from "./pages/testpage/TestOption.jsx";
 import ProfileSettings from "./pages/student/ProfileSettings.jsx";
+import ManagerProfile1 from "./pages/manager/manager-profile1.jsx";
+import ManageProgram1 from "./pages/manager/manage-program1.jsx";
+
+const ProtectedRoute = ({ children, requiredRole }) => {
+  // Replace with your actual authentication and role check logic
+  const isAuthenticated = localStorage.getItem('token'); // Check if the user is logged in
+  const userRole = localStorage.getItem('role'); // Get the user's role
+
+  const location = useLocation();
+
+  if (!isAuthenticated) {
+    // Redirect to login if not authenticated
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  if (requiredRole && userRole !== requiredRole) {
+    // Redirect to unauthorized page or home if role doesn't match
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+};
+
 
 const App = () => {
 
@@ -56,7 +79,7 @@ const App = () => {
 
   // Define routes where Navbar and Footer should be hidden
   const hideNavbarFooterRoutes = ["/register", "/register1", "/register2", "/login", "/profile", "/dashboard",
-     "dashboard1", "/dashboard/test", "/dashboard/survey", "/dashboard/user", "/dashboard/program",
+     "dashboard1", "/dashboard/test", "/dashboard/survey", "/dashboard/user", "/dashboard/program", "/dashboard/program1",
     "/dashboard/overview", "/dashboard/profile", "/workview/profile", "/workview/booking", "/workview/overview",
       "/workview/clients"];
 
@@ -94,16 +117,47 @@ const App = () => {
           
           
           {/* Dashboard Layout with Nested Routes */}
-          <Route path="/dashboard" element={<AdminLayout />}>
+          {/* <Route path="/dashboard" element={<AdminLayout />}>
             <Route path="overview" element={<ManageOverview />} />
-            <Route path="profile" element={<ManagerProfile />} />
+            <Route path="profile" element={<ManagerProfile1 />} />
             <Route path="user" element={<ManageUser />} />
             <Route path="test" element={<ManageTest />} />
             <Route path="survey" element={<ManageSurvey />} />
             <Route path="program" element={<ManageProgram />} />
+          </Route> */}
+
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute requiredRole="MANAGER">
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route path="overview" element={<ManageOverview />} />
+            <Route path="profile" element={<ManagerProfile1 />} />
+            <Route path="user" element={<ManageUser />} />
+            <Route path="test" element={<ManageTest />} />
+            <Route path="survey" element={<ManageSurvey />} />
+            <Route path="program" element={<ManageProgram />} />
+            <Route path="program1" element={<ManageProgram1 />} />
           </Route>
 
-          <Route path="/workview" element={<PsychologistLayout />}>
+          {/* <Route path="/workview" element={<PsychologistLayout />}>
+            <Route path="overview" element={<PsychologistOverview />} />
+            <Route path="clients" element={<PsychologistClients />} />
+            <Route path="profile" element={<PsychologistProfile />} />
+            <Route path="booking" element={<PsychologistBooking />} />
+          </Route> */}
+
+          <Route
+            path="/workview"
+            element={
+              <ProtectedRoute requiredRole="MANAGER">
+                <PsychologistLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route path="overview" element={<PsychologistOverview />} />
             <Route path="clients" element={<PsychologistClients />} />
             <Route path="profile" element={<PsychologistProfile />} />
