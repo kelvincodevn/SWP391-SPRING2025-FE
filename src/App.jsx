@@ -1,51 +1,9 @@
 import React from "react";
-<<<<<<< HEAD
-=======
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
->>>>>>> quynh-hoa1
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import About from "./components/About";
 import Services from "./components/Services";
-<<<<<<< HEAD
-import Doctors from "./components/Doctors";
-import Blogs from "./components/Blogs";
-import Footer from "./components/Footer";
-
-const App = () => {
-  return (
-    <div>
-      <Navbar />
-
-      <main>
-        <div id="home">
-          <Home />
-        </div>
-
-        <div id="about">
-          <About />
-        </div>
-
-        <div id="services">
-          <Services />
-        </div>
-
-        <div id="doctors">
-          <Doctors />
-        </div>
-
-        <div id="blog">
-          <Blogs />
-        </div>
-      </main>
-
-      <Footer />
-    </div>
-  );
-};
-
-export default App;
-=======
 import Psychologist from "./components/Psychologist";
 import Blogs from "./components/Blogs";
 import Footer from "./components/Footer";
@@ -91,4 +49,4 @@ const App = () => {
 export default App;
 
  
->>>>>>> quynh-hoa1
+

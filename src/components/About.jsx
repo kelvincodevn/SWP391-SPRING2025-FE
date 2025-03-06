@@ -1,34 +1,3 @@
-<<<<<<< HEAD
-import React from "react";
-import img from "../assets/img/about.jpg";
-
-const About = () => {
-  return (
-    <div className=" min-h-screen flex flex-col lg:flex-row justify-between items-center lg:px-32 px-5 pt-24 lg:pt-16 gap-5">
-      <div className=" w-full lg:w-3/4 space-y-4">
-        <h1 className=" text-4xl font-semibold text-center lg:text-start">About Us</h1>
-        <p className=" text-justify lg:text-start">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam
-          labore rerum tempore tenetur commodi natus quos itaque voluptatum
-          repudiandae nostrum accusantium vero voluptate aspernatur totam,
-          laboriosam aut, et quae consequatur?
-        </p>
-        <p className="text-justify lg:text-start">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempora quia
-          suscipit illum, numquam incidunt nostrum dolor officia doloremque
-          cupiditate, placeat explicabo sed iure atque neque quidem ipsam!
-          Dolor, minus reiciendis.
-        </p>
-        <p className="text-justify lg:text-start">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, illum.
-          Accusantium ab expedita veniam nobis aut, in rerum repellendus!
-          Exercitationem libero recusandae corrupti accusantium reiciendis in
-          placeat illo maxime ea.
-        </p>
-      </div>
-      <div className=" w-full lg:w-3/4">
-        <img className=" rounded-lg" src={img} alt="img" />
-=======
 import React, { useState } from 'react';
 
 const schoolProfile = {
@@ -117,20 +86,20 @@ const SchoolProfile = () => {
           <p className="text-gray-700">Counselor Phone: {schoolProfile.contact.counselorPhone}</p>
           <p className="text-gray-700">Counselor Email: {schoolProfile.contact.counselorEmail}</p>
           <p className="text-gray-700">Emergency Contact: {schoolProfile.contact.emergencyPhone}</p>
-          
+
         </div>
 
         {/* Schedule an Appointment section */}
         <div className="mb-8">
           <h4 className="text-2xl font-semibold mb-4 text-green-600">Schedule an Appointment</h4>
-          <input 
-            type="text" 
+          <input
+            type="text"
             value={appointment}
             onChange={(e) => setAppointment(e.target.value)}
-            placeholder="Enter your name" 
+            placeholder="Enter your name"
             className="w-full p-3 border rounded-md shadow-sm mb-4"
           />
-          <button 
+          <button
             onClick={() => alert(`Appointment scheduled for ${appointment}`)}
             className="w-full py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600"
           >
@@ -141,27 +110,22 @@ const SchoolProfile = () => {
         {/* Leave Feedback section */}
         <div>
           <h4 className="text-2xl font-semibold mb-4 text-red-600">Leave Feedback</h4>
-          <textarea 
-            value={feedback} 
-            onChange={(e) => setFeedback(e.target.value)} 
-            placeholder="Your feedback..." 
+          <textarea
+            value={feedback}
+            onChange={(e) => setFeedback(e.target.value)}
+            placeholder="Your feedback..."
             className="w-full p-4 border rounded-md shadow-sm mb-4"
           />
-          <button 
+          <button
             onClick={() => alert(`Feedback submitted: ${feedback}`)}
             className="w-full py-3 bg-green-500 text-white rounded-md hover:bg-green-600"
           >
             Submit Feedback
           </button>
         </div>
->>>>>>> quynh-hoa1
       </div>
     </div>
   );
 };
 
-<<<<<<< HEAD
-export default About;
-=======
 export default SchoolProfile;
->>>>>>> quynh-hoa1
