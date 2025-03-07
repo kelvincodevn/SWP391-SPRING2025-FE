@@ -1,260 +1,268 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Appointment from "./Appointment";
 
-const BookingForm = () => {
+const AppointmentForm = () => {
   const location = useLocation();
-  const { selectedDate, selectedTime } = location.state || {};
+  const navigate = useNavigate(); 
+  const { psychologist, date, time } = location.state || {}; // Get the selected data passed from Appointment
 
   const [formData, setFormData] = useState({
-    patientName: '',
-    gender: '',
-    phone: '',
-    email: '',
-    dateOfBirth: '',
-    location: '',
-    district: '',
-    address: '',
-    reason: '',
-    paymentMethod: '',
-    contactName: '', // Add contact name for the user who is booking
-    contactPhone: '', // Add phone for the user who is booking
-    bookingFor: 'myself', // Default option: booking for yourself
+    patientName: "",
+    gender: "",
+    phoneNumber: "",
+    email: "",
+    dob: "",
+    city: "",
+    district: "",
+    commune: "",
+    isForSelf: true,
+    relation: "",
+    otherPatientName: "",
   });
 
-  const [errors, setErrors] = useState({});
-  const navigate = useNavigate();
+  const cities = [
+    { id: "hanoi", name: "Hà Nội" },
+    { id: "hochiminh", name: "Hồ Chí Minh" },
+    { id: "danang", name: "Đà Nẵng" },
+  ];
 
-  // List of cities in Vietnam with their respective districts (Example)
-  const cityDistricts = {
-    'Hà Nội': ['Ba Đình', 'Hoàn Kiếm', 'Tây Hồ', 'Cầu Giấy', 'Đống Đa'],
-    'Hồ Chí Minh': ['Quận 1', 'Quận 2', 'Quận 3', 'Quận 5', 'Quận 7'],
-    'Đà Nẵng': ['Hải Châu', 'Ngũ Hành Sơn', 'Sơn Trà'],
-    'Cần Thơ': ['Ninh Kiều', 'Cái Răng', 'Bình Thủy'],
-    'Hải Phòng': ['Hồng Bàng', 'Ngô Quyền', 'Lê Chân'],
+  const districts = {
+    hanoi: [
+      { id: "ba_dinh", name: "Ba Đình" },
+      { id: "hoan_kiem", name: "Hoàn Kiếm" },
+      { id: "dong_da", name: "Đống Đa" },
+    ],
+    hochiminh: [
+      { id: "district_1", name: "District 1" },
+      { id: "district_2", name: "District 2" },
+      { id: "district_3", name: "District 3" },
+    ],
   };
 
-  const paymentMethods = ['Cash', 'Bank Transfer', 'Credit Card', 'Online Payment'];
+  const communes = {
+    ba_dinh: [
+      { id: "phuc_xa", name: "Phúc Xá" },
+      { id: "hoan_kiem_ward", name: "Hoàn Kiếm Ward" },
+    ],
+    hoan_kiem: [
+      { id: "hang_bao", name: "Hàng Bào" },
+      { id: "cua_hoang", name: "Cửa Hoàng" },
+    ],
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleCityChange = (e) => {
-    const selectedCity = e.target.value;
-    setFormData((prevData) => ({
-      ...prevData,
-      location: selectedCity,
-      district: '', // Reset district when city changes
-    }));
+    const cityId = e.target.value;
+    setFormData({
+      ...formData,
+      city: cityId,
+      district: "",
+      commune: "",
+    });
+  };
+
+  const handleDistrictChange = (e) => {
+    const districtId = e.target.value;
+    setFormData({ ...formData, district: districtId, commune: "" });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const validationErrors = validateForm();
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
-
-    console.log('Booking Details:', formData);
-    // Redirect to confirmation page after submission with the form data
-    navigate('/confirm', { state: formData });
+    // Ensure that all formData, psychologist, date, and time are passed correctly
+    navigate("/confirmation", {
+      state: { formData, psychologist, date, time },
+    });
   };
+  
 
-  const validateForm = () => {
-    let validationErrors = {};
-    if (!formData.contactName.trim() && formData.bookingFor === 'someoneElse') {
-      validationErrors.contactName = 'Họ tên người đặt lịch là bắt buộc';
-    }
-    if (!formData.patientName.trim()) {
-      validationErrors.patientName = 'Họ tên bệnh nhân là bắt buộc';
-    }
-    if (!formData.phone.trim()) {
-      validationErrors.phone = 'Số điện thoại liên hệ là bắt buộc';
-    }
-    if (formData.bookingFor === 'someoneElse' && !formData.contactPhone.trim()) {
-      validationErrors.contactPhone = 'Số điện thoại bệnh nhân là bắt buộc';
-    }
-    return validationErrors;
-  };
-
+  // Display the selected psychologist, date, and time for confirmation
   return (
-    <div className="bg-gradient-to-r from-blue-200 via-blue-300 to-blue-400 min-h-screen py-8">
-      <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold mb-4 text-center">Confirm Your Appointment</h2>
-
-        {/* Appointment Date and Time */}
+    <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+      <h2 className="text-2xl font-semibold mb-4">Make an Appointment</h2>
+      <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <strong>Appointment Date:</strong> {selectedDate}
-        </div>
-        <div className="mb-4">
-          <strong>Appointment Time:</strong> {selectedTime}
-        </div>
-
-        <form onSubmit={handleSubmit}>
-          {/* Booking Type: For Yourself or Someone Else */}
-          <div className="mb-4">
-            <label className="block font-semibold">Booking For:</label>
-            <div className="flex space-x-4">
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  name="bookingFor"
-                  value="myself"
-                  checked={formData.bookingFor === 'myself'}
-                  onChange={handleChange}
-                />
-                Book for Myself
-              </label>
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  name="bookingFor"
-                  value="someoneElse"
-                  checked={formData.bookingFor === 'someoneElse'}
-                  onChange={handleChange}
-                />
-                Book for Someone Else
-              </label>
+          <h3 className="text-lg font-semibold">Psychologist Information</h3>
+          {psychologist && (
+            <div>
+              <p><strong>Name:</strong> {psychologist.name}</p>
+              <p><strong>Specialty:</strong> {psychologist.specialty}</p>
+              <p><strong>Hospital:</strong> {psychologist.hospital}</p>
             </div>
-          </div>
-
-          {/* Contact Information (User making the booking) */}
-          {formData.bookingFor === 'someoneElse' && (
-            <>
-              <div className="mb-4">
-                <label className="block font-semibold" htmlFor="contactName">Họ tên người đặt lịch</label>
-                <input
-                  className={`w-full p-2 border rounded ${errors.contactName ? 'border-red-500' : ''}`}
-                  type="text"
-                  id="contactName"
-                  name="contactName"
-                  value={formData.contactName}
-                  onChange={handleChange}
-                  required={formData.bookingFor === 'someoneElse'}
-                />
-                {errors.contactName && (
-                  <p className="text-red-500 text-sm">{errors.contactName}</p>
-                )}
-              </div>
-
-              <div className="mb-4">
-                <label className="block font-semibold" htmlFor="contactPhone">Số điện thoại liên hệ</label>
-                <input
-                  className={`w-full p-2 border rounded ${errors.contactPhone ? 'border-red-500' : ''}`}
-                  type="tel"
-                  id="contactPhone"
-                  name="contactPhone"
-                  value={formData.contactPhone}
-                  onChange={handleChange}
-                  required={formData.bookingFor === 'someoneElse'}
-                />
-                {errors.contactPhone && (
-                  <p className="text-red-500 text-sm">{errors.contactPhone}</p>
-                )}
-              </div>
-            </>
           )}
+        </div>
 
-          {/* Patient Information */}
-          <div className="mb-4">
-            <label className="block font-semibold" htmlFor="patientName">Họ tên bệnh nhân</label>
+        <div className="mb-4">
+          <h3 className="text-lg font-semibold">Appointment Date and Time</h3>
+          {date && time && (
+            <div>
+              <p><strong>Date:</strong> {date}</p>
+              <p><strong>Time:</strong> {time}</p>
+            </div>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <div className="flex items-center mb-2">
             <input
-              className={`w-full p-2 border rounded ${errors.patientName ? 'border-red-500' : ''}`}
+              type="radio"
+              name="isForSelf"
+              checked={formData.isForSelf}
+              onChange={() => setFormData({ ...formData, isForSelf: true })}
+              className="mr-2"
+            />
+            <label>For Myself</label>
+            <input
+              type="radio"
+              name="isForSelf"
+              checked={!formData.isForSelf}
+              onChange={() => setFormData({ ...formData, isForSelf: false })}
+              className="ml-4 mr-2"
+            />
+            <label>For Someone Else</label>
+          </div>
+        </div>
+
+        {!formData.isForSelf && (
+          <div className="mb-4">
+            <label htmlFor="otherPatientName" className="block text-sm font-medium">
+              Name of Person Being Registered For
+            </label>
+            <input
+              type="text"
+              id="otherPatientName"
+              name="otherPatientName"
+              value={formData.otherPatientName}
+              onChange={handleChange}
+              className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+              required
+            />
+          </div>
+        )}
+
+        {!formData.isForSelf && (
+          <div className="mb-4">
+            <label htmlFor="relation" className="block text-sm font-medium">
+              Your Relation to the Person
+            </label>
+            <input
+              type="text"
+              id="relation"
+              name="relation"
+              value={formData.relation}
+              onChange={handleChange}
+              className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+              required
+            />
+          </div>
+        )}
+
+        {formData.isForSelf && (
+          <div className="mb-4">
+            <label htmlFor="patientName" className="block text-sm font-medium">
+              Patient's Name
+            </label>
+            <input
               type="text"
               id="patientName"
               name="patientName"
               value={formData.patientName}
               onChange={handleChange}
-              required
-            />
-            {errors.patientName && (
-              <p className="text-red-500 text-sm">{errors.patientName}</p>
-            )}
-          </div>
-
-          {/* Reason for Visit */}
-          <div className="mb-4">
-            <label className="block font-semibold" htmlFor="reason">Reason for Visit</label>
-            <textarea
-              className="w-full p-2 border rounded"
-              id="reason"
-              name="reason"
-              value={formData.reason}
-              onChange={handleChange}
+              className="w-full mt-1 p-2 border border-gray-300 rounded-md"
               required
             />
           </div>
+        )}
 
-          {/* Location and District */}
-          <div className="mb-4">
-            <label className="block font-semibold" htmlFor="location">Location</label>
-            <select
-              className="w-full p-2 border rounded"
-              id="location"
-              name="location"
-              value={formData.location}
-              onChange={handleCityChange}
-              required
-            >
-              <option value="">Select a City</option>
-              {Object.keys(cityDistricts).map((city) => (
-                <option key={city} value={city}>{city}</option>
-              ))}
-            </select>
+        <div className="mb-4">
+          <label className="block text-sm font-medium">Gender</label>
+          <div className="flex">
+            <label className="mr-4">
+              <input
+                type="radio"
+                name="gender"
+                value="Male"
+                checked={formData.gender === "Male"}
+                onChange={handleChange}
+                className="mr-2"
+              />
+              Male
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="gender"
+                value="Female"
+                checked={formData.gender === "Female"}
+                onChange={handleChange}
+                className="mr-2"
+              />
+              Female
+            </label>
           </div>
+        </div>
 
-          <div className="mb-4">
-            <label className="block font-semibold" htmlFor="district">District</label>
-            <select
-              className="w-full p-2 border rounded"
-              id="district"
-              name="district"
-              value={formData.district}
-              onChange={handleChange}
-              required
-              disabled={!formData.location}
-            >
-              <option value="">Select a District</option>
-              {formData.location && cityDistricts[formData.location]?.map((district) => (
-                <option key={district} value={district}>{district}</option>
-              ))}
-            </select>
-          </div>
+        <div className="mb-4">
+          <label htmlFor="phoneNumber" className="block text-sm font-medium">
+            Contact Phone Number
+          </label>
+          <input
+            type="tel"
+            id="phoneNumber"
+            name="phoneNumber"
+            value={formData.phoneNumber}
+            onChange={handleChange}
+            className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
 
-          {/* Payment Method */}
-          <div className="mb-4">
-            <label className="block font-semibold" htmlFor="paymentMethod">Payment Method</label>
-            <select
-              className="w-full p-2 border rounded"
-              id="paymentMethod"
-              name="paymentMethod"
-              value={formData.paymentMethod}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Payment Method</option>
-              {paymentMethods.map((method) => (
-                <option key={method} value={method}>{method}</option>
-              ))}
-            </select>
-          </div>
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-sm font-medium">
+            Email Address
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+          />
+        </div>
 
-          <button
-            type="submit"
-            className="w-full py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            Confirm Appointment
-          </button>
-        </form>
-      </div>
+        <div className="mb-4">
+          <label htmlFor="dob" className="block text-sm font-medium">
+            Date of Birth
+          </label>
+          <input
+            type="date"
+            id="dob"
+            name="dob"
+            value={formData.dob}
+            onChange={handleChange}
+            className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
+
+        <div className="mb-6">
+          <span className="text-xl font-medium text-orange-600">Consultation Fee: 150,000 VND</span>
+        </div>
+
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
+        >
+          Confirm Appointment
+        </button>
+      </form>
     </div>
   );
 };
 
-export default BookingForm;
+export default AppointmentForm;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const availableTimes = [
   { time: "08:00 - 08:30", id: 1 },
@@ -69,9 +69,8 @@ function Appointment() {
   const [selectedTime, setSelectedTime] = useState(null);
   const [disabledTimes, setDisabledTimes] = useState([]);
 
-  // Get current date and time for disabling past times
   const currentDate = new Date();
-  const history = useHistory();
+  const navigate = useNavigate(); // Use useNavigate instead of useHistory
   
   const formatDate = (date) => {
     const d = new Date(date);
@@ -108,8 +107,14 @@ function Appointment() {
   };
 
   const handleBooking = () => {
-    // Redirect to booking form page
-    history.push("/form");
+    // Pass selected data to the next page
+    navigate("/appointmentform", {
+      state: {
+        psychologist: selectedPsychologist,
+        date: selectedDate,
+        time: selectedTime,
+      },
+    });
   };
 
   useEffect(() => {
