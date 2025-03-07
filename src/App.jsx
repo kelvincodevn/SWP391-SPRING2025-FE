@@ -16,6 +16,9 @@ import GAD7TestPage from "./components/test/GAD7TestPage";
 import PHQ9TestPage from "./components/test/PHQ9TestPage";
 import DASS21TestPage from "./components/test/DASS21TestPage";
 import BeckTestPage from "./components/test/BECKTestPage";
+import Appointment from "./components/appointment/Appointment";
+import BookingForm from "./components/appointment/AppointmentForm";
+import Confirmation from "./components/appointment/Confirm";
 const App = () => {
   return (
     <>
@@ -37,6 +40,9 @@ const App = () => {
     <Route path="/phq9" element={<PHQ9TestPage/>}/>
     <Route path="/dass21" element={<DASS21TestPage/>}/>
     <Route path="/beck" element={<BeckTestPage/>}/>
+    <Route path="/appointment" element={<Appointment/>}/>
+    <Route path="/form" element={<BookingForm/>}/>
+    <Route path="/confirm" element={<Confirmation/>}/>
     <Route path="*" element={<h2>404 - Page Not Found</h2>} />
     </Routes>
 </main>
