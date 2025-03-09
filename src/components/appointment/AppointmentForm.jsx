@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Appointment from "./Appointment";
 
 const AppointmentForm = () => {
   const location = useLocation();
-  const navigate = useNavigate(); 
-  const { psychologist, date, time } = location.state || {}; // Get the selected data passed from Appointment
+  const navigate = useNavigate();
+  const { psychologist, date, time } = location.state || {};
 
   const [formData, setFormData] = useState({
     patientName: "",
@@ -38,6 +37,10 @@ const AppointmentForm = () => {
       { id: "district_2", name: "District 2" },
       { id: "district_3", name: "District 3" },
     ],
+    danang: [
+      { id: "hai_chau", name: "Hải Châu" },
+      { id: "sontra", name: "Sơn Trà" },
+    ],
   };
 
   const communes = {
@@ -48,6 +51,18 @@ const AppointmentForm = () => {
     hoan_kiem: [
       { id: "hang_bao", name: "Hàng Bào" },
       { id: "cua_hoang", name: "Cửa Hoàng" },
+    ],
+    district_1: [
+      { id: "le_lai", name: "Lê Lai" },
+      { id: "nguyen_trai", name: "Nguyễn Trãi" },
+    ],
+    district_2: [
+      { id: "bao_loc", name: "Bảo Lộc" },
+      { id: "thu_thiem", name: "Thủ Thiêm" },
+    ],
+    hai_chau: [
+      { id: "phuoc_nam", name: "Phước Nam" },
+      { id: "hoa_xuan", name: "Hòa Xuân" },
     ],
   };
 
@@ -73,14 +88,11 @@ const AppointmentForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Ensure that all formData, psychologist, date, and time are passed correctly
     navigate("/confirmation", {
       state: { formData, psychologist, date, time },
     });
   };
-  
 
-  // Display the selected psychologist, date, and time for confirmation
   return (
     <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold mb-4">Make an Appointment</h2>
@@ -248,6 +260,49 @@ const AppointmentForm = () => {
             className="w-full mt-1 p-2 border border-gray-300 rounded-md"
             required
           />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="city" className="block text-sm font-medium">
+            Select City
+          </label>
+          <select
+            id="city"
+            name="city"
+            value={formData.city}
+            onChange={handleCityChange}
+            className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+            required
+          >
+            <option value="">Select City</option>
+            {cities.map((city) => (
+              <option key={city.id} value={city.id}>
+                {city.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="district" className="block text-sm font-medium">
+            Select District
+          </label>
+          <select
+            id="district"
+            name="district"
+            value={formData.district}
+            onChange={handleDistrictChange}
+            className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+            required
+          >
+            <option value="">Select District</option>
+            {formData.city &&
+              districts[formData.city]?.map((district) => (
+                <option key={district.id} value={district.id}>
+                  {district.name}
+                </option>
+              ))}
+          </select>
         </div>
 
         <div className="mb-6">

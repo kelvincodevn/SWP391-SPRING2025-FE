@@ -41,6 +41,7 @@ const ConfirmationPage = () => {
         <p><strong>Email:</strong> {formData.email}</p>
         <p><strong>Date of Birth:</strong> {formData.dob}</p>
         <p><strong>City:</strong> {formData.city}</p>
+        <p><strong>District:</strong> {formData.district}</p>
       </div>
 
       {/* Displaying Relation if the appointment is for someone else */}
