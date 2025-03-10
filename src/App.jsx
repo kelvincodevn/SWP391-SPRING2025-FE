@@ -14,7 +14,7 @@ import TestManagementSystem from "./components/Test1";
 import TestManagementSystem2 from "./components/Test3";
 import Survey from "./components/SurveyTest";
 import MentalHealthSeminar from "./components/Seminar";
-import LR from "./test_UI/Login_Register";
+// import LR from "./test_UI/Login_Register";
 import AdminLayout from "./layouts/adminLayout";
 import ManagerDashboard from "./layouts/managerDashboard";
 import ManageTest from "./pages/manager/manage-test";
@@ -24,7 +24,7 @@ import ManageProgram from "./pages/manager/manage-program";
 import ManageOverview from "./pages/manager/manage-overview";
 import RegistrationPage from "./pages/register.jsx";
 import LoginPage from "./pages/login/index.jsx";
-import Layout from "./components/LayoutDash.jsx";
+// import Layout from "./components/LayoutDash.jsx";
 import ManagerProfile from "./pages/manager/manage-profile.jsx";
 import DoubleNavbar from "./components/NavbarCombine.jsx";
 import RegistrationPage1 from "./pages/register.jsx/registerpage.jsx";
@@ -38,24 +38,25 @@ import TestList from "./pages/mentalhealth-test/testlist.jsx";
 import Dass21TestPage from "./pages/mentalhealth-test/dass21.jsx";
 import TestLayout from "./pages/mentalhealth-test/testpage.jsx";
 import TestQuestionAndAnswer from "./pages/mentalhealth-test/testrun.jsx";
-import GAD7TestPage from "./pages/testpage/GAD_7TestPage.jsx";
-import PHQ9TestPage from "./pages/testpage/PHQ_9TestPage.jsx";
-import DASS21TestPage from "./pages/testpage/DASS21TestPage.jsx";
-import BeckTestPage from "./pages/testpage/BECKTestPage.jsx";
+// import GAD7TestPage from "./pages/testpage/GAD_7TestPage.jsx";
+// import PHQ9TestPage from "./pages/testpage/PHQ_9TestPage.jsx";
+// import DASS21TestPage from "./pages/testpage/DASS21TestPage.jsx";
+// import BeckTestPage from "./pages/testpage/BECKTestPage.jsx";
 import TestSelectionPage from "./pages/testpage/TestOption.jsx";
-import ProfileSettings from "./pages/student/ProfileSettings.jsx";
+// import ProfileSettings from "./pages/student/ProfileSettings.jsx";
 import ManagerProfile1 from "./pages/manager/manager-profile1.jsx";
 import ManageProgram1 from "./pages/manager/manage-program1.jsx";
 import Appointment from "./components/Appointment.jsx";
-import Appointment1 from "./pages/appointment/Appointment1.jsx";
-import ConfirmationPage from "./pages/appointment/Confirm.jsx";
-import AppointmentForm from "./pages/appointment/AppointmentForm.jsx";
+// import Appointment1 from "./pages/appointment/Appointment1.jsx";
+// import ConfirmationPage from "./pages/appointment/Confirm.jsx";
+// import AppointmentForm from "./pages/appointment/AppointmentForm.jsx";
 import GeneralTestPage from "./pages/testpage/GeneralTestPage.jsx";
 import UserOverview from "./pages/user/user-overview.jsx";
 
 import UserTestHistory from "./pages/user/user-testhistory.jsx";
 import ManageTestScore from "./pages/manager/manage-testscore.jsx";
 import UserLayout from "./layouts/UserLayout.jsx";
+import { Layout } from "antd";
 // import Appointment1 from "./pages/appointment/Appointment1.jsx";
 // import BookingForm from "./pages/appointment/AppointmentForm.jsx";
 // import Confirmation from "./pages/appointment/Confirm.jsx";
@@ -121,9 +122,9 @@ const App = () => {
           <Route path="/dashboard1" element={<ManagerDashboard />} />
           <Route path="/dashboardM" element={<Layout />} />
           <Route path="/appointment" element={<Appointment />} />
-          <Route path="/appointment1" element={<Appointment1/>}/>
-          <Route path="/appointmentform" element={<AppointmentForm/>}/>
-          <Route path="/confirmation" element={<ConfirmationPage/>}/>
+          {/* <Route path="/appointment1" element={<Appointment1/>}/> */}
+          {/* <Route path="/appointmentform" element={<AppointmentForm/>}/>
+          <Route path="/confirmation" element={<ConfirmationPage/>}/> */}
           
           {/* <Route path="/dashboard" element={<AdminLayout />} /> */}
           
@@ -201,13 +202,13 @@ const App = () => {
           <Route path="/testrun" element={<TestQuestionAndAnswer />} /> 
 
           <Route path="/testoption" element={<TestSelectionPage/>}/>
-          <Route path="/gad7" element={<GAD7TestPage/>} />
+          {/* <Route path="/gad7" element={<GAD7TestPage/>} />
           <Route path="/phq9" element={<PHQ9TestPage/>}/>
           <Route path="/dass21" element={<DASS21TestPage/>}/>
-          <Route path="/beck" element={<BeckTestPage/>}/>
+          <Route path="/beck" element={<BeckTestPage/>}/> */}
           <Route path="/test/:id" element={<GeneralTestPage />} />
 
-          <Route path="/profile-settings" element={<ProfileSettings/>}/>
+          {/* <Route path="/profile-settings" element={<ProfileSettings/>}/> */}
 
         </Routes>
       </main>
