@@ -7,7 +7,10 @@ import App from "./App";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
+      <ToastContainer />
     </BrowserRouter>
   </React.StrictMode>
 );
