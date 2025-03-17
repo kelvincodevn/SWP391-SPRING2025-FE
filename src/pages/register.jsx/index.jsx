@@ -66,7 +66,7 @@ const RegistrationPage = () => {
     if (validateForm()) {
         setLoading(true);
         try{
-          const response = await api.post('/api/register', formData);
+          const response = await api.post('/api/auth/register', formData);
         //   const response = await axios.post("https://67a8962b6e9548e44fc1712a.mockapi.io/api/v1/User",
         //   formData        
         // );

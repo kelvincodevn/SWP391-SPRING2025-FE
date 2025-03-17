@@ -4,7 +4,7 @@ import api from "../config/axios";
 // Get all tests
 export const getTest = async () => {
     try {
-        const response = await api.get("/Manager/api/managertests");
+        const response = await api.get("/api/manager/managertests");
         return response.data;
     } catch (error) {
         if (error.response && error.response.data) {
@@ -19,7 +19,7 @@ export const getTest = async () => {
 
 export const getUserTest = async () => {
     try {
-        const response = await api.get("/User/api/usertests");
+        const response = await api.get("/api/user/usertests");
         return response.data;
     } catch (error) {
         if (error.response && error.response.data) {
@@ -36,7 +36,7 @@ export const getUserTest = async () => {
 // Get a test by ID
 export const getTestById = async (id) => {
     try {
-        const response = await api.get(`/Manager/api/managertests/${id}`); // Sử dụng path tương đối
+        const response = await api.get(`/api/manager/managertests/${id}`); // Sử dụng path tương đối
         return response.data;
     } catch (error) {
         if (error.response && error.response.data) {
@@ -52,7 +52,7 @@ export const getTestById = async (id) => {
 // Get a test by ID
 export const getUserTestById = async (id) => {
     try {
-        const response = await api.get(`/User/api/usertests/${id}`); // Sử dụng path tương đối
+        const response = await api.get(`/api/user/usertests/${id}`); // Sử dụng path tương đối
         return response.data;
     } catch (error) {
         if (error.response && error.response.data) {
@@ -72,7 +72,7 @@ export const createTest = async (file) => {
         const formData = new FormData();
         formData.append("file", file);
 
-        const response = await api.post("/Manager/api/managertests/create", formData, {
+        const response = await api.post("/api/manager/managertests/create", formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
@@ -93,7 +93,7 @@ export const createTest = async (file) => {
 
 export const submitAnswers = async (data) => {
     try {
-        const response = await api.post("/User/api/usertests/submit-answers", data);
+        const response = await api.post("/api/user/usertests/submit-answers", data);
         toast.success("Test submitted successfully.");
         return response.data;
     } catch (error) {
@@ -110,7 +110,7 @@ export const submitAnswers = async (data) => {
 // Get user test results
 export const getUserTestResults = async () => {
     try {
-        const response = await api.get('/User/api/usertests/results');
+        const response = await api.get('/api/user/usertests/results');
         return response.data;
     } catch (error) {
         if (error.response && error.response.data) {
@@ -126,7 +126,7 @@ export const getUserTestResults = async () => {
 // Get user test history by resultId
 export const getUserTestHistory = async (resultId) => {
     try {
-        const response = await api.get(`/User/api/usertests/history?resultId=${resultId}`);
+        const response = await api.get(`/api/user/usertests/history?resultId=${resultId}`);
         return response.data;
     } catch (error) {
         if (error.response && error.response.data) {
@@ -142,7 +142,7 @@ export const getUserTestHistory = async (resultId) => {
 // Create test scoring for a specific test
 export const createTestScoring = async (testId, scoringData) => {
     try {
-        const response = await api.post(`/Manager/api/managertests/${testId}/scoring`, scoringData);
+        const response = await api.post(`/api/manager/managertests/${testId}/scoring`, scoringData);
         return response.data;
     } catch (error) {
         toast.error("Failed to create test scoring");
@@ -153,7 +153,7 @@ export const createTestScoring = async (testId, scoringData) => {
 // Update test scoring by scoringId
 export const updateTestScoring = async (scoringId, scoringData) => {
     try {
-        const response = await api.put(`/Manager/api/managertests/scoring/${scoringId}`, scoringData);
+        const response = await api.put(`/api/manager/managertests/scoring/${scoringId}`, scoringData);
         return response.data;
     } catch (error) {
         toast.error("Failed to update test scoring");
@@ -164,7 +164,7 @@ export const updateTestScoring = async (scoringId, scoringData) => {
 // Get test scoring for a specific test
 export const getTestScoring = async (testId) => {
     try {
-        const response = await api.get(`/Manager/api/managertests/${testId}/scoring`);
+        const response = await api.get(`/api/manager/managertests/${testId}/scoring`);
         return response.data;
     } catch (error) {
         toast.error("Failed to fetch test scoring");
@@ -175,7 +175,7 @@ export const getTestScoring = async (testId) => {
 // Delete test scoring by scoringId
 export const deleteTestScoring = async (scoringId) => {
     try {
-        const response = await api.delete(`/Manager/api/managertests/scoring/${scoringId}`);
+        const response = await api.delete(`/api/manager/managertests/scoring/${scoringId}`);
         return response.data;
     } catch (error) {
         toast.error("Failed to delete test scoring");
@@ -186,7 +186,7 @@ export const deleteTestScoring = async (scoringId) => {
 // Delete a test by ID
 export const deleteTest = async (id) => {
     try {
-        const response = await api.delete(`/Manager/api/managertests/${id}`);
+        const response = await api.delete(`/api/manager/managertests/${id}`);
         toast.success(`Deleted test with ID: ${id}`); // Updated success message
         return response.data;
     } catch (error) {

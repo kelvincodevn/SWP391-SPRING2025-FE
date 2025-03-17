@@ -160,7 +160,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, Modal, Table } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { toast } from 'react-toastify';
-import { createUser, deleteUser, getUser, updateUser } from '../../services/api.user';
+import { createUser, deleteUser, getUser, updateUser } from '../../services/api.user.js';
 
 function ManageUser() {
     const [users, setUsers] = useState([]);
