@@ -4,7 +4,7 @@ import api from "../config/axios";
 // Get all surveys
 export const getSurvey = async () => {
     try {
-        const response = await api.get("/manager/surveys");
+        const response = await api.get("/api/manager/surveys");
         return response.data;
     } catch (error) {
         handleApiError(error, "fetching surveys");
@@ -15,7 +15,7 @@ export const getSurvey = async () => {
 // Create a survey and send it to emails
 export const createAndSendSurvey = async (survey) => {
     try {
-        const response = await api.post("/manager/survey/send", survey);
+        const response = await api.post("/api/manager/survey/send", survey);
 
         toast.success("Survey emails sent successfully.");
         return response.data;
@@ -28,7 +28,7 @@ export const createAndSendSurvey = async (survey) => {
 // Delete a survey
 export const deleteSurvey = async (id) => {
     try {
-        const response = await api.delete(`/manager/surveys/${id}`);
+        const response = await api.delete(`/api/manager/surveys/${id}`);
 
         toast.success("Survey deleted successfully");
         return response.data;

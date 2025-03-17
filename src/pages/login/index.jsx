@@ -109,7 +109,7 @@ const LoginPage = () => {
     if (validateForm()) {
         setIsLoading(true);
         try {
-            const response = await api.post('/api/login', formData);
+            const response = await api.post('/api/auth/login', formData);
             const { token, roleEnum } = response.data;
             localStorage.setItem('token', token);
 

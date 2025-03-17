@@ -46,7 +46,6 @@ import TestSelectionPage from "./pages/testpage/TestOption.jsx";
 // import ProfileSettings from "./pages/student/ProfileSettings.jsx";
 import ManagerProfile1 from "./pages/manager/manager-profile1.jsx";
 import ManageProgram1 from "./pages/manager/manage-program1.jsx";
-import Appointment from "./components/Appointment.jsx";
 // import Appointment1 from "./pages/appointment/Appointment1.jsx";
 // import ConfirmationPage from "./pages/appointment/Confirm.jsx";
 // import AppointmentForm from "./pages/appointment/AppointmentForm.jsx";
@@ -57,6 +56,9 @@ import UserTestHistory from "./pages/user/user-testhistory.jsx";
 import ManageTestScore from "./pages/manager/manage-testscore.jsx";
 import UserLayout from "./layouts/UserLayout.jsx";
 import { Layout } from "antd";
+import AppointmentForm from "./components/appointment/AppointmentForm.jsx";
+import ConfirmationPage from "./components/appointment/ConfirmationPage.jsx";
+import Appointment from "./components/appointment/Appointment.jsx";
 // import Appointment1 from "./pages/appointment/Appointment1.jsx";
 // import BookingForm from "./pages/appointment/AppointmentForm.jsx";
 // import Confirmation from "./pages/appointment/Confirm.jsx";
@@ -123,8 +125,8 @@ const App = () => {
           <Route path="/dashboardM" element={<Layout />} />
           <Route path="/appointment" element={<Appointment />} />
           {/* <Route path="/appointment1" element={<Appointment1/>}/> */}
-          {/* <Route path="/appointmentform" element={<AppointmentForm/>}/>
-          <Route path="/confirmation" element={<ConfirmationPage/>}/> */}
+          <Route path="/appointmentform" element={<AppointmentForm/>}/>
+          <Route path="/confirmation" element={<ConfirmationPage/>}/>
           
           {/* <Route path="/dashboard" element={<AdminLayout />} /> */}
           
