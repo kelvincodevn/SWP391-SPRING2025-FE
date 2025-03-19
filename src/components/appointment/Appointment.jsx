@@ -1,215 +1,165 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-const availableTimes = [
-  { time: "08:00 - 08:30", id: 1 },
-  { time: "09:00 - 09:30", id: 2 },
-  { time: "09:30 - 10:00", id: 3 },
-  { time: "10:00 - 10:30", id: 4 },
-  { time: "10:30 - 11:00", id: 5 },
-  { time: "11:00 - 11:30", id: 6 },
-  { time: "11:30 - 12:00", id: 7 },
-  { time: "13:30 - 14:00", id: 8 },
-  { time: "14:00 - 14:30", id: 9 },
-  { time: "14:30 - 15:00", id: 10 },
-];
-
-// Define the psychologists
-const psychologists = [
-  {
-    name: "Psychologist : Nguyen Thi Kim",
-    specialty: "Psychologist",
-    hospital: "Bệnh viện Đa khoa Quốc tế Thu Cúc",
-    experience: "40 năm",
-    location: "Hà Nội",
-    id: 1,
-    image: "src/assests1/Psychologist/nguyenthikim.jpg",
-  },
-  {
-    name: "Psychologist : Nguyen Thi Tham",
-    specialty: "Cardiologist",
-    hospital: "Bệnh viện Hữu Nghị Việt Xô",
-    experience: "35 năm",
-    location: "Hà Nội",
-    id: 2,
-    image: "src/assests1/Psychologist/nguyen thi tham. jpg.jpg",
-  },
-  {
-    name: "Psychologist : Than Thi Man",
-    specialty: "Pediatrician",
-    hospital: "Bệnh viện Đa khoa Quốc tế Thu Cúc",
-    experience: "20 năm",
-    location: "Hà Nội",
-    id: 3,
-    image: "src/assests1/Psychologist/Than-Thi-Man-500x592-1.jpg",
-  },
-  {
-    name: "Psychologist : Nguyen Viet Chung",
-    specialty: "Neurologist",
-    hospital: "Bệnh viện Đa khoa Quốc tế Thu Cúc",
-    experience: "10 năm",
-    location: "Hà Nội",
-    id: 4,
-    image: "src/assests1/Psychologist/1d7e7012c3053a5b6314_6680.jpg",
-  },
-  {
-    name: "Psychologist : Tran Dang Hung",
-    specialty: "Dermatologist",
-    hospital: "Bệnh viện Đa khoa Quốc tế Thu Cúc",
-    experience: "15 năm",
-    location: "Hà Nội",
-    id: 5,
-    image: "src/assests1/Psychologist/ThS.-Tran-Dang-Hung.jpg",
-  },
-];
+import { getAllPsychologists, getPsychologistSlots } from "../../services/api.psychologist";
 
 function Appointment() {
+  const [psychologists, setPsychologists] = useState([]);
   const [selectedPsychologist, setSelectedPsychologist] = useState(null);
+  const [availableSlots, setAvailableSlots] = useState([]);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState(null);
-  const [disabledTimes, setDisabledTimes] = useState([]);
+  const navigate = useNavigate();
 
-  const currentDate = new Date();
-  const navigate = useNavigate(); // Use useNavigate instead of useHistory
-  
-  const formatDate = (date) => {
-    const d = new Date(date);
-    return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+  // Function to convert date format from YYYY-MM-DD to DD/MM/YYYY
+  const formatDateToDisplay = (dateString) => {
+    if (!dateString) return "";
+    const [year, month, day] = dateString.split("-");
+    return `${day}/${month}/${year}`;
+  };
+
+  // Function to format currency
+  const formatCurrency = (amount) => {
+    if (!amount) return "0đ";
+    return amount.toLocaleString("vi-VN") + "đ";
+  };
+
+  useEffect(() => {
+    const fetchPsychologists = async () => {
+      const data = await getAllPsychologists();
+      setPsychologists(data);
+    };
+    fetchPsychologists();
+  }, []);
+
+  const handlePsychologistSelect = async (psychologist) => {
+    // Add fee to selectedPsychologist
+    const psychologistWithFee = {
+      ...psychologist,
+      fee: psychologist.userDetail?.fee || 0, // Get fee from userDetail, default to 0 if not available
+    };
+    setSelectedPsychologist(psychologistWithFee);
+    setSelectedDate(""); // Reset date when selecting a new psychologist
+    setSelectedTime(null); // Reset time
+
+    const slots = await getPsychologistSlots(psychologist.userID);
+    // Map data from API to availableSlots array
+    const normalizedSlots = slots.map((slot) => ({
+      id: slot.slotId,
+      date: slot.availableDate, // Keep YYYY-MM-DD format for comparison
+      time: `${slot.startTime.slice(0, 5)} - ${slot.endTime.slice(0, 5)}`, // Remove seconds, keep HH:mm
+    }));
+    setAvailableSlots(normalizedSlots);
+    console.log("Available slots:", normalizedSlots); // Debug log
   };
 
   const handleDateChange = (e) => {
-    setSelectedDate(e.target.value);
+    const dateValue = e.target.value; // YYYY-MM-DD format
+    setSelectedDate(dateValue);
     setSelectedTime(null);
-    updateDisabledTimes(e.target.value);
   };
 
-  const updateDisabledTimes = (date) => {
-    const disabled = [];
-    if (date === formatDate(currentDate)) {
-      // Current day, check time slots
-      availableTimes.forEach((slot) => {
-        const [startHour, startMinute] = slot.time.split(" - ")[0].split(":");
-        const currentHour = currentDate.getHours();
-        const currentMinute = currentDate.getMinutes();
-        
-        if (parseInt(startHour) < currentHour || (parseInt(startHour) === currentHour && parseInt(startMinute) <= currentMinute)) {
-          disabled.push(slot.id);
-        }
-      });
-    }
-    setDisabledTimes(disabled);
-  };
-
-  const handleTimeClick = (time) => {
-    if (!disabledTimes.includes(time.id)) {
-      setSelectedTime(time.time);
+  const handleTimeClick = (slot) => {
+    if (slot.date === selectedDate) {
+      setSelectedTime(slot.time);
     }
   };
 
   const handleBooking = () => {
-    // Pass selected data to the next page
+    const selectedSlot = availableSlots.find(
+      (slot) => slot.date === selectedDate && slot.time === selectedTime
+    );
+    if (!selectedSlot) {
+      alert("Please select a valid time slot");
+      return;
+    }
     navigate("/appointmentform", {
       state: {
         psychologist: selectedPsychologist,
+        slotId: selectedSlot.id,
         date: selectedDate,
         time: selectedTime,
+        fee: selectedPsychologist.fee, // Pass fee to appointmentform page
       },
     });
   };
 
-  useEffect(() => {
-    if (selectedDate) {
-      updateDisabledTimes(selectedDate);
-    }
-  }, [selectedDate]);
-
   return (
     <div className="max-w-4xl mx-auto my-8 p-6 bg-white rounded-lg shadow-lg">
       <h2 className="text-2xl font-semibold text-center mb-6">Choose Psychologist</h2>
-
-      {/* Select Psychologist */}
       <div className="mb-6 text-center">
         {psychologists.map((psychologist) => (
           <button
-            key={psychologist.id}
-            onClick={() => setSelectedPsychologist(psychologist)}
+            key={psychologist.userID}
+            onClick={() => handlePsychologistSelect(psychologist)}
             className="p-2 bg-blue-500 text-white rounded-md mx-2 mb-4"
           >
-            {psychologist.name}
+            {psychologist.fullName}
           </button>
         ))}
       </div>
-
       {selectedPsychologist && (
         <>
           <div className="flex items-center space-x-4 mb-4">
-            <img
-              src={selectedPsychologist.image}
-              alt="Doctor"
-              className="w-24 h-24 rounded-full border"
-            />
             <div>
-              <h3 className="text-2xl font-semibold">{selectedPsychologist.name}</h3>
-              <p className="text-gray-600">{selectedPsychologist.specialty}</p>
-              <p className="text-gray-600">{selectedPsychologist.hospital}</p>
-              <p className="text-gray-600">Experience: {selectedPsychologist.experience}</p>
-              <p className="text-gray-600">{selectedPsychologist.location}</p>
+              <h3 className="text-2xl font-semibold">{selectedPsychologist.fullName}</h3>
+              <p className="text-gray-600">{selectedPsychologist.major}</p>
+              <p className="text-gray-600">{selectedPsychologist.degree}</p>
             </div>
           </div>
-
           <div className="mb-6">
             <h3 className="text-xl font-semibold mb-2">Choose Date</h3>
             <input
               type="date"
               value={selectedDate}
               onChange={handleDateChange}
-              min={formatDate(currentDate)}
+              min={new Date().toISOString().split("T")[0]}
               className="border rounded-md p-2"
             />
+            {/* Display selected date in DD/MM/YYYY format */}
+            {selectedDate && (
+              <p className="mt-2 text-gray-600">
+                Selected Date: {formatDateToDisplay(selectedDate)}
+              </p>
+            )}
           </div>
-
           {selectedDate && (
             <div className="mb-6">
               <h3 className="text-xl font-semibold mb-2">Examination Schedule</h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {availableTimes.map((slot) => (
-                  <button
-                    key={slot.id}
-                    onClick={() => handleTimeClick(slot)}
-                    className={`p-2 border rounded-md text-center ${
-                      selectedTime === slot.time
-                        ? "bg-blue-500 text-white"
-                        : disabledTimes.includes(slot.id)
-                        ? "bg-gray-300 cursor-not-allowed"
-                        : "bg-white text-gray-800"
-                    }`}
-                    disabled={disabledTimes.includes(slot.id)}
-                  >
-                    {slot.time}
-                  </button>
-                ))}
-              </div>
+              {availableSlots.filter((slot) => slot.date === selectedDate).length > 0 ? (
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {availableSlots
+                    .filter((slot) => slot.date === selectedDate)
+                    .map((slot) => (
+                      <button
+                        key={slot.id}
+                        onClick={() => handleTimeClick(slot)}
+                        className={`p-2 border rounded-md text-center ${
+                          selectedTime === slot.time
+                            ? "bg-blue-500 text-white"
+                            : "bg-white text-gray-800"
+                        }`}
+                      >
+                        {slot.time}
+                      </button>
+                    ))}
+                </div>
+              ) : (
+                <p className="text-gray-600">No available slots for this date.</p>
+              )}
             </div>
           )}
-
           {selectedTime && (
             <>
               <div className="mt-6">
-                <h3 className="text-lg font-semibold">Address</h3>
-                <p className="text-gray-600">Hệ thống Y tế Thu Cúc, 286 Thụy Khuê, Hà Nội</p>
-              </div>
-
-              <div className="mt-6">
                 <h3 className="text-lg font-semibold">Price</h3>
-                <p className="text-gray-600">150.000đ</p>
+                <p className="text-gray-600">{formatCurrency(selectedPsychologist.fee)}</p>
               </div>
-
               <div className="mt-6">
                 <button
                   onClick={handleBooking}
                   className="w-full bg-blue-500 text-white py-2 rounded-md"
                 >
-                  Booking
+                  Book Appointment
                 </button>
               </div>
             </>

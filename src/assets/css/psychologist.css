@@ -1,0 +1,24 @@
+/* src/assets/css/psychologist.css */
+
+/* Tắt auto scroll cho modal */
+.disable-auto-scroll-modal .ant-modal-body {
+    overflow-y: auto !important;
+    max-height: 60vh; /* Giới hạn chiều cao để hiển thị nhiều lựa chọn thời gian */
+}
+
+/* Tắt auto scroll cho dropdown của TimePicker */
+.disable-auto-scroll-picker .ant-picker-panel-container {
+    position: absolute !important; /* Đảm bảo dropdown không bị ảnh hưởng bởi scroll của modal */
+    z-index: 1050 !important;
+}
+
+/* Tùy chỉnh chiều cao dropdown để hiển thị nhiều lựa chọn thời gian */
+.disable-auto-scroll-picker .ant-picker-time-panel {
+    max-height: 200px; /* Tăng chiều cao để hiển thị nhiều lựa chọn */
+    overflow-y: auto; /* Cho phép cuộn trong dropdown */
+}
+
+/* Ngăn modal tự động scroll khi focus vào TimePicker */
+.disable-auto-scroll-modal .ant-modal-content {
+    overflow: hidden !important; /* Tắt scroll tự động của modal */
+}

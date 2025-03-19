@@ -22,6 +22,7 @@
 // export default api;
 
 import axios from "axios";
+import { jwtDecode } from "jwt-decode"
 
 // const baseURL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8082/api/";
 
@@ -34,6 +35,8 @@ api.interceptors.request.use(
         const token = localStorage.getItem("token");
         if (token && token !== "null" && token !== "undefined") {
             config.headers.Authorization = `Bearer ${token}`;
+            const decodedToken = jwtDecode(token);
+            config.headers.psychologistId = decodedToken.userID || decodedToken.psychologistId; // Giả sử userID hoặc psychologistId nằm trong token
         }
         return config;
     },
@@ -56,5 +59,15 @@ api.interceptors.response.use(
         return Promise.reject(error);
     }
 );
+
+// Hàm tiện ích để lấy psychologistId từ token
+export const getPsychologistIdFromToken = () => {
+    const token = localStorage.getItem("token");
+    if (token && token !== "null" && token !== "undefined") {
+        const decodedToken = jwtDecode(token);
+        return decodedToken.userID || decodedToken.psychologistId; // Điều chỉnh tên trường dựa trên payload token
+    }
+    return null;
+};
 
 export default api;

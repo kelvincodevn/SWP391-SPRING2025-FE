@@ -9,6 +9,7 @@ import { Breadcrumb, Layout, Menu, theme, Input, Avatar, Dropdown, Space } from 
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { UserOutlined } from '@ant-design/icons';
 import { toast } from 'react-toastify';
+import { FiCalendar } from 'react-icons/fi';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Search } = Input;
@@ -23,10 +24,11 @@ function getItem(label, key, icon, children) {
 }
 
 const items = [
-    getItem('overview', 'overview', <PieChartOutlined />),
-    getItem('tests', 'tests', <FileTextOutlined />),
-    getItem('surveys', 'surveys', <FormOutlined />),
-    getItem('programs', 'programs', <ProjectOutlined />),
+    getItem('Overview', 'overview', <PieChartOutlined />),
+    getItem('Tests', 'tests', <FileTextOutlined />),
+    getItem('Booking', 'booking', <FiCalendar />), // Add booking item with FiCalendar icon
+    getItem('Surveys', 'surveys', <FormOutlined />),
+    getItem('Programs', 'programs', <ProjectOutlined />),
 ];
 
 const UserLayout = () => {

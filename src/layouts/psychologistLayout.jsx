@@ -6,6 +6,7 @@ import { Breadcrumb, Layout, Menu, theme, Input, Avatar, Dropdown } from 'antd';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { FiUsers, FiCalendar } from 'react-icons/fi'; // Import FiCalendar for booking icon
 import { UserOutlined } from '@ant-design/icons';
+import { toast } from 'react-toastify';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Search } = Input;
@@ -20,9 +21,10 @@ function getItem(label, key, icon, children) {
 }
 
 const items = [
-    getItem('overview', 'overview', <PieChartOutlined />),
-    getItem('clients', 'clients', <FiUsers />),
-    getItem('booking', 'booking', <FiCalendar />), // Add booking item with FiCalendar icon
+    getItem('Overview', 'overview', <PieChartOutlined />),
+    getItem('Clients', 'clients', <FiUsers />),
+    getItem('Booking', 'booking', <FiCalendar />), // Add booking item with FiCalendar icon
+    getItem('Slots', 'slots', <FiCalendar />), // Thêm mục Slots với icon FiCalendar
 ];
 
 const PsychologistLayout = () => {
@@ -58,6 +60,10 @@ const PsychologistLayout = () => {
     const handleMenuClick = (e) => {
         if (e.key === 'logout') {
             console.log("logout");
+            localStorage.removeItem('token');
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('fullName');
+            toast.success("Logout Successfully");
             navigate('/login', { replace: true });
         } else if (e.key === 'profile') {
             navigate('/workview/profile', { replace: true });

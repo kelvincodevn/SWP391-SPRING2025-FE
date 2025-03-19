@@ -58,3 +58,24 @@ const handleApiError = (error, operation) => {
         console.error(`Error ${operation}:`, error);
     }
 };
+
+export const getUserStats = async (userId) => {
+    try {
+      const response = await api.get(`/api/users/${userId}/stats`);
+      return response.data;
+    } catch (error) {
+      toast.error(error.response?.data || "Failed to fetch user stats");
+      throw error;
+    }
+  };
+
+  // Get user profile
+export const getUserProfile = async () => {
+    try {
+        const response = await api.get("/api/users/profile");
+        return response.data;
+    } catch (error) {
+        handleApiError(error, "fetching user profile");
+        return null;
+    }
+};

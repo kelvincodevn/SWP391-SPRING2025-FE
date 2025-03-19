@@ -29,10 +29,10 @@ import ManagerProfile from "./pages/manager/manage-profile.jsx";
 import DoubleNavbar from "./components/NavbarCombine.jsx";
 import RegistrationPage1 from "./pages/register.jsx/registerpage.jsx";
 import PsychologistLayout from "./layouts/psychologistLayout.jsx";
-import PsychologistOverview from "./pages/psychologist/psycho-overview.jsx";
-import PsychologistProfile from "./pages/psychologist/psycho-profile.jsx";
-import PsychologistBooking from "./pages/psychologist/psycho-booking.jsx";
-import PsychologistClients from "./pages/psychologist/psycho-clients.jsx";
+// import PsychologistOverview from "./pages/psychologist/psycho-overview.jsx";
+// import PsychologistProfile from "./pages/psychologist/psycho-profile.jsx";
+// import PsychologistBooking from "./pages/psychologist/psycho-booking.jsx";
+// import PsychologistClients from "./pages/psychologist/psycho-clients.jsx";
 import RegistrationPage2 from "./pages/register.jsx/registerTest.jsx";
 import TestList from "./pages/mentalhealth-test/testlist.jsx";
 import Dass21TestPage from "./pages/mentalhealth-test/dass21.jsx";
@@ -59,6 +59,21 @@ import { Layout } from "antd";
 import AppointmentForm from "./components/appointment/AppointmentForm.jsx";
 import ConfirmationPage from "./components/appointment/ConfirmationPage.jsx";
 import Appointment from "./components/appointment/Appointment.jsx";
+import PaymentSuccess from "./components/appointment/PaymentSuccess.jsx";
+import PaymentCallback from "./components/appointment/PaymentCallback.jsx";
+import Payment from "./components/appointment/Payment.jsx";
+import PsychologistOverview from "./pages/psychologist/psychologist-overview.jsx";
+import PsychologistClients from "./pages/psychologist/psychologist-client.jsx";
+import PsychologistProfile from "./pages/psychologist/psychologist-profile.jsx";
+import PsychologistBooking from "./pages/psychologist/psychologist-booking.jsx";
+import ManageClient from "./pages/manager/manage-client.jsx";
+import ManagePsychologist from "./pages/manager/manage-psychologist.jsx";
+import PsychologistSlot from "./pages/psychologist/psychologist-slot.jsx";
+import UserBooking from "./pages/user/user-booking.jsx";
+import AppointmentTest from "./components/appointment/AppointmentTest.jsx";
+import AppointmentFormTest from "./components/appointment/AppointmentFormTest.jsx";
+import ConfirmationPageTest from "./components/appointment/ConfirmationPageTest.jsx";
+import BookingSuccessfully from "./components/appointment/BookingSuccessfully.jsx";
 // import Appointment1 from "./pages/appointment/Appointment1.jsx";
 // import BookingForm from "./pages/appointment/AppointmentForm.jsx";
 // import Confirmation from "./pages/appointment/Confirm.jsx";
@@ -91,8 +106,9 @@ const App = () => {
   // Define routes where Navbar and Footer should be hidden
   const hideNavbarFooterRoutes = ["/register", "/register1", "/register2", "/login", "/profile", "/dashboard",
      "dashboard1", "/dashboard/test", "/dashboard/test-score", "/dashboard/survey", "/dashboard/user", "/dashboard/program", "/dashboard/program1",
-    "/dashboard/overview", "/dashboard/profile", "/workview/profile", "/workview/booking", "/workview/overview",
-      "/workview/clients", "/user-dashboard/overview", "/user-dashboard/tests"];
+    "/dashboard/overview", "/dashboard/profile", "/dashboard/client", "/dashboard/psychologist", "/workview/profile", "/workview/booking", "/workview/overview",
+      "/workview/clients", "/user-dashboard/overview", "/user-dashboard/tests", "/payment-success", "/payment-callback", "/workview/slots", "/booking-successfully"
+    ,"/user-dashboard/booking"];
 
   return (
     <>
@@ -127,7 +143,15 @@ const App = () => {
           {/* <Route path="/appointment1" element={<Appointment1/>}/> */}
           <Route path="/appointmentform" element={<AppointmentForm/>}/>
           <Route path="/confirmation" element={<ConfirmationPage/>}/>
+          <Route path="/booking-successfully" element={<BookingSuccessfully />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/payment-callback" element={<PaymentCallback />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
           
+          <Route path="/appointment1" element={<AppointmentTest />} />
+          <Route path="/appointmentform1" element={<AppointmentFormTest />} />
+          <Route path="/confirmationform1" element={<ConfirmationPageTest />} /> 
+
           {/* <Route path="/dashboard" element={<AdminLayout />} /> */}
           
           
@@ -152,6 +176,8 @@ const App = () => {
             <Route path="overview" element={<ManageOverview />} />
             <Route path="profile" element={<ManagerProfile1 />} />
             <Route path="user" element={<ManageUser />} />
+            <Route path="client" element={<ManageClient />} />
+            <Route path="psychologist" element={<ManagePsychologist />} />
             <Route path="test" element={<ManageTest />} />
             <Route path="test-score" element={<ManageTestScore />} />
             <Route path="survey" element={<ManageSurvey />} />
@@ -169,7 +195,7 @@ const App = () => {
           <Route
             path="/workview"
             element={
-              <ProtectedRoute requiredRole="MANAGER">
+              <ProtectedRoute requiredRole="PSYCHOLOGIST">
                 <PsychologistLayout />
               </ProtectedRoute>
             }
@@ -178,6 +204,7 @@ const App = () => {
             <Route path="clients" element={<PsychologistClients />} />
             <Route path="profile" element={<PsychologistProfile />} />
             <Route path="booking" element={<PsychologistBooking />} />
+            <Route path="slots" element={<PsychologistSlot />} />
           </Route>
 
           <Route
@@ -190,6 +217,7 @@ const App = () => {
           >
             <Route path="overview" element={<UserOverview />} />
             <Route path="tests" element={<UserTestHistory />} />
+            <Route path="booking" element={<UserBooking />} />
             {/* <Route path="profile" element={<ManagerProfile1 />} />
             <Route path="user" element={<ManageUser />} />
             <Route path="test" element={<ManageTest />} />
@@ -211,6 +239,8 @@ const App = () => {
           <Route path="/test/:id" element={<GeneralTestPage />} />
 
           {/* <Route path="/profile-settings" element={<ProfileSettings/>}/> */}
+
+         
 
         </Routes>
       </main>

@@ -112,6 +112,7 @@ const LoginPage = () => {
             const response = await api.post('/api/auth/login', formData);
             const { token, roleEnum } = response.data;
             localStorage.setItem('token', token);
+            localStorage.setItem('userID', response.data.userID);
 
             // Store user data in localStorage and Redux store after successful login
             localStorage.setItem('isLoggedIn', 'true');
@@ -134,7 +135,7 @@ const LoginPage = () => {
             } else if (roleEnum === 'STUDENT' || roleEnum === 'PARENT') {
                 navigate("/");
             } else if (roleEnum === 'PSYCHOLOGIST') {
-                navigate("/workplace");
+                navigate("/workview");
             } else {
                 // Handle unknown roles or navigate to a default page
                 navigate("/"); // Default navigation
