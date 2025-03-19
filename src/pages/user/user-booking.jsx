@@ -337,6 +337,9 @@ function UserBooking() {
               Pay
             </Button>
           )}
+          {record.status === "PAID" && (
+            <Tag color="blue">Waiting for consultation report</Tag>
+          )}
           {record.status === "DECLINED" && (
             <Tag color="red">Booking Declined</Tag>
           )}

@@ -140,6 +140,22 @@ export const declineBooking = async (psychologistId, bookingId) => {
     }
 };
 
+export const completeBooking = async (psychologistId, bookingId, file) => {
+    try {
+        const formData = new FormData();
+        formData.append("bookingId", bookingId);
+        formData.append("file", file);
+
+        const response = await api.post(`/api/psychologist/bookings/complete`, formData, {
+            headers: { "Content-Type": "multipart/form-data" },
+        });
+        return response.data;
+    } catch (error) {
+        handleApiError(error, "completing booking");
+        return null;
+    }
+};
+
 
 // Helper function for consistent error handling
 const handleApiError = (error, operation) => {

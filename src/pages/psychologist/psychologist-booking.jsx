@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Modal, Table, Upload, Tag } from "antd";
 import { toast } from "react-toastify";
-import { getPsychologistBookings, acceptBooking, declineBooking } from "../../services/api.booking";
+import { getPsychologistBookings, acceptBooking, declineBooking, completeBooking } from "../../services/api.booking";
 import api from "../../config/axios";
 
 function PsychologistBooking() {
@@ -130,27 +130,43 @@ function PsychologistBooking() {
         setOpenCompleteModal(true);
     };
 
-    const handleCompleteSubmit = async (values) => {
-        const formData = new FormData();
-        formData.append("report", values.report.fileList[0].originFileObj);
-        formData.append("bookingId", selectedBookingId);
+    // const handleCompleteSubmit = async (values) => {
+    //     const formData = new FormData();
+    //     formData.append("report", values.report.fileList[0].originFileObj);
+    //     formData.append("bookingId", selectedBookingId);
 
-        try {
-            await api.put(`/api/bookings/complete`, formData, {
-                headers: { "Content-Type": "multipart/form-data" },
-                params: { psychologistId },
-            });
-            toast.success("Booking completed and report sent");
-            setOpenCompleteModal(false);
-            setBookings(
-                bookings.map((b) =>
-                    b.bookingId === selectedBookingId ? { ...b, status: "COMPLETED" } : b
-                )
-            );
-        } catch (error) {
-            toast.error("Failed to complete booking");
-        }
-    };
+    //     try {
+    //         await api.put(`/api/bookings/complete`, formData, {
+    //             headers: { "Content-Type": "multipart/form-data" },
+    //             params: { psychologistId },
+    //         });
+    //         toast.success("Booking completed and report sent");
+    //         setOpenCompleteModal(false);
+    //         setBookings(
+    //             bookings.map((b) =>
+    //                 b.bookingId === selectedBookingId ? { ...b, status: "COMPLETED" } : b
+    //             )
+    //         );
+    //     } catch (error) {
+    //         toast.error("Failed to complete booking");
+    //     }
+    // };
+
+    const handleCompleteSubmit = async (values) => {
+      try {
+          const file = values.report.fileList[0].originFileObj;
+          await completeBooking(psychologistId, selectedBookingId, file);
+          toast.success("Booking completed and report sent");
+          setOpenCompleteModal(false);
+          setBookings(
+              bookings.map((b) =>
+                  b.bookingId === selectedBookingId ? { ...b, status: "COMPLETED" } : b
+              )
+          );
+      } catch (error) {
+          toast.error("Failed to complete booking");
+      }
+  };
 
     return (
         <div className="p-8">
