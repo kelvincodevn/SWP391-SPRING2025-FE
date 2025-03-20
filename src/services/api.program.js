@@ -1,40 +1,55 @@
+// api.program.js
 import api from "../config/axios";
 import { toast } from "react-toastify";
 
-// Get all programs (filtered by isDeleted: false)
+// Get all programs
 export const getProgram = async () => {
     try {
         const response = await api.get("/api/manager/program");
         return response.data;
     } catch (error) {
         handleApiError(error, "fetching programs");
-        return null;
+        return [];
     }
 };
 
-// Create or update a program (combined function)
-export const createProgram = async (program, id = null) => {
+// Get program details
+export const getProgramDetails = async (id) => {
     try {
-        let response;
-        if (id) {
-            response = await api.put(`/api/manager/program/${id}`, program); // PUT for update
-        } else {
-            response = await api.post("/api/manager/program", program); // POST for create
-        }
-
-        toast.success(id ? "Program updated successfully" : "Program created successfully");
+        const response = await api.get(`/api/manager/program/${id}`);
         return response.data;
     } catch (error) {
-        handleApiError(error, "creating/updating program");
+        handleApiError(error, "fetching program details");
         return null;
     }
 };
 
-// Delete a program (sets isDeleted: true)
+// Create program
+export const createProgram = async (program) => {
+    try {
+        const response = await api.post("/api/manager/program", program);
+        return response.data;
+    } catch (error) {
+        handleApiError(error, "creating program");
+        return null;
+    }
+};
+
+// Update program
+export const updateProgram = async (id, program) => {
+    try {
+        const response = await api.put(`/api/manager/program/${id}`, program);
+        return response.data;
+    } catch (error) {
+        handleApiError(error, "updating program");
+        return null;
+    }
+};
+
+// Delete program
 export const deleteProgram = async (id) => {
     try {
-        const response = await api.put(`/api/manager/program/${id}`, { isDeleted: true }); // PUT to update isDeleted
-        toast.success("Program deleted successfully");
+        const response = await api.delete(`/api/manager/program/${id}`);
         return response.data;
     } catch (error) {
         handleApiError(error, "deleting program");
@@ -42,7 +57,7 @@ export const deleteProgram = async (id) => {
     }
 };
 
-// Helper function for consistent error handling
+// Error handling
 const handleApiError = (error, operation) => {
     if (error.response && error.response.data) {
         toast.error(error.response.data);

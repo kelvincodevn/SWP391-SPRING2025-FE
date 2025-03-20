@@ -22,7 +22,7 @@ function getItem(label, key, icon, children) {
 
 const items = [
     getItem('Overview', 'overview', <PieChartOutlined />),
-    getItem('Clients', 'clients', <FiUsers />),
+    // getItem('Clients', 'clients', <FiUsers />),
     getItem('Booking', 'booking', <FiCalendar />), // Add booking item with FiCalendar icon
     getItem('Slots', 'slots', <FiCalendar />), // Thêm mục Slots với icon FiCalendar
 ];

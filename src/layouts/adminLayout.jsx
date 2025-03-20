@@ -26,12 +26,12 @@ function getItem(label, key, icon, children) {
 //truyền childeren là list 
 const items = [
   getItem('Overview', 'overview', <PieChartOutlined />),
-  getItem('Client', 'client', <FiUsers />), //DesktopOutlined cái này là icon nha (có trong antd desing icon)
+//   getItem('Client', 'client', <FiUsers />), //DesktopOutlined cái này là icon nha (có trong antd desing icon)
   getItem('Psychologist', 'psychologist', <FiUsers />), //DesktopOutlined cái này là icon nha (có trong antd desing icon)
   getItem('Test', 'test', <FileTextOutlined />),
   getItem('Test score', 'test-score', <FormOutlined />), // Added Test Score item
   getItem('Survey', 'survey', <FormOutlined />),
-  getItem('Program', 'program', <ProjectOutlined />),
+//   getItem('Program', 'program', <ProjectOutlined />),
   //thêm mấy cái item cho cái dashboard
 
   // getItem('User', 'sub1', <UserOutlined />, [

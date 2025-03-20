@@ -31,7 +31,7 @@
 import React from "react";
 import ServicesCard from "./ServicesCard";
 import { RiMicroscopeLine } from "react-icons/ri";
-import { MdHealthAndSafety } from "react-icons/md";
+import { MdHealthAndSafety, MdPsychology } from "react-icons/md";
 import { FaHeartbeat } from "react-icons/fa";
 
 const ServicesList = () => {
@@ -65,6 +65,15 @@ const ServicesList = () => {
           title="Psychology Seminar"
           description="Join a seminar led by experts in mental health."
           link="/seminar"
+        />
+      </div>
+
+      <div>
+        <ServicesCard 
+          icon={<MdPsychology size={35} className="text-backgroundColor" />} 
+          title="Appointment"
+          description="Book an appointment with our excellent psychologist"
+          link="/appointment"
         />
       </div>
 

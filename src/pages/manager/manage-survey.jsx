@@ -180,9 +180,9 @@ function ManageSurvey() {
                     <Button type="primary" onClick={() => handleEdit(record)}>
                         Edit
                     </Button>
-                    <Button danger style={{ marginLeft: '8px' }} onClick={() => handleDelete(record.id)}>
+                    {/* <Button danger style={{ marginLeft: '8px' }} onClick={() => handleDelete(record.id)}>
                         Delete
-                    </Button>
+                    </Button> */}
                     {/* <Button type="primary" style={{ marginLeft: '8px' }} onClick={() => handleCreate(record)}>
                         Create
                     </Button> */}

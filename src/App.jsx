@@ -74,6 +74,7 @@ import AppointmentTest from "./components/appointment/AppointmentTest.jsx";
 import AppointmentFormTest from "./components/appointment/AppointmentFormTest.jsx";
 import ConfirmationPageTest from "./components/appointment/ConfirmationPageTest.jsx";
 import BookingSuccessfully from "./components/appointment/BookingSuccessfully.jsx";
+import { toast } from "react-toastify";
 // import Appointment1 from "./pages/appointment/Appointment1.jsx";
 // import BookingForm from "./pages/appointment/AppointmentForm.jsx";
 // import Confirmation from "./pages/appointment/Confirm.jsx";
@@ -139,7 +140,17 @@ const App = () => {
           <Route path="*" element={<h2>404 - Page Not Found</h2>} />
           <Route path="/dashboard1" element={<ManagerDashboard />} />
           <Route path="/dashboardM" element={<Layout />} />
-          <Route path="/appointment" element={<Appointment />} />
+
+          <Route
+            path="/appointment"
+            element={
+              <ProtectedRoute requiredRole="STUDENT">
+                <Appointment />
+              </ProtectedRoute>
+            }
+            />
+
+          {/* <Route path="/appointment" element={<Appointment />} /> */}
           {/* <Route path="/appointment1" element={<Appointment1/>}/> */}
           <Route path="/appointmentform" element={<AppointmentForm/>}/>
           <Route path="/confirmation" element={<ConfirmationPage/>}/>
@@ -231,7 +242,16 @@ const App = () => {
           {/* <Route path="/test/:testId" element={<TestLayout />} />   */}
           <Route path="/testrun" element={<TestQuestionAndAnswer />} /> 
 
-          <Route path="/testoption" element={<TestSelectionPage/>}/>
+          <Route
+            path="/testoption"
+            element={
+              <ProtectedRoute requiredRole="STUDENT">
+                <TestSelectionPage />
+              </ProtectedRoute>
+            }
+            />
+
+         
           {/* <Route path="/gad7" element={<GAD7TestPage/>} />
           <Route path="/phq9" element={<PHQ9TestPage/>}/>
           <Route path="/dass21" element={<DASS21TestPage/>}/>

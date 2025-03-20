@@ -11,6 +11,7 @@ const DoubleNavbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState("");
   const [userAvatar, setUserAvatar] = useState("");
+  const [userRole, setUserRole] = useState(""); // Thêm state để lưu role của user
   const navigate = useNavigate();
   
   const dispatch = useDispatch();
@@ -20,27 +21,35 @@ const DoubleNavbar = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  // Kiểm tra trạng thái đăng nhập và lấy thông tin user từ localStorage
   useEffect(() => {
     const storedIsLoggedIn = localStorage.getItem('isLoggedIn');
     if (storedIsLoggedIn) {
       setIsLoggedIn(true);
       setUserName(localStorage.getItem('fullName'));
       setUserAvatar(localStorage.getItem('userAvatar'));
+      setUserRole(localStorage.getItem('role')); // Lấy role từ localStorage
     }
   }, []);
 
+  // Hàm xử lý đăng xuất
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('fullName');
     localStorage.removeItem('userAvatar');
+    localStorage.removeItem('userID');
+    localStorage.removeItem('token');
+    localStorage.removeItem('role'); // Xóa role khỏi localStorage
     setIsLoggedIn(false);
     setUserName('');
     setUserAvatar('');
+    setUserRole(''); // Reset role
     dispatch(clearUser());
-     toast.success("Logout Successfully");
+    toast.success("Logout Successfully");
     navigate('/login');
   };
 
+  // Hàm tạo class cho các link điều hướng
   const getNavLinkClass = (path) => {
     const isActive = location.pathname === path;
     return `relative px-4 py-2 text-gray-700 hover:text-gray-900 font-medium transition-all duration-200 ${
@@ -48,6 +57,44 @@ const DoubleNavbar = () => {
         ? "text-blue-600 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-blue-600 after:rounded-full"
         : "hover:after:content-[''] hover:after:absolute hover:after:bottom-0 hover:after:left-0 hover:after:w-full hover:after:h-0.5 hover:after:bg-gray-300 hover:after:rounded-full"
     }`;
+  };
+
+  // Hàm render link dựa trên role
+  const renderRoleBasedLink = () => {
+    if (!userRole) return null; // Nếu không có role, không render gì
+
+    switch (userRole.toUpperCase()) { // Chuyển role thành chữ in hoa để so sánh
+      case "STUDENT":
+      case "PARENT":
+        return (
+          <Link
+            to="/user-dashboard"
+            className="text-blue-600 hover:text-blue-700 font-medium text-sm md:text-base transition-colors duration-200 ml-2"
+          >
+            User Dashboard
+          </Link>
+        );
+      case "PSYCHOLOGIST":
+        return (
+          <Link
+            to="/workview"
+            className="text-blue-600 hover:text-blue-700 font-medium text-sm md:text-base transition-colors duration-200 ml-2"
+          >
+            Workview
+          </Link>
+        );
+      case "MANAGER":
+        return (
+          <Link
+            to="/dashboard"
+            className="text-blue-600 hover:text-blue-700 font-medium text-sm md:text-base transition-colors duration-200 ml-2"
+          >
+            Dashboard
+          </Link>
+        );
+      default:
+        return null; // Không render nếu role không khớp
+    }
   };
 
   return (
@@ -73,7 +120,7 @@ const DoubleNavbar = () => {
           />
         </div>
 
-        {/* Right Side: Conditionally render login/register or profile/logout */}
+        {/* Right Side: Conditionally render login/register hoặc profile/logout */}
         <div className="flex items-center gap-4">
           {!isLoggedIn ? (
             <>
@@ -98,14 +145,16 @@ const DoubleNavbar = () => {
             </>
           ) : (
             <div className="flex items-center gap-2">
-              <Link to="/profile-settings" className="flex items-center"> {/* Wrap with Link */}
-                            <img
-                                src={userAvatar || "default_avatar.png"}
-                                alt="Avatar"
-                                className="h-8 w-8 rounded-full"
-                            />
-                            <span className="ml-2 text-gray-800">{userName}</span>
-                        </Link>
+              <Link to="/profile-settings" className="flex items-center">
+                <img
+                  src={userAvatar || "default_avatar.png"}
+                  alt="Avatar"
+                  className="h-8 w-8 rounded-full"
+                />
+                <span className="ml-2 text-gray-800">{userName}</span>
+              </Link>
+              {/* Thêm link dựa trên role */}
+              {renderRoleBasedLink()}
               <button
                 onClick={handleLogout}
                 className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded text-sm md:text-base transition-colors duration-200"
