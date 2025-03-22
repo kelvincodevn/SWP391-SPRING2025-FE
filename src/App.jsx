@@ -75,6 +75,7 @@ import AppointmentFormTest from "./components/appointment/AppointmentFormTest.js
 import ConfirmationPageTest from "./components/appointment/ConfirmationPageTest.jsx";
 import BookingSuccessfully from "./components/appointment/BookingSuccessfully.jsx";
 import { toast } from "react-toastify";
+import TestResultPage from "./pages/testpage/TestResultPage.jsx";
 // import Appointment1 from "./pages/appointment/Appointment1.jsx";
 // import BookingForm from "./pages/appointment/AppointmentForm.jsx";
 // import Confirmation from "./pages/appointment/Confirm.jsx";
@@ -257,6 +258,7 @@ const App = () => {
           <Route path="/dass21" element={<DASS21TestPage/>}/>
           <Route path="/beck" element={<BeckTestPage/>}/> */}
           <Route path="/test/:id" element={<GeneralTestPage />} />
+          <Route path="/test-result" element={<TestResultPage />} />
 
           {/* <Route path="/profile-settings" element={<ProfileSettings/>}/> */}
 

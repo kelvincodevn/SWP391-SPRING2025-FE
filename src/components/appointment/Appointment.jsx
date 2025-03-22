@@ -35,7 +35,7 @@ function Appointment() {
     // Add fee to selectedPsychologist
     const psychologistWithFee = {
       ...psychologist,
-      fee: psychologist.userDetail?.fee || 0, // Get fee from userDetail, default to 0 if not available
+      fee: psychologist.userDetail?.fee || 150000, // Get fee from userDetail, default to 0 if not available
     };
     setSelectedPsychologist(psychologistWithFee);
     setSelectedDate(""); // Reset date when selecting a new psychologist

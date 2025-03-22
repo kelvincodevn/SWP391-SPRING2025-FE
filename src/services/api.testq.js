@@ -108,9 +108,24 @@ export const submitAnswers = async (data) => {
 };
 
 // Get user test results
-export const getUserTestResults = async () => {
+export const getAllUserTestResults = async () => {
     try {
         const response = await api.get('/api/user/usertests/results');
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            toast.error(error.response.data);
+        } else {
+            toast.error("An error occurred while fetching user test results.");
+            console.error("Error fetching user test results:", error);
+        }
+        return null;
+    }
+};
+
+export const getUserTestResults = async () => {
+    try {
+        const response = await api.get('/api/user/usertests/user-results');
         return response.data;
     } catch (error) {
         if (error.response && error.response.data) {

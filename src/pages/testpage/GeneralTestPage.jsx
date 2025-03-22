@@ -44,6 +44,36 @@ const GeneralTestPage = () => {
     //     setScore(totalScore);
     // };
 
+    // const handleSubmit = async () => {
+    //     if (answers.includes(null)) {
+    //         toast.error("Please answer all questions before submitting.");
+    //         return;
+    //     }
+    
+    //     const answersToSubmit = testData.questions.map((question, questionIndex) => {
+    //         const selectedAnswer = question.answers.find(answer => answer.score === answers[questionIndex]);
+    //         return {
+    //             questionId: question.questionNumber, // Hoặc question.id, tùy thuộc vào API của bạn
+    //             answerText: selectedAnswer ? selectedAnswer.answerText : "",
+    //             score: answers[questionIndex]
+    //         };
+    //     });
+    
+    //     const data = {
+    //         testId: testData.testId,
+    //         answers: answersToSubmit
+    //     };
+    
+    //     try {
+    //         console.log(data);
+    //         await submitAnswers(data);
+    //         // Có thể thêm logic sau khi submit thành công (ví dụ: chuyển hướng, hiển thị kết quả)
+    //     } catch (error) {
+    //         console.error("Error submitting test:", error);
+    //         // Error toast sẽ được xử lý trong submitAnswers
+    //     }
+    // };
+
     const handleSubmit = async () => {
         if (answers.includes(null)) {
             toast.error("Please answer all questions before submitting.");
@@ -53,7 +83,7 @@ const GeneralTestPage = () => {
         const answersToSubmit = testData.questions.map((question, questionIndex) => {
             const selectedAnswer = question.answers.find(answer => answer.score === answers[questionIndex]);
             return {
-                questionId: question.questionNumber, // Hoặc question.id, tùy thuộc vào API của bạn
+                questionId: question.questionNumber, // Adjust based on your API
                 answerText: selectedAnswer ? selectedAnswer.answerText : "",
                 score: answers[questionIndex]
             };
@@ -65,12 +95,14 @@ const GeneralTestPage = () => {
         };
     
         try {
-            console.log(data);
-            await submitAnswers(data);
-            // Có thể thêm logic sau khi submit thành công (ví dụ: chuyển hướng, hiển thị kết quả)
+            const response = await submitAnswers(data);
+            if (response) {
+                // Redirect to TestResultPage with the result data
+                navigate("/test-result", { state: response });
+            }
         } catch (error) {
             console.error("Error submitting test:", error);
-            // Error toast sẽ được xử lý trong submitAnswers
+            toast.error("Failed to submit test.");
         }
     };
 
