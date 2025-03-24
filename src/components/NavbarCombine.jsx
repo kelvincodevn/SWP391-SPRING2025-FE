@@ -145,7 +145,7 @@ const DoubleNavbar = () => {
             </>
           ) : (
             <div className="flex items-center gap-2">
-              <Link to="/profile-settings" className="flex items-center">
+              <Link to="/user-dashboard/profile" className="flex items-center">
                 <img
                   src={userAvatar || "default_avatar.png"}
                   alt="Avatar"

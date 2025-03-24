@@ -5,7 +5,7 @@ import {
     PieChartOutlined,
     ProjectOutlined,
 } from '@ant-design/icons';
-import { Breadcrumb, Layout, Menu, theme, Input, Avatar, Dropdown, Space } from 'antd';
+import { Breadcrumb, Layout, Menu, theme, Input, Avatar, Dropdown, Space, Button } from 'antd';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { UserOutlined } from '@ant-design/icons';
 import { toast } from 'react-toastify';
@@ -108,7 +108,10 @@ const UserLayout = () => {
                         Welcome back: <span style={{ fontWeight: 'bold' }}>{userName}</span>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <Search placeholder="Search..." style={{ width: 200, marginRight: 16 }} />
+                        <Button type="primary" onClick={() => navigate('/')}>
+                            Back to Home
+                        </Button>
+                        <Search placeholder="Search..." style={{ width: 200, marginLeft: 16, marginRight: 16 }} />
                         <Dropdown overlay={menu}>
                             <Avatar size="large" icon={<UserOutlined />} style={{ cursor: 'pointer' }} />
                         </Dropdown>
