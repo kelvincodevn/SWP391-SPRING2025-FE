@@ -542,7 +542,7 @@ const RegistrationPage = () => {
               type="button"
               className="w-full flex justify-center items-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-600 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200"
               aria-label="Back to Home"
-              onClick={() => window.location.href = "/"}
+              onClick={() => navigate("/")}
             >
               <FaHome className="w-5 h-5 mr-2" />
               Back to Home
