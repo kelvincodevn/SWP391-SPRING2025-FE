@@ -50,9 +50,9 @@ import ManageProgram1 from "./pages/manager/manage-program1.jsx";
 // import ConfirmationPage from "./pages/appointment/Confirm.jsx";
 // import AppointmentForm from "./pages/appointment/AppointmentForm.jsx";
 import GeneralTestPage from "./pages/testpage/GeneralTestPage.jsx";
-import UserOverview from "./pages/user/user-overview.jsx";
+// import UserOverview from "./pages/user/user-overview.jsx";
 
-import UserTestHistory from "./pages/user/user-testhistory.jsx";
+// import UserTestHistory from "./pages/user/user-testhistory.jsx";
 import ManageTestScore from "./pages/manager/manage-testscore.jsx";
 import UserLayout from "./layouts/UserLayout.jsx";
 import { Layout } from "antd";
@@ -69,13 +69,19 @@ import PsychologistBooking from "./pages/psychologist/psychologist-booking.jsx";
 import ManageClient from "./pages/manager/manage-client.jsx";
 import ManagePsychologist from "./pages/manager/manage-psychologist.jsx";
 import PsychologistSlot from "./pages/psychologist/psychologist-slot.jsx";
-import UserBooking from "./pages/user/user-booking.jsx";
+// import UserBooking from "./pages/user/user-booking.jsx";
 import AppointmentTest from "./components/appointment/AppointmentTest.jsx";
 import AppointmentFormTest from "./components/appointment/AppointmentFormTest.jsx";
 import ConfirmationPageTest from "./components/appointment/ConfirmationPageTest.jsx";
 import BookingSuccessfully from "./components/appointment/BookingSuccessfully.jsx";
 import { toast } from "react-toastify";
 import TestResultPage from "./pages/testpage/TestResultPage.jsx";
+import StudentOverview from "./pages/student/student-overview.jsx";
+import StudentTestHistory from "./pages/student/student-testhistory.jsx";
+import StudentBooking from "./pages/student/student-booking.jsx";
+import StudentAssociate from "./pages/student/student-associate.jsx";
+import ParentAssociate from "./pages/parent/parent-associate.jsx";
+import ParentOverview from "./pages/parent/parent-overview.jsx";
 // import Appointment1 from "./pages/appointment/Appointment1.jsx";
 // import BookingForm from "./pages/appointment/AppointmentForm.jsx";
 // import Confirmation from "./pages/appointment/Confirm.jsx";
@@ -109,8 +115,8 @@ const App = () => {
   const hideNavbarFooterRoutes = ["/register", "/register1", "/register2", "/login", "/profile", "/dashboard",
      "dashboard1", "/dashboard/test", "/dashboard/test-score", "/dashboard/survey", "/dashboard/user", "/dashboard/program", "/dashboard/program1",
     "/dashboard/overview", "/dashboard/profile", "/dashboard/client", "/dashboard/psychologist", "/workview/profile", "/workview/booking", "/workview/overview",
-      "/workview/clients", "/user-dashboard/overview", "/user-dashboard/tests", "/payment-success", "/payment-callback", "/workview/slots", "/booking-successfully"
-    ,"/user-dashboard/booking"];
+      "/workview/clients", "/student-dashboard/overview", "/student-dashboard/tests", "/payment-success", "/payment-callback", "/workview/slots", "/booking-successfully"
+    ,"/student-dashboard/booking", "/student-dashboard/associate", "/parent-dashboard/overview", "/parent-dashboard/associate"];
 
   return (
     <>
@@ -220,16 +226,40 @@ const App = () => {
           </Route>
 
           <Route
-            path="/user-dashboard"
+            path="/student-dashboard"
             element={
               <ProtectedRoute requiredRole="STUDENT">
                 <UserLayout />
               </ProtectedRoute>
             }
           >
-            <Route path="overview" element={<UserOverview />} />
-            <Route path="tests" element={<UserTestHistory />} />
-            <Route path="booking" element={<UserBooking />} />
+            <Route path="overview" element={<StudentOverview />} />
+            <Route path="tests" element={<StudentTestHistory />} />
+            <Route path="booking" element={<StudentBooking />} />
+            <Route path="associate" element={<StudentAssociate />} />
+            {/* <Route path="profile" element={<ManagerProfile1 />} />
+            <Route path="user" element={<ManageUser />} />
+            <Route path="test" element={<ManageTest />} />
+            <Route path="survey" element={<ManageSurvey />} />
+            <Route path="program" element={<ManageProgram />} />
+            <Route path="program1" element={<ManageProgram1 />} /> */}
+          </Route>
+
+
+
+          <Route
+            path="/parent-dashboard"
+            element={
+              <ProtectedRoute requiredRole="PARENT">
+                <UserLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route path="overview" element={<ParentOverview />} />
+            <Route path="associate" element={<ParentAssociate />} />
+            {/* <Route path="overview" element={<StudentOverview />} />
+            <Route path="tests" element={<StudentTestHistory />} />
+            <Route path="booking" element={<StudentBooking />} /> */}
             {/* <Route path="profile" element={<ManagerProfile1 />} />
             <Route path="user" element={<ManageUser />} />
             <Route path="test" element={<ManageTest />} />

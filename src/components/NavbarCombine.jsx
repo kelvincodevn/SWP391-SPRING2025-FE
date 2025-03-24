@@ -65,13 +65,21 @@ const DoubleNavbar = () => {
 
     switch (userRole.toUpperCase()) { // Chuyển role thành chữ in hoa để so sánh
       case "STUDENT":
+        return (
+          <Link
+            to="/student-dashboard"
+            className="text-blue-600 hover:text-blue-700 font-medium text-sm md:text-base transition-colors duration-200 ml-2"
+          >
+            Student Dashboard
+          </Link>
+        );
       case "PARENT":
         return (
           <Link
-            to="/user-dashboard"
+            to="/parent-dashboard"
             className="text-blue-600 hover:text-blue-700 font-medium text-sm md:text-base transition-colors duration-200 ml-2"
           >
-            User Dashboard
+            Parent Dashboard
           </Link>
         );
       case "PSYCHOLOGIST":
