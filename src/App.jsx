@@ -51,6 +51,7 @@ import ManageProgram1 from "./pages/manager/manage-program1.jsx";
 // import AppointmentForm from "./pages/appointment/AppointmentForm.jsx";
 import GeneralTestPage from "./pages/testpage/GeneralTestPage.jsx";
 import UserOverview from "./pages/user/user-overview.jsx";
+import UserNProfile from "./pages/user/user-profile.jsx";
 
 import UserTestHistory from "./pages/user/user-testhistory.jsx";
 import ManageTestScore from "./pages/manager/manage-testscore.jsx";
@@ -230,6 +231,7 @@ const App = () => {
             <Route path="overview" element={<UserOverview />} />
             <Route path="tests" element={<UserTestHistory />} />
             <Route path="booking" element={<UserBooking />} />
+            <Route path="profile" element={<UserNProfile />} />
             {/* <Route path="profile" element={<ManagerProfile1 />} />
             <Route path="user" element={<ManageUser />} />
             <Route path="test" element={<ManageTest />} />

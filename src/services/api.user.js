@@ -79,3 +79,14 @@ export const getUserProfile = async () => {
         return null;
     }
 };
+
+export const updateUserProfile = async (userData) => {
+    try {
+        const response = await api.put("/api/users/profile", userData);
+        toast.success("Profile updated successfully");
+        return response.data;
+    } catch (error) {
+        handleApiError(error, "updating user profile");
+        return null;
+    }
+}
