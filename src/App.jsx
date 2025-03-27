@@ -44,7 +44,7 @@ import TestQuestionAndAnswer from "./pages/mentalhealth-test/testrun.jsx";
 // import BeckTestPage from "./pages/testpage/BECKTestPage.jsx";
 import TestSelectionPage from "./pages/testpage/TestOption.jsx";
 // import ProfileSettings from "./pages/student/ProfileSettings.jsx";
-import ManagerProfile1 from "./pages/manager/manager-profile1.jsx";
+import ManagerProfile2 from "./pages/manager/manage-profile.jsx";
 import ManageProgram1 from "./pages/manager/manage-program1.jsx";
 // import Appointment1 from "./pages/appointment/Appointment1.jsx";
 // import ConfirmationPage from "./pages/appointment/Confirm.jsx";
@@ -187,7 +187,7 @@ const App = () => {
             }
           >
             <Route path="overview" element={<ManageOverview />} />
-            <Route path="profile" element={<ManagerProfile1 />} />
+            <Route path="profile" element={<ManagerProfile2/>} />
             <Route path="user" element={<ManageUser />} />
             <Route path="client" element={<ManageClient />} />
             <Route path="psychologist" element={<ManagePsychologist />} />

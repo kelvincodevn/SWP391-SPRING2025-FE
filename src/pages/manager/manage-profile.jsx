@@ -1,285 +1,200 @@
-import axios from "axios";
-import { useState, useRef, useEffect } from "react";
-import { FiEdit2, FiCheck, FiX } from "react-icons/fi";
-import { ToastContainer, toast } from "react-toastify";
+import React, { useState, useEffect } from 'react';
+import { getUserProfile, updateUserProfile } from '../../services/api.user';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { FaUser, FaEnvelope, FaPhoneAlt, FaBirthdayCake, FaTransgenderAlt } from 'react-icons/fa'; // Importing icons
 
-const ManagerProfile = () => {
-    const [isEditing, setIsEditing] = useState(false);
-    const [profileData, setProfileData] = useState(null);
-    const [formData, setFormData] = useState(null); // Separate form data
-    const [errors, setErrors] = useState({});
-    const fileInputRef = useRef(null);
+function ManagerProfile2() {
+  // Define state for the user data
+  const [userData, setUserData] = useState({
+    fullName: '',
+    email: '',
+    dob: '',
+    phone: '',
+    createdDate: '',
+    gender: '',
+  });
 
-//   const [formData, setFormData] = useState({
-//     fullName: "John Doe",
-//     email: "john.doe@example.com",
-//     username: "thangKelvin",
-//     phone: "+1 (555) 123-4567",
-//     dateOfBirth: "17/03/2004", // Added date of birth
-//     gender: "Male", // Added gender
-//     profilePicture: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80"
-//   });
+  // Define state to toggle between view and edit mode
+  const [isEditing, setIsEditing] = useState(false);
 
-
-useEffect(() => {
-    const fetchProfile = async () => {
-        try {
-            const response = await axios.get('https://67aa9a3d65ab088ea7e71025.mockapi.io/api/v3/Profile/1'); // Assuming ID is 1. Adjust as needed
-            setProfileData(response.data);
-            setFormData(response.data); // Initialize form data with fetched data
-        } catch (error) {
-            console.error("Error fetching profile:", error);
-            toast.error("Error fetching profile. Please try again later.");
-        }
+  // Fetch user profile from API
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const data = await getUserProfile();
+        setUserData(data);
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
     };
 
-    fetchProfile();
-}, []);
+    fetchUserProfile();
+  }, []);
 
-const handleInputChange = (e) => {
+  // Handle input changes
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-
-    // Clear errors for the field being changed
-    setErrors({ ...errors, [name]: "" });
-};
-
-const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData((prev) => ({
-          ...prev,
-          profilePicture: reader.result
-        }));
-      };
-      reader.readAsDataURL(file);
-    }
+    setUserData({
+      ...userData,
+      [name]: value,
+    });
   };
 
-
-  const validateForm = () => {
-    const newErrors = {};
-    if (!formData.fullName) newErrors.fullName = "Full name is required";
-    if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Valid email is required";
+  // Validate input fields
+  const validate = () => {
+    if (!userData.fullName || userData.fullName.length < 5) {
+      toast.error('Full Name must be at least 5 characters long');
+      return false;
     }
-    if (!formData.phone || !/^\+?[1-9]\d{1,14}$/.test(formData.phone.replace(/\D/g, ""))) {
-      newErrors.phone = "Valid phone number is required";
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!userData.email || !emailPattern.test(userData.email)) {
+      toast.error('Invalid email format');
+      return false;
     }
-    if (!formData.dateOfBirth) {
-        newErrors.dateOfBirth = "Date of birth is required";
-    } else if (!/^\d{4}-\d{2}-\d{2}$/.test(formData.dateOfBirth)) {
-        newErrors.dateOfBirth = "Date of birth must be in YYYY-MM-DD format";
+    const phonePattern = /^0\d{9}$/;
+    if (!userData.phone || !phonePattern.test(userData.phone)) {
+      toast.error('Phone number must be 10 digits long and start with 0');
+      return false;
     }
-    if (!formData.gender) newErrors.gender = "Gender is required"; // Validate gender
-    return newErrors;
+    if (!userData.dob) {
+      toast.error('Date of Birth is required');
+      return false;
+    }
+    if (!userData.gender) {
+      toast.error('Gender is required');
+      return false;
+    }
+    return true;
   };
 
-  const handleSave = async () => {
-    const newErrors = validateForm();
-    if (Object.keys(newErrors).length === 0) {
-        try {
-            await axios.put('https://67aa9a3d65ab088ea7e71025.mockapi.io/api/v3/Profile/1', formData); // Use PUT to update
-            setProfileData(formData); // Update displayed data
-            setIsEditing(false);
-            toast.success("Profile updated successfully!");
-        } catch (error) {
-            console.error("Error updating profile:", error);
-            toast.error("Error updating profile. Please try again later.");
-        }
-    } else {
-        setErrors(newErrors);
-        toast.error("Please fix the errors before saving.");
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validate()) {
+      return;
     }
-};
-
-if (!profileData) {
-    return <div>Loading...</div>; // Display loading message while data is fetching
-}
-
-//   const confirmSave = () => {
-//     setShowModal(false);
-
-//     toast.success("Profile updated successfully!", {
-//       autoClose: 3000,
-//       onClose: () => {
-//         setIsEditing(false);
-//       },
-//     });
-//   };
+    try {
+      const updatedData = await updateUserProfile(userData);
+      setUserData(updatedData);
+      toast.success('Profile saved successfully!');
+      setIsEditing(false); // Switch back to view mode after saving
+    } catch (error) {
+      console.error('Error saving user profile:', error);
+      toast.error('Failed to save profile. Please try again.');
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300">
-      <div className="p-8 min-w-full"> {/* or w-3/4  or  max-w-7xl mx-auto */}
-        <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold text-gray-900">Profile Information</h1>
-            {!isEditing ? (
-              <button
-                onClick={() => setIsEditing(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                <FiEdit2 /> Edit Profile
-              </button>
-            ) : (
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setIsEditing(false)}
-                  className="flex items-center gap-2 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
-                >
-                  <FiX /> Cancel
-                </button>
-                <button
-                  onClick={handleSave}
-                  className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-                >
-                  <FiCheck /> Save
-                </button>
-              </div>
-            )}
+    <div className="max-w-2xl mx-auto p-8 bg-gradient-to-r from-blue-100 via-indigo-200 to-purple-300 border border-gray-300 rounded-lg shadow-xl">
+      <ToastContainer />
+      <h2 className="text-4xl font-extrabold text-center mb-8 text-indigo-700">User Profile</h2>
+      {isEditing ? (
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="mb-6 flex items-center">
+            <FaUser className="text-2xl text-indigo-600 mr-3" />
+            <label className="block text-lg font-medium text-gray-800">Full Name:</label>
           </div>
+          <input
+            type="text"
+            name="fullName"
+            value={userData.fullName}
+            onChange={handleChange}
+            placeholder="Enter your full name"
+            className="mt-2 p-4 w-full border-2 border-indigo-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
+          />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="col-span-1">
-              <div className="relative">
-                <img
-                  src={formData.profilePicture}
-                  alt="Profile"
-                  className="w-full h-48 object-cover rounded-lg"
-                  onError={(e) => {
-                    e.target.src = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80";
-                  }}
-                />
-                {isEditing && (
-                  <button
-                    onClick={() => fileInputRef.current.click()}
-                    className="absolute bottom-2 right-2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100"
-                  >
-                    <FiEdit2 className="text-gray-600" />
-                  </button>
-                )}
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  onChange={handleImageUpload}
-                  className="hidden"
-                  accept="image/*"
-                />
-              </div>
+          <div className="mb-6 flex items-center">
+            <FaEnvelope className="text-2xl text-indigo-600 mr-3" />
+            <label className="block text-lg font-medium text-gray-800">Email:</label>
+          </div>
+          <input
+            type="email"
+            name="email"
+            value={userData.email}
+            onChange={handleChange}
+            placeholder="Enter your email"
+            className="mt-2 p-4 w-full border-2 border-indigo-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
+          />
+
+          <div className="mb-6 flex items-center">
+            <FaBirthdayCake className="text-2xl text-indigo-600 mr-3" />
+            <label className="block text-lg font-medium text-gray-800">Date of Birth:</label>
+          </div>
+          <input
+            type="date"
+            name="dob"
+            value={userData.dob}
+            onChange={handleChange}
+            className="mt-2 p-4 w-full border-2 border-indigo-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
+          />
+
+          <div className="mb-6 flex items-center">
+            <FaPhoneAlt className="text-2xl text-indigo-600 mr-3" />
+            <label className="block text-lg font-medium text-gray-800">Phone:</label>
+          </div>
+          <input
+            type="text"
+            name="phone"
+            value={userData.phone}
+            onChange={handleChange}
+            placeholder="Enter your phone number"
+            className="mt-2 p-4 w-full border-2 border-indigo-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
+          />
+
+          <div className="mb-6 flex items-center">
+            <FaTransgenderAlt className="text-2xl text-indigo-600 mr-3" />
+            <label className="block text-lg font-medium text-gray-800">Gender:</label>
+          </div>
+          <select
+            name="gender"
+            value={userData.gender}
+            onChange={handleChange}
+            className="mt-2 p-4 w-full border-2 border-indigo-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
+          >
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+
+          <div className="flex justify-between mt-6">
+            <button
+              type="submit"
+              className="w-1/2 py-4 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 mr-2"
+            >
+              Save Profile
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsEditing(false)}
+              className="w-1/2 py-4 bg-gray-600 text-white rounded-lg font-semibold hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 ml-2"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      ) : (
+        <div>
+          <div className="mt-8">
+            <h3 className="text-2xl font-semibold text-gray-800">Profile Details</h3>
+            <div className="mt-4 space-y-4">
+              <p><strong>Full Name:</strong> {userData.fullName}</p>
+              <p><strong>Email:</strong> {userData.email}</p>
+              <p><strong>Date of Birth:</strong> {userData.dob}</p>
+              <p><strong>Phone:</strong> {userData.phone}</p>
+              <p><strong>Gender:</strong> {userData.gender}</p>
             </div>
-
-          
-            <div className="col-span-2 space-y-6">
-                            {isEditing ? (
-                                <div className="space-y-4">
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700">Full Name</label>
-                                        <input
-                                            type="text"
-                                            name="fullName"
-                                            value={formData.fullName}
-                                            onChange={handleInputChange}
-                                            className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors.fullName ? "border-red-500" : ""}`}
-                                        />
-                                        {errors.fullName && <p className="mt-1 text-sm text-red-500">{errors.fullName}</p>}
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700">Email</label>
-                                        <input
-                                            type="email"
-                                            name="email"
-                                            value={formData.email}
-                                            onChange={handleInputChange}
-                                            className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors.email ? "border-red-500" : ""}`}
-                                        />
-                                        {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700">Username</label>
-                                        <input
-                                            type="text"
-                                            name="username"
-                                            value={formData.username}
-                                            onChange={handleInputChange}
-                                            className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors.username ? "border-red-500" : ""}`}
-                                        />
-                                        {errors.username && <p className="mt-1 text-sm text-red-500">{errors.username}</p>}
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700">Phone</label>
-                                        <input
-                                            type="tel"
-                                            name="phone"
-                                            value={formData.phone}
-                                            onChange={handleInputChange}
-                                            className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors.phone ? "border-red-500" : ""}`}
-                                        />
-                                        {errors.phone && <p className="mt-1 text-sm text-red-500">{errors.phone}</p>}
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700">Date of Birth</label>
-                                        <input
-                                            type="date"
-                                            name="dateOfBirth"
-                                            value={formData.dateOfBirth}
-                                            onChange={handleInputChange}
-                                            className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors.dateOfBirth ? "border-red-500" : ""}`}
-                                        />
-                                        {errors.dateOfBirth && <p className="mt-1 text-sm text-red-500">{errors.dateOfBirth}</p>}
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700">Gender</label>
-                                        <select
-                                            name="gender"
-                                            value={formData.gender}
-                                            onChange={handleInputChange}
-                                            className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 ${errors.gender ? "border-red-500" : ""}`}
-                                        >
-                                            <option value="">Select Gender</option>
-                                            <option value="male">Male</option>
-                                            <option value="female">Female</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                        {errors.gender && <p className="mt-1 text-sm text-red-500">{errors.gender}</p>}
-                                    </div>
-                                </div>
-                            ) : (
-                                <div className="space-y-4">
-                                    <div>
-                                        <h2 className="text-xl font-semibold text-gray-900">{profileData.fullName}</h2>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <p className="text-gray-600">
-                                            <span className="font-medium">Email:</span> {profileData.email}
-                                        </p>
-                                        <p className="text-gray-600">
-                                            <span className="font-medium">Username:</span> {profileData.username}
-                                        </p>
-                                        <p className="text-gray-600">
-                                            <span className="font-medium">Phone:</span> {profileData.phone}
-                                        </p>
-                                        <p className="text-gray-600">
-                                            <span className="font-medium">Date of Birth:</span> {profileData.dateOfBirth}
-                                        </p>
-                                        <p className="text-gray-600">
-                                            <span className="font-medium">Gender:</span> {profileData.gender}
-                                        </p>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <ToastContainer />
+          </div>
+          <button
+            onClick={() => setIsEditing(true)}
+            className="w-full py-4 mt-8 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+          >
+            Update Profile
+          </button>
         </div>
-    );
-};
-export default ManagerProfile;
+      )}
+    </div>
+  );
+}
+
+export default ManagerProfile2;
