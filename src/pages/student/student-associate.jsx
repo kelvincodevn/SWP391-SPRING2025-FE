@@ -122,6 +122,7 @@ const { Title, Text } = Typography;
 
 function StudentAssociate() {
   const [linkRequests, setLinkRequests] = useState([]);
+  const [linkedParents, setLinkedParents] = useState([]); // Thêm state để lưu danh sách phụ huynh đã liên kết
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -141,6 +142,16 @@ function StudentAssociate() {
     }
   };
 
+    // Lấy danh sách phụ huynh đã liên kết
+    const fetchLinkedParents = async () => {
+      try {
+        const response = await api.get("/api/parent-student/parents");
+        setLinkedParents(response.data);
+      } catch (error) {
+        toast.error(error.response?.data || "Failed to fetch linked parents");
+      }
+    };
+
   // Xác nhận hoặc từ chối yêu cầu liên kết
   const handleRespondToRequest = async (parentId, confirm) => {
     if (!parentId) {
@@ -159,8 +170,22 @@ function StudentAssociate() {
     }
   };
 
+  const handleCancelLink = async (parentId) => {
+    setLoading(true);
+    try {
+      await api.post(`/api/parent-student/cancel-link?parentId=${parentId}`);
+      toast.success("Link cancelled successfully");
+      fetchLinkedParents(); // Làm mới danh sách phụ huynh đã liên kết
+    } catch (error) {
+      toast.error(error.response?.data || "Failed to cancel link");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchLinkRequests();
+    fetchLinkedParents();
   }, []);
 
   return (
@@ -226,6 +251,47 @@ function StudentAssociate() {
       ) : (
         <p>No link requests found.</p>
       )}
+
+      {/* Hiển thị danh sách phụ huynh đã liên kết */}
+      <div className="mt-8">
+  <Title level={4} className="mb-4">
+    Linked Parents
+  </Title>
+  {linkedParents.length > 0 ? (
+    <div className="space-y-4">
+      {linkedParents.map((parent) => (
+        <Card key={parent.userID} title="Linked Parent" className="shadow-md">
+          <Row gutter={[16, 16]}>
+            <Col span={12}>
+              <Text strong>Full Name:</Text>
+              <Text className="block">{parent.fullName}</Text>
+            </Col>
+            <Col span={12}>
+              <Text strong>Email:</Text>
+              <Text className="block">{parent.email}</Text>
+            </Col>
+            <Col span={12}>
+              <Text strong>Username:</Text>
+              <Text className="block">{parent.username}</Text>
+            </Col>
+          </Row>
+          <Button
+            danger
+            onClick={() => handleCancelLink(parent.userID)}
+            disabled={loading}
+            className="mt-4"
+          >
+            Cancel Link
+          </Button>
+        </Card>
+      ))}
+    </div>
+  ) : (
+    <p>No linked parents found.</p>
+  )}
+</div>
+
+
     </div>
   );
 }
