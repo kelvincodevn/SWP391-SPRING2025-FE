@@ -30,7 +30,7 @@
 
 import React from "react";
 import ServicesCard from "./ServicesCard";
-import { RiMicroscopeLine } from "react-icons/ri";
+import { RiMicroscopeLine, RiPsychotherapyFill } from "react-icons/ri";
 import { MdHealthAndSafety, MdPsychology } from "react-icons/md";
 import { FaHeartbeat } from "react-icons/fa";
 
@@ -45,6 +45,15 @@ const ServicesList = () => {
           title="Take Test"
           description="Participate in a quick test to assess your health."
           link="/testoption"
+        />
+      </div>
+
+      <div>
+        <ServicesCard 
+          icon={<RiPsychotherapyFill size={35} className="text-backgroundColor" />} 
+          title="Take Survey"
+          description="Participate in a quick survey to assess your health."
+          link="/survey-selection"
         />
       </div>
 

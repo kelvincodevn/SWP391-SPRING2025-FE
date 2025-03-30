@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Modal, Table, Form, Input, Spin, Alert } from 'antd';
 import { toast } from 'react-toastify';
-import { getUserSurveyHistory } from '../../services/api.survey';
+import api from '../../config/axios';
 
-function StudentSurveyHistory() {
-    const [surveyResponses, setSurveyResponses] = useState([]);
+
+function ManagerSurveyHistory() {
+    const [surveyHistory, setSurveyHistory] = useState([]);
     const [viewDetailsModalOpen, setViewDetailsModalOpen] = useState(false);
     const [surveyDetails, setSurveyDetails] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -14,10 +15,11 @@ function StudentSurveyHistory() {
         setLoading(true);
         setError(null);
         try {
-            const data = await getUserSurveyHistory();
-            setSurveyResponses(data);
+            const response = await api.get('/api/manager/survey/history');
+            setSurveyHistory(response.data);
         } catch (error) {
             setError("Unable to load survey history. Please try again later.");
+            toast.error(error.response?.data || "Failed to fetch survey history");
         } finally {
             setLoading(false);
         }
@@ -30,39 +32,56 @@ function StudentSurveyHistory() {
     const columns = [
         {
             title: "Response ID",
-            dataIndex: "id",
-            key: "id",
+            dataIndex: "responseId",
+            key: "responseId",
         },
         {
-            title: "Survey Title",
-            dataIndex: ["survey", "title"],
-            key: "surveyTitle",
+            title: "Survey Name",
+            dataIndex: "surveyName",
+            key: "surveyName",
+        },
+        {
+            title: "Student Name",
+            dataIndex: "studentName",
+            key: "studentName",
+        },
+        {
+            title: "Student Email",
+            dataIndex: "studentEmail",
+            key: "studentEmail",
         },
         {
             title: "Submitted At",
             dataIndex: "submittedAt",
             key: "submittedAt",
-            render: (text) => new Date(text).toLocaleString(),
         },
         {
             title: "Action",
             key: "action",
-            render: (_, record) => (
-                <Button onClick={() => handleViewDetails(record)}>
+            render: (text, record) => (
+                <Button onClick={() => handleViewDetails(record.responseId)}>
                     View Details
                 </Button>
             ),
         },
     ];
 
-    const handleViewDetails = (response) => {
-        setSurveyDetails(response);
-        setViewDetailsModalOpen(true);
+    const handleViewDetails = async (responseId) => {
+        setLoading(true);
+        try {
+            const response = await api.get(`/api/manager/survey/history/${responseId}`);
+            setSurveyDetails(response.data);
+            setViewDetailsModalOpen(true);
+        } catch (error) {
+            toast.error(error.response?.data || "Unable to load survey details. Please try again.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
         <div className="p-6">
-            <h1 className="text-2xl font-bold mb-6">Your Survey History</h1>
+            <h1 className="text-2xl font-bold mb-6">Survey History (Manager View)</h1>
             {error && <Alert message={error} type="error" showIcon className="mb-4" />}
             {loading ? (
                 <div className="flex justify-center">
@@ -70,10 +89,10 @@ function StudentSurveyHistory() {
                 </div>
             ) : (
                 <Table
-                    dataSource={surveyResponses}
+                    dataSource={surveyHistory}
                     columns={columns}
-                    rowKey="id"
-                    locale={{ emptyText: "You haven't completed any surveys yet." }}
+                    rowKey="responseId"
+                    locale={{ emptyText: "No survey history available." }}
                 />
             )}
 
@@ -83,19 +102,29 @@ function StudentSurveyHistory() {
                 onCancel={() => setViewDetailsModalOpen(false)}
                 footer={null}
             >
-                {surveyDetails ? (
+                {loading ? (
+                    <div className="flex justify-center">
+                        <Spin tip="Loading details..." />
+                    </div>
+                ) : surveyDetails ? (
                     <Form layout="vertical">
-                        <Form.Item label="Survey Title">
-                            <Input value={surveyDetails.survey.title} disabled />
+                        <Form.Item label="Survey Name">
+                            <Input value={surveyDetails.surveyName} disabled />
+                        </Form.Item>
+                        <Form.Item label="Student Name">
+                            <Input value={surveyDetails.studentName} disabled />
+                        </Form.Item>
+                        <Form.Item label="Student Email">
+                            <Input value={surveyDetails.studentEmail} disabled />
                         </Form.Item>
                         <Form.Item label="Submitted At">
-                            <Input value={new Date(surveyDetails.submittedAt).toLocaleString()} disabled />
+                            <Input value={surveyDetails.submittedAt} disabled />
                         </Form.Item>
                         <Form.Item label="Answers">
                             <ul className="list-disc pl-5">
                                 {surveyDetails.answers.map((answer, index) => (
                                     <li key={index} className="mb-2">
-                                        <strong>Question: {answer.question.questionText}</strong>
+                                        <strong>Question: {answer.questionText}</strong>
                                         <p>Answer: {answer.answerText}</p>
                                     </li>
                                 ))}
@@ -110,4 +139,4 @@ function StudentSurveyHistory() {
     );
 }
 
-export default StudentSurveyHistory;
+export default ManagerSurveyHistory;

@@ -1,9 +1,14 @@
 import { toast } from "react-toastify";
 import api from "../config/axios";
 
-export const createSurvey = async (surveyData) => {
+export const createSurveyFromExcel = async (file) => {
     try {
-        const response = await api.post("/api/manager/survey/create", surveyData);
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const response = await api.post("/api/manager/survey/create", formData, {
+            headers: { "Content-Type": "multipart/form-data" }
+        });
         toast.success("Survey created successfully");
         return response.data;
     } catch (error) {
@@ -13,33 +18,9 @@ export const createSurvey = async (surveyData) => {
     }
 };
 
-export const updateSurvey = async (id, surveyData) => {
-    try {
-        const response = await api.put(`/api/manager/survey/${id}`, surveyData);
-        toast.success("Survey updated successfully");
-        return response.data;
-    } catch (error) {
-        const errorMsg = error.response?.data || "Failed to update survey";
-        toast.error(errorMsg);
-        throw new Error(errorMsg);
-    }
-};
-
-export const deleteSurvey = async (id) => {
-    try {
-        const response = await api.delete(`/api/manager/survey/${id}`);
-        toast.success("Survey deleted successfully");
-        return response.data;
-    } catch (error) {
-        const errorMsg = error.response?.data || "Failed to delete survey";
-        toast.error(errorMsg);
-        throw new Error(errorMsg);
-    }
-};
-
 export const getAllSurveys = async () => {
     try {
-        const response = await api.get("/api/manager/survey");
+        const response = await api.get("/api/user/survey");
         return response.data;
     } catch (error) {
         const errorMsg = error.response?.data || "Failed to fetch surveys";
@@ -48,12 +29,12 @@ export const getAllSurveys = async () => {
     }
 };
 
-export const getActiveSurveys = async () => {
+export const getSurveyById = async (id) => {
     try {
-        const response = await api.get("/api/user/survey/active");
+        const response = await api.get(`/api/user/survey/${id}`);
         return response.data;
     } catch (error) {
-        const errorMsg = error.response?.data || "Failed to fetch active surveys";
+        const errorMsg = error.response?.data || "Failed to fetch survey details";
         toast.error(errorMsg);
         throw new Error(errorMsg);
     }
@@ -77,6 +58,17 @@ export const getUserSurveyHistory = async () => {
         return response.data;
     } catch (error) {
         const errorMsg = error.response?.data || "Failed to fetch survey history";
+        toast.error(errorMsg);
+        throw new Error(errorMsg);
+    }
+};
+
+export const getSurveyHistoryDetails = async (responseId) => {
+    try {
+        const response = await api.get(`/api/user/survey/history/${responseId}`);
+        return response.data;
+    } catch (error) {
+        const errorMsg = error.response?.data || "Failed to fetch survey history details";
         toast.error(errorMsg);
         throw new Error(errorMsg);
     }

@@ -171,7 +171,7 @@ const studentItems = [
     getItem('Overview', 'overview', <PieChartOutlined />),
     getItem('Tests', 'tests', <FileTextOutlined />),
     getItem('Booking', 'booking', <FiCalendar />),
-    getItem('Surveys', 'surveys', <FormOutlined />),
+    getItem('Surveys', 'survey', <FormOutlined />),
     getItem('Programs', 'programs', <ProjectOutlined />),
     getItem('Associate', 'associate', <UserSwitchOutlined />), // Thêm mục Associate
 ];
@@ -180,6 +180,7 @@ const studentItems = [
 const parentItems = [
     getItem('Overview', 'overview', <PieChartOutlined />),
     getItem('Tests', 'tests', <FileTextOutlined />),
+      getItem('Survey', 'survey', <FormOutlined />),
     getItem('Booking', 'booking', <FiCalendar />),
     getItem('Associate', 'associate', <UserSwitchOutlined />), // Thêm mục Associate
 ];

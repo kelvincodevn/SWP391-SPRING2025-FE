@@ -81,8 +81,11 @@ import StudentBooking from "./pages/student/student-booking.jsx";
 import StudentAssociate from "./pages/student/student-associate.jsx";
 import ParentAssociate from "./pages/parent/parent-associate.jsx";
 import ParentOverview from "./pages/parent/parent-overview.jsx";
-import SurveyPage from "./pages/survey/SurveyPage.jsx";
-import StudentSurveyHistory from "./pages/student/student-survey.jsx";
+
+import SurveySelectionPage from "./pages/survey/SurveyOption.jsx";
+import GeneralSurveyPage from "./pages/survey/GeneralSurveyPage.jsx";
+import ManagerSurveyHistory from "./pages/manager/manage-surveyhistory.jsx";
+import StudentSurveyHistory from "./pages/student/student-surveyhistory.jsx";
 // import Appointment1 from "./pages/appointment/Appointment1.jsx";
 // import BookingForm from "./pages/appointment/AppointmentForm.jsx";
 // import Confirmation from "./pages/appointment/Confirm.jsx";
@@ -115,9 +118,9 @@ const App = () => {
   // Define routes where Navbar and Footer should be hidden
   const hideNavbarFooterRoutes = ["/register", "/register1", "/register2", "/login", "/profile", "/dashboard",
      "dashboard1", "/dashboard/test", "/dashboard/test-score", "/dashboard/survey", "/dashboard/user", "/dashboard/program", "/dashboard/program1",
-    "/dashboard/overview", "/dashboard/profile", "/dashboard/client", "/dashboard/psychologist", "/workview/profile", "/workview/booking", "/workview/overview",
+    "/dashboard/overview", "/dashboard/profile", "/dashboard/client", "/dashboard/psychologist", "/dashboard/survey-history", "/workview/profile", "/workview/booking", "/workview/overview",
       "/workview/clients", "/student-dashboard/overview", "/student-dashboard/tests", "/payment-success", "/payment-callback", "/workview/slots", "/booking-successfully"
-    ,"/student-dashboard/booking", "/student-dashboard/associate", "/parent-dashboard/overview", "/parent-dashboard/associate"];
+    ,"/student-dashboard/booking", "/student-dashboard/associate", "/student-dashboard/survey", "/parent-dashboard/overview", "/parent-dashboard/associate"];
 
   return (
     <>
@@ -135,7 +138,6 @@ const App = () => {
           <Route path="/resources" element={<MentalHealthResources />} />
           <Route path="/surveymanage" element={<TestManagementSystem />} />
           <Route path="/surveytest" element={<Survey />} />
-          <Route path="/survey" element={<SurveyPage />} />
           <Route path="/seminar" element={<MentalHealthSeminar />} />
           <Route path="/blog" element={<Blogs />} />
           {/* <Route path="/profile" element={<UserProfile2 />} /> */}
@@ -201,6 +203,7 @@ const App = () => {
             <Route path="test" element={<ManageTest />} />
             <Route path="test-score" element={<ManageTestScore />} />
             <Route path="survey" element={<ManageSurvey />} />
+            <Route path="survey-history" element={<ManagerSurveyHistory />} />
             <Route path="program" element={<ManageProgram />} />
             <Route path="program1" element={<ManageProgram1 />} />
           </Route>
@@ -292,6 +295,16 @@ const App = () => {
           <Route path="/beck" element={<BeckTestPage/>}/> */}
           <Route path="/test/:id" element={<GeneralTestPage />} />
           <Route path="/test-result" element={<TestResultPage />} />
+
+          <Route
+            path="/survey-selection"
+            element={
+              <ProtectedRoute requiredRole="STUDENT">
+                <SurveySelectionPage />
+              </ProtectedRoute>
+            }
+            />
+            <Route path="/survey/:id" element={<GeneralSurveyPage />} />
 
           {/* <Route path="/profile-settings" element={<ProfileSettings/>}/> */}
 
