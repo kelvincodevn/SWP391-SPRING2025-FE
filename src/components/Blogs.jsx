@@ -6,56 +6,136 @@ const blogs = [
     id: 1,
     img: "src/assests1/Blog/tinhthan_suc_khoe_tinh_than_1_47bd08cd54.jpg",
     headlines: "Mental Health: Why Is It Important and How to Improve It?",
-    content: <p>
-      What is mental health, its importance and how to improve it?. Let's learn useful information about mental health and how to improve it.
-    </p>,
-    fullContent: <p>
-      What is mental health?
-       Mental health is an integral part of a person's overall health. According to the definition of the World Health Organization (WHO), mental health is a state in which a person realizes his or her own abilities, can cope with normal stresses, still work productively and make a contribution to the community.
-       Factors affecting mental health
-       Living environment: The place where you live, work and study can cause stress and affect your mental health if it is unsafe and unstable.
-       Health status: Problems such as illness, injury, infection, etc. can cause discomfort, anxiety and stress.
-       Social relationships: Social relationships, including family, friends, colleagues, partners and people around you can affect your mental health.
-       Work and finances: A job with high pressure, difficulty, lack of resources or unsuitability can cause stress and affect your mental health. Poor finances can also cause stress and anxiety.
-       Lifestyle habits: Lifestyle habits, including diet, exercise, sleep, and harmful habits (e.g. smoking, drinking).
-    </p>
+    content: (
+      <p>
+        Discover the core aspects of mental health, why it matters, and practical ways to enhance it every day.
+      </p>
+    ),
+    fullContent: (
+      <>
+        <p className="mb-4">
+          <strong>What is mental health?</strong><br />
+          Mental health is not merely the absence of mental illness; it's a state of well-being in which an individual realizes their abilities, copes with normal life stresses, works productively, and contributes to their community.
+        </p>
+        <p className="mb-4">
+          <strong>Why is it important?</strong><br />
+          Good mental health improves our relationships, performance at work or school, physical health, and overall quality of life. Poor mental health can lead to disorders like depression, anxiety, and even chronic illnesses.
+        </p>
+        <p className="mb-4">
+          <strong>How to improve it:</strong><br />
+          - Practice mindfulness and meditation.<br />
+          - Build a strong social network.<br />
+          - Exercise regularly and maintain a healthy diet.<br />
+          - Seek professional help when needed.
+        </p>
+        <p>
+          <a href="https://www.who.int/news-room/fact-sheets/detail/mental-health-strengthening-our-response" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
+            WHO – Mental Health Factsheet
+          </a>
+        </p>
+      </>
+    )
   },
   {
     id: 2,
     img: "src/assests1/Blog/tinhthan_tram_cam_la_gi_dau_hieu_nguyen_nhan_va_cach_dieu_tri_1_362aee6ea8.jpg",
     headlines: "What is Depression? Signs, Causes and Treatment",
-    content: "Depression is one of the most common mental health conditions worldwide, yet it is often underestimated or abused due to misunderstandings.",
-    fullContent: <p>
-      What is depression?
-      Depression is a common mental disorder that affects a person's mood, energy, interest, and functioning. Depression can occur at any age, but is most common between the ages of 18 and 45.
-      Depression can be caused by a variety of factors, including genetics, stress, life events, hormonal disorders, physical illness, and substance abuse. Depression can be divided into different types, depending on the severity, duration, and cause of the illness.
-    </p>
+    content: "Understand depression: one of the most common mental disorders, yet often misunderstood or overlooked.",
+    fullContent: (
+      <>
+        <p className="mb-4">
+          Depression is a complex mental health condition that affects how you feel, think, and handle daily activities.
+        </p>
+        <p className="mb-4">
+          <strong>Common signs include:</strong><br />
+          - Persistent sadness or low mood<br />
+          - Fatigue, low energy<br />
+          - Difficulty concentrating<br />
+          - Changes in appetite or sleep<br />
+          - Feelings of guilt or hopelessness
+        </p>
+        <p className="mb-4">
+          <strong>Causes:</strong><br />
+          Depression can result from a combination of genetic, biological, environmental, and psychological factors.
+        </p>
+        <p className="mb-4">
+          <strong>Treatment options:</strong><br />
+          - Psychotherapy (Cognitive Behavioral Therapy, Talk Therapy)<br />
+          - Medication (Antidepressants)<br />
+          - Lifestyle changes (exercise, social engagement, nutrition)
+        </p>
+        <p>
+          <a href="https://www.nimh.nih.gov/health/topics/depression" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
+            NIMH – Understanding Depression
+          </a>
+        </p>
+      </>
+    )
   },
   {
-    id: 2,
+    id: 3,
     img: "src/assests1/Blog/two-friendsholding-hands-in-a-coffee-shop-.jpg",
-    headlines: "How do I know if they have depression?",
-    content: "The first step is to understand what depression is and what are the signs and symptoms. Major depressive disorder is different from the average person’s low moods, which fluctuate in response to the ups and downs of daily life. Unlike general low moods or mood shifts, depression involves a loss of pleasure or interest in activities and low moods for a prolonged period",
-    fullContent: <p>
-      The first step is to understand what depression is and what are the signs and symptoms. Major depressive disorder is different from the average person’s low moods, which fluctuate in response to the ups and downs of daily life. Unlike general low moods or mood shifts, depression involves a loss of pleasure or interest in activities and low moods for a prolonged period. It will usually affect all different aspects of a person’s life, from sleep, appetite, libido, relationships, work, self-worth, motivation, to life administration. You can read more in our posts on a comprehensive list of common signs your partner could have depression, as well as how to identify more easily overlooked signs of depression.
-It’s important to be able to identify these signs in our loved ones as depression can make someone think, feel, and behave in a way that is not typically them. It can be helpful if you lower your expectations of your loved one. They are going through a lot, more than you can likely comprehend, so they are not functioning at full capacity
-    </p>
+    headlines: "How Do I Know If They Have Depression?",
+    content: "Learn how to recognize signs of depression in your loved ones and how to support them compassionately.",
+    fullContent: (
+      <>
+        <p className="mb-4">
+          Depression doesn't always look like sadness. Sometimes, it's silence, withdrawal, or simply "not being themselves."
+        </p>
+        <p className="mb-4">
+          <strong>Key signs include:</strong><br />
+          - Withdrawal from social interaction<br />
+          - Loss of interest in things they once enjoyed<br />
+          - Irritability or unusual emotional reactions<br />
+          - Poor sleep, eating changes
+        </p>
+        <p className="mb-4">
+          <strong>How to help:</strong><br />
+          - Approach with empathy and without judgment<br />
+          - Encourage them to talk or seek help<br />
+          - Be patient — recovery is not linear
+        </p>
+        <p>
+          <a href="https://www.healthline.com/health/depression/helping-someone-with-depression" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
+            Healthline – Supporting a Loved One With Depression
+          </a>
+        </p>
+      </>
+    )
   },
   {
-    id: 2,
+    id: 4,
     img: "src/assests1/Blog/sixteen-miles-out-odfefv-y2v0-unsplash-1800x1473.jpg",
-    headlines: "Help, I Need a Social Anxiety Psychologist!",
-    content: "We all get a little nervous, anxious, or shy in social situations, particularly if we have to do something challenging like make a big speech in front of a room of people. Scary, right?! Like a lot of things, anxiety in social situations can occur on a spectrum.",
-    fullContent: <p>
-      Social Anxiety Disorder Criteria
-There are a few main factors that indicate social anxiety disorder, otherwise known as SAD.
-The main indicator is the presence of a persistent fear that you will be judged negatively by others.
-Understandably so, this can lead to avoiding situations that may trigger this fear, usually meaning the person avoids social situations.
-Due to this fear, there is a high level of anxiety felt – this is usually out of proportion to the situation.
-The fear and anxiety have a significant impact on your day-to-day living.
-    </p>
+    headlines: "Help! I Need a Social Anxiety Psychologist!",
+    content: "Understand the spectrum of social anxiety and when it’s time to get help from a professional.",
+    fullContent: (
+      <>
+        <p className="mb-4">
+          It's normal to feel nervous in social settings, but if fear of judgment causes you to avoid interaction entirely, it may be social anxiety disorder.
+        </p>
+        <p className="mb-4">
+          <strong>Core symptoms include:</strong><br />
+          - Intense fear of social situations<br />
+          - Avoidance of group settings<br />
+          - Physical symptoms like sweating, shaking, nausea<br />
+          - Worrying for days or weeks before an event
+        </p>
+        <p className="mb-4">
+          <strong>Treatment options:</strong><br />
+          - Cognitive Behavioral Therapy (CBT)<br />
+          - Exposure therapy<br />
+          - Anti-anxiety medications
+        </p>
+        <p>
+          <a href="https://adaa.org/understanding-anxiety/social-anxiety-disorder" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
+            ADAA – Social Anxiety Overview
+          </a>
+        </p>
+      </>
+    )
   },
 ];
+
 
 export default function BlogBrowser() {
   const [selectedBlog, setSelectedBlog] = useState(null);

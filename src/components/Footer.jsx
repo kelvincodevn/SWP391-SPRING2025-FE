@@ -17,10 +17,10 @@ const Footer = () => {
         <div className="mb-6 md:mb-0">
           <h2 className="font-medium text-lg pb-3 text-blue-800">Quick Navigation</h2>
           <nav className="flex flex-col gap-2 text-sm">
-            <Link to="about" spy={true} smooth={true} duration={500} className="hover:text-blue-600 cursor-pointer">About Us</Link>
-            <Link to="services" spy={true} smooth={true} duration={500} className="hover:text-blue-600 cursor-pointer">Our Services</Link>
-            <Link to="psychologist" spy={true} smooth={true} duration={500} className="hover:text-blue-600 cursor-pointer">Our Specialists</Link>
-            <Link to="blog" spy={true} smooth={true} duration={500} className="hover:text-blue-600 cursor-pointer">Health Blog</Link>
+            <Link to="/about" spy={true} smooth={true} duration={500} className="hover:text-blue-600 cursor-pointer">About Us</Link>
+            <Link to="/services" spy={true} smooth={true} duration={500} className="hover:text-blue-600 cursor-pointer">Our Services</Link>
+            <Link to="/psychologist" spy={true} smooth={true} duration={500} className="hover:text-blue-600 cursor-pointer">Our Specialists</Link>
+            <Link to="/blog" spy={true} smooth={true} duration={500} className="hover:text-blue-600 cursor-pointer">Health Blog</Link>
           </nav>
         </div>
 
@@ -28,10 +28,10 @@ const Footer = () => {
         <div className="mb-6 md:mb-0">
           <h2 className="font-medium text-lg pb-3 text-blue-800">Clinical Services</h2>
           <nav className="flex flex-col gap-2 text-sm">
-            <Link to="services" spy={true} smooth={true} duration={500} className="hover:text-blue-600 cursor-pointer">Psychiatric Evaluation</Link>
-            <Link to="services" spy={true} smooth={true} duration={500} className="hover:text-blue-600 cursor-pointer">Individual Therapy</Link>
-            <Link to="services" spy={true} smooth={true} duration={500} className="hover:text-blue-600 cursor-pointer">Family Counseling</Link>
-            <Link to="services" spy={true} smooth={true} duration={500} className="hover:text-blue-600 cursor-pointer">Crisis Intervention</Link>
+            <Link to="/services" spy={true} smooth={true} duration={500} className="hover:text-blue-600 cursor-pointer">Psychiatric Evaluation</Link>
+            <Link to="/services" spy={true} smooth={true} duration={500} className="hover:text-blue-600 cursor-pointer">Individual Therapy</Link>
+            <Link to="/services" spy={true} smooth={true} duration={500} className="hover:text-blue-600 cursor-pointer">Family Counseling</Link>
+            <Link to="/services" spy={true} smooth={true} duration={500} className="hover:text-blue-600 cursor-pointer">Crisis Intervention</Link>
           </nav>
         </div>
 
