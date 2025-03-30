@@ -18,7 +18,7 @@ const BookingSuccessfully = () => {
 
   // Hàm điều hướng
   const handleCheckBooking = () => {
-    navigate("/user-dashboard"); // Navigate đến trang dashboard để xem danh sách booking
+    navigate("/student-dashboard"); // Navigate đến trang dashboard để xem danh sách booking
   };
 
   const handleBackToHome = () => {

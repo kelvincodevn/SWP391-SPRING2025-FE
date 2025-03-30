@@ -74,7 +74,6 @@ import AppointmentTest from "./components/appointment/AppointmentTest.jsx";
 import AppointmentFormTest from "./components/appointment/AppointmentFormTest.jsx";
 import ConfirmationPageTest from "./components/appointment/ConfirmationPageTest.jsx";
 import BookingSuccessfully from "./components/appointment/BookingSuccessfully.jsx";
-import { toast } from "react-toastify";
 import TestResultPage from "./pages/testpage/TestResultPage.jsx";
 import StudentOverview from "./pages/student/student-overview.jsx";
 import StudentTestHistory from "./pages/student/student-testhistory.jsx";
@@ -82,6 +81,8 @@ import StudentBooking from "./pages/student/student-booking.jsx";
 import StudentAssociate from "./pages/student/student-associate.jsx";
 import ParentAssociate from "./pages/parent/parent-associate.jsx";
 import ParentOverview from "./pages/parent/parent-overview.jsx";
+import SurveyPage from "./pages/survey/SurveyPage.jsx";
+import StudentSurveyHistory from "./pages/student/student-survey.jsx";
 // import Appointment1 from "./pages/appointment/Appointment1.jsx";
 // import BookingForm from "./pages/appointment/AppointmentForm.jsx";
 // import Confirmation from "./pages/appointment/Confirm.jsx";
@@ -134,6 +135,7 @@ const App = () => {
           <Route path="/resources" element={<MentalHealthResources />} />
           <Route path="/surveymanage" element={<TestManagementSystem />} />
           <Route path="/surveytest" element={<Survey />} />
+          <Route path="/survey" element={<SurveyPage />} />
           <Route path="/seminar" element={<MentalHealthSeminar />} />
           <Route path="/blog" element={<Blogs />} />
           {/* <Route path="/profile" element={<UserProfile2 />} /> */}
@@ -235,6 +237,7 @@ const App = () => {
           >
             <Route path="overview" element={<StudentOverview />} />
             <Route path="tests" element={<StudentTestHistory />} />
+            <Route path="survey" element={<StudentSurveyHistory />} />
             <Route path="booking" element={<StudentBooking />} />
             <Route path="associate" element={<StudentAssociate />} />
             {/* <Route path="profile" element={<ManagerProfile1 />} />

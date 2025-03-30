@@ -1,49 +1,83 @@
 import { toast } from "react-toastify";
 import api from "../config/axios";
 
-// Get all surveys
-export const getSurvey = async () => {
+export const createSurvey = async (surveyData) => {
     try {
-        const response = await api.get("/api/manager/surveys");
+        const response = await api.post("/api/manager/survey/create", surveyData);
+        toast.success("Survey created successfully");
         return response.data;
     } catch (error) {
-        handleApiError(error, "fetching surveys");
-        return null;
+        const errorMsg = error.response?.data || "Failed to create survey";
+        toast.error(errorMsg);
+        throw new Error(errorMsg);
     }
 };
 
-// Create a survey and send it to emails
-export const createAndSendSurvey = async (survey) => {
+export const updateSurvey = async (id, surveyData) => {
     try {
-        const response = await api.post("/api/manager/survey/send", survey);
-
-        toast.success("Survey emails sent successfully.");
+        const response = await api.put(`/api/manager/survey/${id}`, surveyData);
+        toast.success("Survey updated successfully");
         return response.data;
     } catch (error) {
-        handleApiError(error, "creating and sending survey");
-        return null;
+        const errorMsg = error.response?.data || "Failed to update survey";
+        toast.error(errorMsg);
+        throw new Error(errorMsg);
     }
 };
 
-// Delete a survey
 export const deleteSurvey = async (id) => {
     try {
-        const response = await api.delete(`/api/manager/surveys/${id}`);
-
+        const response = await api.delete(`/api/manager/survey/${id}`);
         toast.success("Survey deleted successfully");
         return response.data;
     } catch (error) {
-        handleApiError(error, "deleting survey");
-        return null;
+        const errorMsg = error.response?.data || "Failed to delete survey";
+        toast.error(errorMsg);
+        throw new Error(errorMsg);
     }
 };
 
-// Helper function to handle API errors consistently
-const handleApiError = (error, operation) => {
-    if (error.response && error.response.data) {
-        toast.error(error.response.data);
-    } else {
-        toast.error(`An error occurred while ${operation}.`);
-        console.error(`Error ${operation}:`, error);
+export const getAllSurveys = async () => {
+    try {
+        const response = await api.get("/api/manager/survey");
+        return response.data;
+    } catch (error) {
+        const errorMsg = error.response?.data || "Failed to fetch surveys";
+        toast.error(errorMsg);
+        throw new Error(errorMsg);
+    }
+};
+
+export const getActiveSurveys = async () => {
+    try {
+        const response = await api.get("/api/user/survey/active");
+        return response.data;
+    } catch (error) {
+        const errorMsg = error.response?.data || "Failed to fetch active surveys";
+        toast.error(errorMsg);
+        throw new Error(errorMsg);
+    }
+};
+
+export const submitSurveyResponse = async (id, responseData) => {
+    try {
+        const response = await api.post(`/api/user/survey/${id}/submit`, responseData);
+        toast.success("Survey submitted successfully");
+        return response.data;
+    } catch (error) {
+        const errorMsg = error.response?.data || "Failed to submit survey";
+        toast.error(errorMsg);
+        throw new Error(errorMsg);
+    }
+};
+
+export const getUserSurveyHistory = async () => {
+    try {
+        const response = await api.get("/api/user/survey/history");
+        return response.data;
+    } catch (error) {
+        const errorMsg = error.response?.data || "Failed to fetch survey history";
+        toast.error(errorMsg);
+        throw new Error(errorMsg);
     }
 };

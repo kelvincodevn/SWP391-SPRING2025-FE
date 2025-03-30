@@ -1,317 +1,27 @@
-// import React, { useEffect, useState } from 'react';
-// import { Button, Form, Input, Modal, Table, Image } from 'antd';
-// import { useForm } from 'antd/es/form/Form';
-// import { toast } from 'react-toastify';
-// import { createSurvey, deleteSurvey, getSurvey } from '../../services/api.survey'; // Import survey API functions
-
-// function ManageSurvey() {
-//     const [surveys, setSurveys] = useState([]);
-//     const [open, setOpen] = useState(false);
-//     const [form] = useForm();
-//     const [editingSurvey, setEditingSurvey] = useState(null);
-
-//     const fetchSurveys = async () => {
-//         const data = await getSurvey();
-//         setSurveys(data);
-//     };
-
-//     useEffect(() => {
-//         fetchSurveys();
-//     }, []);
-
-//     const columns = [
-//         {
-//             title: "Survey ID",
-//             dataIndex: "id",
-//             key: "id",
-//         },
-//         {
-//             title: "Survey Name",
-//             dataIndex: "title",
-//             key: "title",
-//         },
-//         {
-//             title: "Survey Description",
-//             dataIndex: "description",
-//             key: "description",
-//         },
-//         {
-//             title: "Survey Image",
-//             dataIndex: "image",
-//             key: "image",
-//             render: (image) => (
-//                 image ? <Image width={50} height={50} src={image} /> : "No Image"
-//             ),
-//         },
-//         {
-//             title: "Action",
-//             key: "action",
-//             render: (text, record) => (
-//                 <>
-//                     <Button type="primary" onClick={() => handleEdit(record)}>
-//                         Edit
-//                     </Button>
-//                     <Button danger style={{ marginLeft: '8px' }} onClick={() => handleDelete(record.id)}>
-//                         Delete
-//                     </Button>
-//                 </>
-//             ),
-//         },
-//     ];
-
-//     const handleEdit = (survey) => {
-//         setEditingSurvey(survey);
-//         form.setFieldsValue(survey);
-//         setOpen(true);
-//     };
-
-//     const handleDelete = async (id) => {
-//         try {
-//             await deleteSurvey(id);
-//             toast.success("Survey deleted successfully");
-//             fetchSurveys();
-//         } catch (error) {
-//             console.error("Error deleting survey:", error);
-//             toast.error("Failed to delete survey.");
-//         }
-//     };
-
-//     const handleSubmit = async (formValues) => {
-//         try {
-//             if (editingSurvey) {
-//                 await createSurvey(formValues, editingSurvey.id);
-//                 toast.success("Survey updated successfully");
-//                 setEditingSurvey(null);
-//             } else {
-//                 await createSurvey(formValues);
-//                 toast.success("Survey created successfully");
-//             }
-
-//             setOpen(false);
-//             form.resetFields();
-//             fetchSurveys();
-//         } catch (error) {
-//             console.error("Error creating/updating survey:", error);
-//             toast.error("Failed to create/update survey. Please check the form and try again.");
-//         }
-//     };
-
-//     return (
-//         <div>
-//             <Button type="primary" onClick={() => { setOpen(true); setEditingSurvey(null); form.resetFields(); }}>
-//                 Create new survey
-//             </Button>
-//             <Table dataSource={surveys} columns={columns} />
-
-//             <Modal
-//                 title={editingSurvey ? "Edit Survey" : "Create Survey"}
-//                 open={open}
-//                 onCancel={() => { setOpen(false); setEditingSurvey(null); form.resetFields(); }}
-//                 onOk={() => form.submit()}
-//             >
-//                 <Form
-//                     labelCol={{ span: 24 }}
-//                     form={form}
-//                     onFinish={handleSubmit}
-//                 >
-//                     <Form.Item label="Survey Name" name="name" rules={[{ required: true, message: "Name is required" }]}>
-//                         <Input />
-//                     </Form.Item>
-
-//                     <Form.Item label="Survey Description" name="description" rules={[{ required: true, message: "Description is required" }]}>
-//                         <Input.TextArea />
-//                     </Form.Item>
-
-//                     <Form.Item label="Survey Image URL" name="image">
-//                         <Input />
-//                     </Form.Item>
-//                     {/* Add other relevant form items for surveys */}
-
-//                 </Form>
-//             </Modal>
-//         </div>
-//     );
-// }
-
-// export default ManageSurvey;
-
-// import React, { useEffect, useState } from 'react';
-// import { Button, Form, Input, Modal, Table } from 'antd';
-// import { useForm } from 'antd/es/form/Form';
-// import { toast } from 'react-toastify';
-// import { createAndSendSurvey, deleteSurvey, getSurvey } from '../../services/api.survey';
-
-// function ManageSurvey() {
-//     const [surveys, setSurveys] = useState([]);
-//     const [open, setOpen] = useState(false);
-//     const [form] = useForm();
-//     const [editingSurvey, setEditingSurvey] = useState(null);
-
-//     const fetchSurveys = async () => {
-//         const data = await getSurvey();
-//         setSurveys(data);
-//     };
-
-//     useEffect(() => {
-//         fetchSurveys();
-//     }, []);
-
-//     const columns = [
-//         {
-//             title: "Survey ID",
-//             dataIndex: "id",
-//             key: "id",
-//         },
-//         {
-//             title: "Survey Name",
-//             dataIndex: "title",
-//             key: "title",
-//         },
-//         {
-//             title: "Survey Description",
-//             dataIndex: "description",
-//             key: "description",
-//         },
-//         {
-//             title: "Action",
-//             key: "action",
-//             render: (text, record) => (
-//                 <>
-//                     <Button type="primary" onClick={() => handleEdit(record)}>
-//                         Edit
-//                     </Button>
-//                     {/* <Button danger style={{ marginLeft: '8px' }} onClick={() => handleDelete(record.id)}>
-//                         Delete
-//                     </Button> */}
-//                     {/* <Button type="primary" style={{ marginLeft: '8px' }} onClick={() => handleCreate(record)}>
-//                         Create
-//                     </Button> */}
-//                 </>
-//             ),
-//         },
-//     ];
-
-//     const handleEdit = (survey) => {
-//         setEditingSurvey(survey);
-//         form.setFieldsValue(survey);
-//         setOpen(true);
-//     };
-
-//     const handleDelete = async (id) => {
-//         try {
-//             await deleteSurvey(id);
-//             toast.success("Survey deleted successfully");
-//             fetchSurveys();
-//         } catch (error) {
-//             console.error("Error deleting survey:", error);
-//             toast.error("Failed to delete survey.");
-//         }
-//     };
-
-//     const handleCreate = (survey) => {
-//         setEditingSurvey(survey);
-//         form.resetFields();
-//         setOpen(true);
-//     };
-
-//     const handleSubmit = async (formValues) => {
-//         try {
-//             const emailsArray = formValues.emails.split(',').map(email => email.trim());
-
-//             const requestBody = {
-//                 title: formValues.title,
-//                 description: formValues.description,
-//                 surveyLink: formValues.surveyLink,
-//                 emails: emailsArray,
-//             };
-
-//             const response = await createAndSendSurvey(requestBody);
-//             if (response === "Survey emails sent successfully.") {
-//                 toast.success(response);
-//                 setOpen(false);
-//                 form.resetFields();
-//                 fetchSurveys();
-//             } else {
-//                 toast.error("Failed to create/send survey. Please check the form and try again.");
-//             }
-//         } catch (error) {
-//             console.error("Error creating/sending survey:", error);
-//             toast.error("Failed to create/send survey. Please check the form and try again.");
-//         }
-//     };
-
-//     return (
-//         <div>
-//             <Button type="primary" onClick={() => { setOpen(true); setEditingSurvey(null); form.resetFields(); }}>
-//                 Create new survey
-//             </Button>
-//             <Table dataSource={surveys} columns={columns} />
-
-//             <Modal
-//                 title={editingSurvey ? "Edit Survey" : "Create Survey"}
-//                 open={open}
-//                 onCancel={() => { setOpen(false); setEditingSurvey(null); form.resetFields(); }}
-//                 onOk={() => form.submit()}
-//             >
-//                 <Form
-//                     labelCol={{ span: 24 }}
-//                     form={form}
-//                     onFinish={handleSubmit}
-//                 >
-//                     <Form.Item label="Survey Name" name="title" rules={[{ required: true, message: "Name is required" }]}>
-//                         <Input />
-//                     </Form.Item>
-
-//                     <Form.Item label="Survey Description" name="description" rules={[{ required: true, message: "Description is required" }]}>
-//                         <Input.TextArea />
-//                     </Form.Item>
-
-//                     <Form.Item label="Survey Link" name="surveyLink" rules={[{ required: true, message: "Survey Link is required" }]}>
-//                         <Input />
-//                     </Form.Item>
-
-//                     <Form.Item label="Emails (comma-separated)" name="emails" rules={[{ required: true, message: "Emails are required" }]}>
-//                         <Input />
-//                     </Form.Item>
-//                 </Form>
-//             </Modal>
-//         </div>
-//     );
-// }
-
-// export default ManageSurvey;
-
 import React, { useEffect, useState, useCallback } from 'react';
-import { Button, Form, Input, Modal, Table, Spin, Alert, Typography, Space } from 'antd';
+import { Button, Form, Input, Modal, Table, Spin, Select, DatePicker } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { toast } from 'react-toastify';
-import { createAndSendSurvey, deleteSurvey, getSurvey } from '../../services/api.survey';
+import { createSurvey, updateSurvey, deleteSurvey, getAllSurveys } from '../../services/api.survey';
+import moment from 'moment';
 
-const { Title, Text } = Typography;
+const { Option } = Select;
 
 function ManageSurvey() {
     const [surveys, setSurveys] = useState([]);
-    const [open, setOpen] = useState(false); // Modal cho Create/Edit Survey
-    const [form] = Form.useForm();
+    const [open, setOpen] = useState(false);
+    const [form] = useForm();
     const [editingSurvey, setEditingSurvey] = useState(null);
-    const [loading, setLoading] = useState(false); // Loading cho danh sách surveys
-    const [actionLoading, setActionLoading] = useState(false); // Loading cho các hành động (create, update)
-    const [error, setError] = useState(null); // Lưu lỗi nếu có
+    const [loading, setLoading] = useState(false);
+    const [actionLoading, setActionLoading] = useState(false);
 
-    // Hàm lấy danh sách surveys
     const fetchSurveys = useCallback(async () => {
         setLoading(true);
-        setError(null);
         try {
-            const data = await getSurvey();
-            if (data) {
-                setSurveys(data);
-            } else {
-                setError("Failed to load surveys. Please try again later.");
-            }
+            const data = await getAllSurveys();
+            setSurveys(data);
         } catch (error) {
-            setError("An error occurred while fetching surveys.");
-            console.error("Error fetching surveys:", error);
+            console.error(error);
         } finally {
             setLoading(false);
         }
@@ -322,34 +32,18 @@ function ManageSurvey() {
     }, [fetchSurveys]);
 
     const columns = [
+        { title: 'ID', dataIndex: 'id', key: 'id' },
+        { title: 'Title', dataIndex: 'title', key: 'title' },
+        { title: 'Status', dataIndex: 'status', key: 'status' },
+        { title: 'Schedule Type', dataIndex: 'scheduleType', key: 'scheduleType' },
         {
-            title: "Survey ID",
-            dataIndex: "id",
-            key: "id",
-        },
-        {
-            title: "Survey Name",
-            dataIndex: "title",
-            key: "title",
-        },
-        {
-            title: "Survey Description",
-            dataIndex: "description",
-            key: "description",
-        },
-        {
-            title: "Action",
-            key: "action",
-            render: (text, record) => (
-                <Space>
-                    <Button
-                        type="primary"
-                        onClick={() => handleEdit(record)}
-                        disabled={actionLoading}
-                    >
-                        Edit
-                    </Button>
-                </Space>
+            title: 'Action',
+            key: 'action',
+            render: (_, record) => (
+                <>
+                    <Button onClick={() => handleEdit(record)}>Edit</Button>
+                    <Button danger onClick={() => handleDelete(record.id)}>Delete</Button>
+                </>
             ),
         },
     ];
@@ -359,134 +53,142 @@ function ManageSurvey() {
         form.setFieldsValue({
             title: survey.title,
             description: survey.description,
-            surveyLink: survey.surveyLink,
-            emails: survey.emails ? survey.emails.join(", ") : "",
+            scheduleType: survey.scheduleType,
+            startTime: survey.startTime ? moment(survey.startTime) : null,
+            endTime: survey.endTime ? moment(survey.endTime) : null,
+            recurrenceInterval: survey.recurrenceInterval,
+            questions: survey.questions.map(q => ({
+                questionText: q.questionText,
+                questionType: q.questionType,
+                options: q.options ? JSON.parse(q.options) : [],
+            })),
         });
         setOpen(true);
     };
 
-    const handleSubmit = useCallback(async (formValues) => {
+    const handleDelete = async (id) => {
         setActionLoading(true);
         try {
-            // Kiểm tra định dạng email
-            const emailsArray = formValues.emails.split(',').map(email => email.trim());
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            const invalidEmails = emailsArray.filter(email => !emailRegex.test(email));
-            if (invalidEmails.length > 0) {
-                toast.error(`Invalid email format: ${invalidEmails.join(", ")}`);
-                return;
-            }
-
-            const requestBody = {
-                title: formValues.title,
-                description: formValues.description,
-                surveyLink: formValues.surveyLink,
-                emails: emailsArray,
-            };
-
-            const response = await createAndSendSurvey(requestBody);
-            if (response === "Survey emails sent successfully.") {
-                toast.success(response);
-                setOpen(false);
-                form.resetFields();
-                setEditingSurvey(null);
-                fetchSurveys();
-            } else {
-                toast.error("Failed to create/send survey. Please check the form and try again.");
-            }
+            await deleteSurvey(id);
+            fetchSurveys();
         } catch (error) {
-            console.error("Error creating/sending survey:", error);
-            toast.error("Failed to create/send survey. Please check the form and try again.");
+            console.error(error);
         } finally {
             setActionLoading(false);
         }
-    }, [fetchSurveys, form]);
+    };
+
+    const handleSubmit = async (values) => {
+        setActionLoading(true);
+        const surveyData = {
+            title: values.title,
+            description: values.description,
+            scheduleType: values.scheduleType,
+            startTime: values.startTime?.toISOString(),
+            endTime: values.endTime?.toISOString(),
+            recurrenceInterval: values.recurrenceInterval,
+            questions: values.questions.map(q => ({
+                questionText: q.questionText,
+                questionType: q.questionType,
+                options: q.options ? q.options.split(',').map(opt => opt.trim()) : null,
+            })),
+        };
+
+        try {
+            if (editingSurvey) {
+                await updateSurvey(editingSurvey.id, surveyData);
+            } else {
+                await createSurvey(surveyData);
+            }
+            setOpen(false);
+            form.resetFields();
+            setEditingSurvey(null);
+            fetchSurveys();
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setActionLoading(false);
+        }
+    };
 
     return (
-        <div className="p-8 bg-gray-50 min-h-screen">
-            <Title level={2} className="mb-8 text-center">
-                Manage Surveys
-            </Title>
-
-            {error && (
-                <Alert
-                    message={error}
-                    type="error"
-                    showIcon
-                    className="mb-6 max-w-2xl mx-auto"
-                />
+        <div className="p-8">
+            <Button type="primary" onClick={() => setOpen(true)}>Create Survey</Button>
+            {loading ? <Spin /> : (
+                <Table dataSource={surveys} columns={columns} rowKey="id" />
             )}
 
-            <Button
-                type="primary"
-                onClick={() => { setOpen(true); setEditingSurvey(null); form.resetFields(); }}
-                className="mb-4"
-                disabled={actionLoading}
-            >
-                Create New Survey
-            </Button>
-
-            {loading ? (
-                <div className="flex justify-center items-center h-64">
-                    <Spin tip="Loading surveys..." size="large" />
-                </div>
-            ) : (
-                <Table
-                    dataSource={surveys}
-                    columns={columns}
-                    rowKey="id"
-                    className="shadow-md rounded-lg"
-                    pagination={{ pageSize: 5 }}
-                    locale={{ emptyText: "No surveys found." }}
-                />
-            )}
-
-            {/* Modal for Create/Edit Survey */}
             <Modal
                 title={editingSurvey ? "Edit Survey" : "Create Survey"}
                 open={open}
-                onCancel={() => { setOpen(false); setEditingSurvey(null); form.resetFields(); }}
+                onCancel={() => setOpen(false)}
                 onOk={() => form.submit()}
                 okButtonProps={{ loading: actionLoading }}
-                cancelButtonProps={{ disabled: actionLoading }}
-                centered
             >
-                <Form
-                    labelCol={{ span: 24 }}
-                    form={form}
-                    onFinish={handleSubmit}
-                >
-                    <Form.Item
-                        label="Survey Name"
-                        name="title"
-                        rules={[{ required: true, message: "Survey name is required" }]}
-                    >
+                <Form form={form} onFinish={handleSubmit} layout="vertical">
+                    <Form.Item name="title" label="Title" rules={[{ required: true, message: 'Title is required' }]}>
                         <Input />
                     </Form.Item>
-
-                    <Form.Item
-                        label="Survey Description"
-                        name="description"
-                        rules={[{ required: true, message: "Description is required" }]}
-                    >
-                        <Input.TextArea rows={4} />
+                    <Form.Item name="description" label="Description">
+                        <Input.TextArea />
                     </Form.Item>
-
-                    <Form.Item
-                        label="Survey Link"
-                        name="surveyLink"
-                        rules={[{ required: true, message: "Survey link is required" }]}
-                    >
-                        <Input />
+                    <Form.Item name="scheduleType" label="Schedule Type" rules={[{ required: true, message: 'Schedule type is required' }]}>
+                        <Select>
+                            <Option value="ONE_TIME">One-Time</Option>
+                            <Option value="RECURRING">Recurring</Option>
+                        </Select>
                     </Form.Item>
-
-                    <Form.Item
-                        label="Emails (comma-separated)"
-                        name="emails"
-                        rules={[{ required: true, message: "Emails are required" }]}
-                    >
-                        <Input placeholder="email1@example.com, email2@example.com" />
+                    <Form.Item name="startTime" label="Start Time" rules={[{ required: true, message: 'Start time is required' }]}>
+                        <DatePicker showTime />
                     </Form.Item>
+                    <Form.Item name="endTime" label="End Time">
+                        <DatePicker showTime />
+                    </Form.Item>
+                    <Form.Item name="recurrenceInterval" label="Recurrence Interval">
+                        <Select allowClear>
+                            <Option value="MONTHLY">Monthly</Option>
+                            <Option value="WEEKLY">Weekly</Option>
+                        </Select>
+                    </Form.Item>
+                    <Form.List name="questions">
+                        {(fields, { add, remove }) => (
+                            <>
+                                {fields.map(({ key, name, ...restField }) => (
+                                    <div key={key} style={{ marginBottom: 16 }}>
+                                        <Form.Item
+                                            {...restField}
+                                            name={[name, 'questionText']}
+                                            label="Question Text"
+                                            rules={[{ required: true, message: 'Question text is required' }]}
+                                        >
+                                            <Input />
+                                        </Form.Item>
+                                        <Form.Item
+                                            {...restField}
+                                            name={[name, 'questionType']}
+                                            label="Question Type"
+                                            rules={[{ required: true, message: 'Question type is required' }]}
+                                        >
+                                            <Select>
+                                                <Option value="TEXT">Text</Option>
+                                                <Option value="MULTIPLE_CHOICE">Multiple Choice</Option>
+                                                <Option value="RATING">Rating</Option>
+                                            </Select>
+                                        </Form.Item>
+                                        <Form.Item
+                                            {...restField}
+                                            name={[name, 'options']}
+                                            label="Options (comma-separated)"
+                                        >
+                                            <Input placeholder="e.g., Yes, No" />
+                                        </Form.Item>
+                                        <Button danger onClick={() => remove(name)}>Remove</Button>
+                                    </div>
+                                ))}
+                                <Button onClick={() => add()}>Add Question</Button>
+                            </>
+                        )}
+                    </Form.List>
                 </Form>
             </Modal>
         </div>

@@ -72,16 +72,6 @@ export const getPsychologistBookings = async (psychologistId) => {
 //     }
 // };
 
-// Thêm hàm confirmBooking
-export const confirmBooking = async (bookingId) => {
-    try {
-        const response = await api.get(`/api/bookings/${bookingId}/confirm`);
-        return response.data;
-    } catch (error) {
-        toast.error(error.response?.data || "Failed to confirm booking");
-        return null;
-    }
-};
 
 // export const cancelBooking = async (userId, bookingId) => {
 //     try {
@@ -114,28 +104,6 @@ export const getBookingDetails = async (bookingId) => {
         return response.data;
     } catch (error) {
         toast.error(error.response?.data || "Failed to fetch booking details");
-        return null;
-    }
-};
-
-// Thay confirmBooking thành acceptBooking
-export const acceptBooking = async (psychologistId, bookingId) => {
-    try {
-        const response = await api.post(`/api/psychologist/bookings/${bookingId}/accept`);
-        return response.data;
-    } catch (error) {
-        toast.error(error.response?.data || "Failed to accept booking");
-        return null;
-    }
-};
-
-// Thay cancelBooking thành declineBooking
-export const declineBooking = async (psychologistId, bookingId) => {
-    try {
-        const response = await api.post(`/api/psychologist/bookings/${bookingId}/decline`);
-        return response.data;
-    } catch (error) {
-        toast.error(error.response?.data || "Failed to decline booking");
         return null;
     }
 };

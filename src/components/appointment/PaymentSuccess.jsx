@@ -139,7 +139,7 @@ const PaymentSuccess = () => {
       </div>
       <div className="text-center">
         <button
-          onClick={() => navigate("/user-dashboard/booking")}
+          onClick={() => navigate("/student-dashboard/booking")}
           className="bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-300"
         >
           Check Booking
