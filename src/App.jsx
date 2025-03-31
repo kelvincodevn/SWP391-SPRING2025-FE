@@ -52,6 +52,8 @@ import ManageProgram1 from "./pages/manager/manage-program1.jsx";
 import GeneralTestPage from "./pages/testpage/GeneralTestPage.jsx";
 import UserOverview from "./pages/user/user-overview.jsx";
 import UserNProfile from "./pages/user/user-profile.jsx";
+import UserProgram from "./pages/user/user-program.jsx";
+import ProgramDetail from "./pages/user/user-program-detail.jsx";
 
 import UserTestHistory from "./pages/user/user-testhistory.jsx";
 import ManageTestScore from "./pages/manager/manage-testscore.jsx";
@@ -111,7 +113,7 @@ const App = () => {
      "dashboard1", "/dashboard/test", "/dashboard/test-score", "/dashboard/survey", "/dashboard/user", "/dashboard/program", "/dashboard/program1",
     "/dashboard/overview", "/dashboard/profile", "/dashboard/client", "/dashboard/psychologist", "/workview/profile", "/workview/booking", "/workview/overview",
       "/workview/clients", "/user-dashboard/overview", "/user-dashboard/tests", "/payment-success", "/payment-callback", "/workview/slots", "/booking-successfully"
-    ,"/user-dashboard/booking"];
+    ,"/user-dashboard/booking", "/user-dashboard/program", "/user-dashboard/profile", "/user-dashboard/programdetail/:programId",];
 
   return (
     <>
@@ -231,6 +233,9 @@ const App = () => {
             <Route path="overview" element={<UserOverview />} />
             <Route path="tests" element={<UserTestHistory />} />
             <Route path="booking" element={<UserBooking />} />
+            <Route path="program" element={<UserProgram />} />
+            <Route path="programdetail/:programId" element={<ProgramDetail />} />
+            
             <Route path="profile" element={<UserNProfile />} />
             {/* <Route path="profile" element={<ManagerProfile1 />} />
             <Route path="user" element={<ManageUser />} />

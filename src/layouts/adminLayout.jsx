@@ -31,6 +31,8 @@ const items = [
   getItem('Test', 'test', <FileTextOutlined />),
   getItem('Test score', 'test-score', <FormOutlined />), // Added Test Score item
   getItem('Survey', 'survey', <FormOutlined />),
+  getItem('Program', 'program', <ProjectOutlined />),
+
 //   getItem('Program', 'program', <ProjectOutlined />),
   //thêm mấy cái item cho cái dashboard
 
