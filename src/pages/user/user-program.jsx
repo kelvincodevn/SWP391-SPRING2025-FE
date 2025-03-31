@@ -41,7 +41,7 @@ function UserProgram() {
   }, []);
 
   const handleDetailClick = (programId) => {
-    navigate(`/programdetail/${programId}`);
+    navigate(`/user-dashboard/programdetail/${programId}`);
   };
 
   return (
@@ -77,7 +77,7 @@ function UserProgram() {
                 {program.startDate} ➜ {program.endDate}
               </p>
               <button
-                onClick={() => handleDetailClick(program.programId)}
+                onClick={() => handleDetailClick(program.programID)}
                 className="mt-auto bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 flex items-center"
               >
                 <FaInfoCircle className="mr-1" />
