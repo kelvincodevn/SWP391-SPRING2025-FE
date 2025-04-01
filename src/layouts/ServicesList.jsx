@@ -3,6 +3,7 @@ import ServicesCard from "./ServicesCard";
 import { RiMicroscopeLine, RiPsychotherapyFill } from "react-icons/ri";
 import { MdHealthAndSafety, MdPsychology } from "react-icons/md";
 import { FaHeartbeat } from "react-icons/fa";
+import { FaRegCalendarAlt } from "react-icons/fa"; // New icon for the Program card
 
 const ServicesList = () => {
   return (
@@ -34,18 +35,25 @@ const ServicesList = () => {
             link="/resources"
           />
 
-          <ServicesCard
+          {/* <ServicesCard
             icon={<FaHeartbeat size={40} className="text-blue-700" />}
             title="Psychology Seminar"
             description="Join a seminar led by experts in mental health."
             link="/seminar"
-          />
+          /> */}
 
           <ServicesCard
             icon={<MdPsychology size={40} className="text-blue-700" />}
             title="Appointment"
             description="Book an appointment with our excellent psychologist"
             link="/appointment"
+          />
+
+          <ServicesCard
+            icon={<FaRegCalendarAlt size={40} className="text-blue-700" />}
+            title="Program"
+            description="Join our structured mental health programs tailored to your needs."
+            link="/programu"
           />
         </div>
       </div>

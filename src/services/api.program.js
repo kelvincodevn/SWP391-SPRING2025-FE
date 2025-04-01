@@ -66,3 +66,25 @@ const handleApiError = (error, operation) => {
         console.error(`Error ${operation}:`, error);
     }
 };
+
+// Get all programs for user
+export const getProgramsForUser = async () => {
+  try {
+    const response = await api.get("/api/user/program"); // Đảm bảo endpoint chính xác
+    return response.data; // Đảm bảo response trả về đúng định dạng
+  } catch (error) {
+    console.error("Error fetching programs for user:", error);
+    throw error;
+  }
+};
+
+// Get program details for user
+export const getProgramDetailsForUser = async (programId) => {
+    try {
+        const response = await api.get(`/api/user/program/${programId}`);
+        return response.data;
+    } catch (error) {
+        handleApiError(error, "fetching program details");
+        return null;
+    }
+};

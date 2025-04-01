@@ -50,7 +50,14 @@ import ManageProgram1 from "./pages/manager/manage-program1.jsx";
 // import ConfirmationPage from "./pages/appointment/Confirm.jsx";
 // import AppointmentForm from "./pages/appointment/AppointmentForm.jsx";
 import GeneralTestPage from "./pages/testpage/GeneralTestPage.jsx";
+<<<<<<< HEAD
 // import UserOverview from "./pages/user/user-overview.jsx";
+=======
+import UserOverview from "./pages/user/user-overview.jsx";
+import UserNProfile from "./pages/user/user-profile.jsx";
+import UserProgram from "./pages/user/user-program.jsx";
+import ProgramDetail from "./pages/user/user-program-detail.jsx";
+>>>>>>> quynh-hoa1
 
 // import UserTestHistory from "./pages/user/user-testhistory.jsx";
 import ManageTestScore from "./pages/manager/manage-testscore.jsx";
@@ -120,9 +127,15 @@ const App = () => {
   // Define routes where Navbar and Footer should be hidden
   const hideNavbarFooterRoutes = ["/register", "/register1", "/register2", "/login", "/profile", "/dashboard",
      "dashboard1", "/dashboard/test", "/dashboard/test-score", "/dashboard/survey", "/dashboard/user", "/dashboard/program", "/dashboard/program1",
+<<<<<<< HEAD
     "/dashboard/overview", "/dashboard/profile", "/dashboard/client", "/dashboard/psychologist", "/dashboard/survey-history", "/workview/profile", "/workview/booking", "/workview/overview",
       "/workview/clients", "/student-dashboard/overview", "/student-dashboard/profile", "/student-dashboard/tests", "/payment-success", "/payment-callback", "/workview/slots", "/booking-successfully"
     ,"/student-dashboard/booking", "/student-dashboard/associate", "/student-dashboard/survey", "/parent-dashboard/overview", "/parent-dashboard/associate", "/parent-dashboard/profile"];
+=======
+    "/dashboard/overview", "/dashboard/profile", "/dashboard/client", "/dashboard/psychologist", "/workview/profile", "/workview/booking", "/workview/overview",
+      "/workview/clients", "/user-dashboard/overview", "/user-dashboard/tests", "/payment-success", "/payment-callback", "/workview/slots", "/booking-successfully"
+    ,"/user-dashboard/booking", "/user-dashboard/program", "/user-dashboard/profile", "/user-dashboard/programdetail/:programId",];
+>>>>>>> quynh-hoa1
 
   return (
     <>
@@ -138,9 +151,11 @@ const App = () => {
           <Route path="/services" element={<Services />} />
           <Route path="/psychologist" element={<Psychologist />} />
           <Route path="/resources" element={<MentalHealthResources />} />
+          <Route path="/programu" element={<UserProgram />} />
+
           <Route path="/surveymanage" element={<TestManagementSystem />} />
           <Route path="/surveytest" element={<Survey />} />
-          <Route path="/seminar" element={<MentalHealthSeminar />} />
+          {/* <Route path="/seminar" element={<MentalHealthSeminar />} /> */}
           <Route path="/blog" element={<Blogs />} />
           {/* <Route path="/profile" element={<UserProfile2 />} /> */}
           {/* <Route path="/login" element={<LoginPage />} />
@@ -270,6 +285,12 @@ const App = () => {
             {/* <Route path="overview" element={<StudentOverview />} />
             <Route path="tests" element={<StudentTestHistory />} />
             <Route path="booking" element={<StudentBooking />} /> */}
+            <Route path="overview" element={<UserOverview />} />
+            <Route path="tests" element={<UserTestHistory />} />
+            <Route path="booking" element={<UserBooking />} />
+            <Route path="programdetail/:programId" element={<ProgramDetail />} />
+            
+            <Route path="profile" element={<UserNProfile />} />
             {/* <Route path="profile" element={<ManagerProfile1 />} />
             <Route path="user" element={<ManageUser />} />
             <Route path="test" element={<ManageTest />} />
