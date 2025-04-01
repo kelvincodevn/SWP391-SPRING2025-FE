@@ -1,309 +1,26 @@
-// import React, { useEffect, useState } from 'react';
-// import { Button, Form, Input, Modal, Table, Image } from 'antd';
-// import { useForm } from 'antd/es/form/Form';
-// import { toast } from 'react-toastify';
-// import { createSurvey, deleteSurvey, getSurvey } from '../../services/api.survey'; // Import survey API functions
-
-// function ManageSurvey() {
-//     const [surveys, setSurveys] = useState([]);
-//     const [open, setOpen] = useState(false);
-//     const [form] = useForm();
-//     const [editingSurvey, setEditingSurvey] = useState(null);
-
-//     const fetchSurveys = async () => {
-//         const data = await getSurvey();
-//         setSurveys(data);
-//     };
-
-//     useEffect(() => {
-//         fetchSurveys();
-//     }, []);
-
-//     const columns = [
-//         {
-//             title: "Survey ID",
-//             dataIndex: "id",
-//             key: "id",
-//         },
-//         {
-//             title: "Survey Name",
-//             dataIndex: "title",
-//             key: "title",
-//         },
-//         {
-//             title: "Survey Description",
-//             dataIndex: "description",
-//             key: "description",
-//         },
-//         {
-//             title: "Survey Image",
-//             dataIndex: "image",
-//             key: "image",
-//             render: (image) => (
-//                 image ? <Image width={50} height={50} src={image} /> : "No Image"
-//             ),
-//         },
-//         {
-//             title: "Action",
-//             key: "action",
-//             render: (text, record) => (
-//                 <>
-//                     <Button type="primary" onClick={() => handleEdit(record)}>
-//                         Edit
-//                     </Button>
-//                     <Button danger style={{ marginLeft: '8px' }} onClick={() => handleDelete(record.id)}>
-//                         Delete
-//                     </Button>
-//                 </>
-//             ),
-//         },
-//     ];
-
-//     const handleEdit = (survey) => {
-//         setEditingSurvey(survey);
-//         form.setFieldsValue(survey);
-//         setOpen(true);
-//     };
-
-//     const handleDelete = async (id) => {
-//         try {
-//             await deleteSurvey(id);
-//             toast.success("Survey deleted successfully");
-//             fetchSurveys();
-//         } catch (error) {
-//             console.error("Error deleting survey:", error);
-//             toast.error("Failed to delete survey.");
-//         }
-//     };
-
-//     const handleSubmit = async (formValues) => {
-//         try {
-//             if (editingSurvey) {
-//                 await createSurvey(formValues, editingSurvey.id);
-//                 toast.success("Survey updated successfully");
-//                 setEditingSurvey(null);
-//             } else {
-//                 await createSurvey(formValues);
-//                 toast.success("Survey created successfully");
-//             }
-
-//             setOpen(false);
-//             form.resetFields();
-//             fetchSurveys();
-//         } catch (error) {
-//             console.error("Error creating/updating survey:", error);
-//             toast.error("Failed to create/update survey. Please check the form and try again.");
-//         }
-//     };
-
-//     return (
-//         <div>
-//             <Button type="primary" onClick={() => { setOpen(true); setEditingSurvey(null); form.resetFields(); }}>
-//                 Create new survey
-//             </Button>
-//             <Table dataSource={surveys} columns={columns} />
-
-//             <Modal
-//                 title={editingSurvey ? "Edit Survey" : "Create Survey"}
-//                 open={open}
-//                 onCancel={() => { setOpen(false); setEditingSurvey(null); form.resetFields(); }}
-//                 onOk={() => form.submit()}
-//             >
-//                 <Form
-//                     labelCol={{ span: 24 }}
-//                     form={form}
-//                     onFinish={handleSubmit}
-//                 >
-//                     <Form.Item label="Survey Name" name="name" rules={[{ required: true, message: "Name is required" }]}>
-//                         <Input />
-//                     </Form.Item>
-
-//                     <Form.Item label="Survey Description" name="description" rules={[{ required: true, message: "Description is required" }]}>
-//                         <Input.TextArea />
-//                     </Form.Item>
-
-//                     <Form.Item label="Survey Image URL" name="image">
-//                         <Input />
-//                     </Form.Item>
-//                     {/* Add other relevant form items for surveys */}
-
-//                 </Form>
-//             </Modal>
-//         </div>
-//     );
-// }
-
-// export default ManageSurvey;
-
-// import React, { useEffect, useState } from 'react';
-// import { Button, Form, Input, Modal, Table } from 'antd';
-// import { useForm } from 'antd/es/form/Form';
-// import { toast } from 'react-toastify';
-// import { createAndSendSurvey, deleteSurvey, getSurvey } from '../../services/api.survey';
-
-// function ManageSurvey() {
-//     const [surveys, setSurveys] = useState([]);
-//     const [open, setOpen] = useState(false);
-//     const [form] = useForm();
-//     const [editingSurvey, setEditingSurvey] = useState(null);
-
-//     const fetchSurveys = async () => {
-//         const data = await getSurvey();
-//         setSurveys(data);
-//     };
-
-//     useEffect(() => {
-//         fetchSurveys();
-//     }, []);
-
-//     const columns = [
-//         {
-//             title: "Survey ID",
-//             dataIndex: "id",
-//             key: "id",
-//         },
-//         {
-//             title: "Survey Name",
-//             dataIndex: "title",
-//             key: "title",
-//         },
-//         {
-//             title: "Survey Description",
-//             dataIndex: "description",
-//             key: "description",
-//         },
-//         {
-//             title: "Action",
-//             key: "action",
-//             render: (text, record) => (
-//                 <>
-//                     <Button type="primary" onClick={() => handleEdit(record)}>
-//                         Edit
-//                     </Button>
-//                     {/* <Button danger style={{ marginLeft: '8px' }} onClick={() => handleDelete(record.id)}>
-//                         Delete
-//                     </Button> */}
-//                     {/* <Button type="primary" style={{ marginLeft: '8px' }} onClick={() => handleCreate(record)}>
-//                         Create
-//                     </Button> */}
-//                 </>
-//             ),
-//         },
-//     ];
-
-//     const handleEdit = (survey) => {
-//         setEditingSurvey(survey);
-//         form.setFieldsValue(survey);
-//         setOpen(true);
-//     };
-
-//     const handleDelete = async (id) => {
-//         try {
-//             await deleteSurvey(id);
-//             toast.success("Survey deleted successfully");
-//             fetchSurveys();
-//         } catch (error) {
-//             console.error("Error deleting survey:", error);
-//             toast.error("Failed to delete survey.");
-//         }
-//     };
-
-//     const handleCreate = (survey) => {
-//         setEditingSurvey(survey);
-//         form.resetFields();
-//         setOpen(true);
-//     };
-
-//     const handleSubmit = async (formValues) => {
-//         try {
-//             const emailsArray = formValues.emails.split(',').map(email => email.trim());
-
-//             const requestBody = {
-//                 title: formValues.title,
-//                 description: formValues.description,
-//                 surveyLink: formValues.surveyLink,
-//                 emails: emailsArray,
-//             };
-
-//             const response = await createAndSendSurvey(requestBody);
-//             if (response === "Survey emails sent successfully.") {
-//                 toast.success(response);
-//                 setOpen(false);
-//                 form.resetFields();
-//                 fetchSurveys();
-//             } else {
-//                 toast.error("Failed to create/send survey. Please check the form and try again.");
-//             }
-//         } catch (error) {
-//             console.error("Error creating/sending survey:", error);
-//             toast.error("Failed to create/send survey. Please check the form and try again.");
-//         }
-//     };
-
-//     return (
-//         <div>
-//             <Button type="primary" onClick={() => { setOpen(true); setEditingSurvey(null); form.resetFields(); }}>
-//                 Create new survey
-//             </Button>
-//             <Table dataSource={surveys} columns={columns} />
-
-//             <Modal
-//                 title={editingSurvey ? "Edit Survey" : "Create Survey"}
-//                 open={open}
-//                 onCancel={() => { setOpen(false); setEditingSurvey(null); form.resetFields(); }}
-//                 onOk={() => form.submit()}
-//             >
-//                 <Form
-//                     labelCol={{ span: 24 }}
-//                     form={form}
-//                     onFinish={handleSubmit}
-//                 >
-//                     <Form.Item label="Survey Name" name="title" rules={[{ required: true, message: "Name is required" }]}>
-//                         <Input />
-//                     </Form.Item>
-
-//                     <Form.Item label="Survey Description" name="description" rules={[{ required: true, message: "Description is required" }]}>
-//                         <Input.TextArea />
-//                     </Form.Item>
-
-//                     <Form.Item label="Survey Link" name="surveyLink" rules={[{ required: true, message: "Survey Link is required" }]}>
-//                         <Input />
-//                     </Form.Item>
-
-//                     <Form.Item label="Emails (comma-separated)" name="emails" rules={[{ required: true, message: "Emails are required" }]}>
-//                         <Input />
-//                     </Form.Item>
-//                 </Form>
-//             </Modal>
-//         </div>
-//     );
-// }
-
-// export default ManageSurvey;
-
 import React, { useEffect, useState, useCallback } from 'react';
-import { Button, Form, Input, Modal, Table, Spin, Alert, Typography, Space } from 'antd';
+import { Button, Form, Upload, Table, Spin, Modal, Alert, Typography, Card, Row, Col } from 'antd';
 import { useForm } from 'antd/es/form/Form';
+import { createSurveyFromExcel, getAllSurveys, getSurveyDetails } from '../../services/api.survey'; // Import getSurveyDetails
 import { toast } from 'react-toastify';
-import { createAndSendSurvey, deleteSurvey, getSurvey } from '../../services/api.survey';
 
 const { Title, Text } = Typography;
 
 function ManageSurvey() {
     const [surveys, setSurveys] = useState([]);
-    const [open, setOpen] = useState(false); // Modal cho Create/Edit Survey
-    const [form] = Form.useForm();
-    const [editingSurvey, setEditingSurvey] = useState(null);
-    const [loading, setLoading] = useState(false); // Loading cho danh sách surveys
-    const [actionLoading, setActionLoading] = useState(false); // Loading cho các hành động (create, update)
+    const [loading, setLoading] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false); // Trạng thái để điều khiển Modal Create Survey
+    const [viewDetailsModalOpen, setViewDetailsModalOpen] = useState(false); // Trạng thái để điều khiển Modal View Details
+    const [surveyDetails, setSurveyDetails] = useState(null); // Chi tiết survey
+    const [detailsLoading, setDetailsLoading] = useState(false); // Loading cho modal View Details
     const [error, setError] = useState(null); // Lưu lỗi nếu có
+    const [form] = useForm();
 
-    // Hàm lấy danh sách surveys
     const fetchSurveys = useCallback(async () => {
         setLoading(true);
         setError(null);
         try {
-            const data = await getSurvey();
+            const data = await getAllSurveys();
             if (data) {
                 setSurveys(data);
             } else {
@@ -321,86 +38,73 @@ function ManageSurvey() {
         fetchSurveys();
     }, [fetchSurveys]);
 
+    // Cập nhật cột hiển thị trong bảng, thêm cột Action
     const columns = [
-        {
-            title: "Survey ID",
-            dataIndex: "id",
-            key: "id",
-        },
-        {
-            title: "Survey Name",
-            dataIndex: "title",
-            key: "title",
-        },
-        {
-            title: "Survey Description",
-            dataIndex: "description",
-            key: "description",
-        },
+        { title: 'Survey ID', dataIndex: 'id', key: 'id' },
+        { title: 'Survey Name', dataIndex: 'surveyName', key: 'surveyName' },
+        { title: 'Description', dataIndex: 'surveyDescription', key: 'surveyDescription' },
         {
             title: "Action",
             key: "action",
             render: (text, record) => (
-                <Space>
+                <div style={{ display: "flex", gap: "8px" }}>
                     <Button
-                        type="primary"
-                        onClick={() => handleEdit(record)}
-                        disabled={actionLoading}
+                        onClick={() => handleViewDetails(record.id)}
+                        disabled={loading}
                     >
-                        Edit
+                        View Details
                     </Button>
-                </Space>
+                </div>
             ),
         },
     ];
 
-    const handleEdit = (survey) => {
-        setEditingSurvey(survey);
-        form.setFieldsValue({
-            title: survey.title,
-            description: survey.description,
-            surveyLink: survey.surveyLink,
-            emails: survey.emails ? survey.emails.join(", ") : "",
-        });
-        setOpen(true);
+    // Xử lý submit form tạo survey
+    const handleSubmit = async (values) => {
+        setLoading(true);
+        try {
+            const file = values.file.fileList[0].originFileObj;
+            await createSurveyFromExcel(file);
+            toast.success("Survey created successfully");
+            form.resetFields();
+            setIsModalOpen(false); // Đóng Modal sau khi submit thành công
+            fetchSurveys(); // Làm mới danh sách survey
+        } catch (error) {
+            console.error("Error creating survey:", error);
+            toast.error("Failed to create survey.");
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const handleSubmit = useCallback(async (formValues) => {
-        setActionLoading(true);
+    // Xử lý xem chi tiết survey, sử dụng getSurveyDetails từ api.survey.js
+    const handleViewDetails = async (surveyId) => {
+        setDetailsLoading(true);
+        setSurveyDetails(null); // Reset dữ liệu trước khi lấy mới
         try {
-            // Kiểm tra định dạng email
-            const emailsArray = formValues.emails.split(',').map(email => email.trim());
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            const invalidEmails = emailsArray.filter(email => !emailRegex.test(email));
-            if (invalidEmails.length > 0) {
-                toast.error(`Invalid email format: ${invalidEmails.join(", ")}`);
-                return;
-            }
-
-            const requestBody = {
-                title: formValues.title,
-                description: formValues.description,
-                surveyLink: formValues.surveyLink,
-                emails: emailsArray,
-            };
-
-            const response = await createAndSendSurvey(requestBody);
-            if (response === "Survey emails sent successfully.") {
-                toast.success(response);
-                setOpen(false);
-                form.resetFields();
-                setEditingSurvey(null);
-                fetchSurveys();
+            const details = await getSurveyDetails(surveyId);
+            if (details) {
+                setSurveyDetails(details);
+                setViewDetailsModalOpen(true);
             } else {
-                toast.error("Failed to create/send survey. Please check the form and try again.");
+                toast.error("No survey details found.");
             }
         } catch (error) {
-            console.error("Error creating/sending survey:", error);
-            toast.error("Failed to create/send survey. Please check the form and try again.");
+            console.error("Error fetching survey details:", error);
+            // Thông báo lỗi đã được xử lý trong getSurveyDetails, không cần toast thêm
         } finally {
-            setActionLoading(false);
+            setDetailsLoading(false);
         }
-    }, [fetchSurveys, form]);
+    };
+
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+        form.resetFields();
+    };
 
     return (
         <div className="p-8 bg-gray-50 min-h-screen">
@@ -417,14 +121,11 @@ function ManageSurvey() {
                 />
             )}
 
-            <Button
-                type="primary"
-                onClick={() => { setOpen(true); setEditingSurvey(null); form.resetFields(); }}
-                className="mb-4"
-                disabled={actionLoading}
-            >
-                Create New Survey
-            </Button>
+            <div className="mb-4">
+                <Button type="primary" onClick={showModal} disabled={loading}>
+                    Create Survey
+                </Button>
+            </div>
 
             {loading ? (
                 <div className="flex justify-center items-center h-64">
@@ -441,53 +142,113 @@ function ManageSurvey() {
                 />
             )}
 
-            {/* Modal for Create/Edit Survey */}
+            {/* Modal for Create Survey */}
             <Modal
-                title={editingSurvey ? "Edit Survey" : "Create Survey"}
-                open={open}
-                onCancel={() => { setOpen(false); setEditingSurvey(null); form.resetFields(); }}
-                onOk={() => form.submit()}
-                okButtonProps={{ loading: actionLoading }}
-                cancelButtonProps={{ disabled: actionLoading }}
+                title="Create New Survey"
+                open={isModalOpen}
+                onCancel={handleCancel}
+                footer={null}
                 centered
             >
-                <Form
-                    labelCol={{ span: 24 }}
-                    form={form}
-                    onFinish={handleSubmit}
-                >
+                <Form form={form} onFinish={handleSubmit} layout="vertical">
                     <Form.Item
-                        label="Survey Name"
-                        name="title"
-                        rules={[{ required: true, message: "Survey name is required" }]}
+                        name="file"
+                        label="Upload Survey Excel"
+                        rules={[{ required: true, message: 'Please upload an Excel file' }]}
                     >
-                        <Input />
+                        <Upload accept=".xlsx, .xls" maxCount={1}>
+                            <Button disabled={loading}>Click to Upload</Button>
+                        </Upload>
                     </Form.Item>
-
-                    <Form.Item
-                        label="Survey Description"
-                        name="description"
-                        rules={[{ required: true, message: "Description is required" }]}
-                    >
-                        <Input.TextArea rows={4} />
-                    </Form.Item>
-
-                    <Form.Item
-                        label="Survey Link"
-                        name="surveyLink"
-                        rules={[{ required: true, message: "Survey link is required" }]}
-                    >
-                        <Input />
-                    </Form.Item>
-
-                    <Form.Item
-                        label="Emails (comma-separated)"
-                        name="emails"
-                        rules={[{ required: true, message: "Emails are required" }]}
-                    >
-                        <Input placeholder="email1@example.com, email2@example.com" />
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" loading={loading}>
+                            Submit
+                        </Button>
+                        <Button onClick={handleCancel} style={{ marginLeft: 8 }} disabled={loading}>
+                            Cancel
+                        </Button>
                     </Form.Item>
                 </Form>
+            </Modal>
+
+            {/* Modal for View Details */}
+            <Modal
+                title="Survey Details"
+                open={viewDetailsModalOpen}
+                onCancel={() => setViewDetailsModalOpen(false)}
+                footer={null}
+                width={800}
+                centered
+            >
+                {detailsLoading ? (
+                    <div className="flex justify-center items-center h-40">
+                        <Spin tip="Loading survey details..." />
+                    </div>
+                ) : surveyDetails ? (
+                    <div className="space-y-6">
+                        <Card
+                            title="Survey Information"
+                            className="shadow-sm"
+                            headStyle={{ backgroundColor: "#f0f5ff", borderBottom: "none" }}
+                        >
+                            <Row gutter={[16, 16]}>
+                                <Col span={12}>
+                                    <Text strong>Survey ID:</Text>
+                                    <Text className="block">{surveyDetails.surveyId || "N/A"}</Text>
+                                </Col>
+                                <Col span={12}>
+                                    <Text strong>Survey Name:</Text>
+                                    <Text className="block">{surveyDetails.surveyName || "Not specified"}</Text>
+                                </Col>
+                                <Col span={12}>
+                                    <Text strong>Description:</Text>
+                                    <Text className="block">{surveyDetails.surveyDescription || "Not specified"}</Text>
+                                </Col>
+                                <Col span={12}>
+                                    <Text strong>Total Questions:</Text>
+                                    <Text className="block">{surveyDetails.totalQuestions || "N/A"}</Text>
+                                </Col>
+                            </Row>
+                        </Card>
+
+                        <Card
+                            title="Questions"
+                            className="shadow-sm"
+                            headStyle={{ backgroundColor: "#f0f5ff", borderBottom: "none" }}
+                        >
+                            {surveyDetails.questions && surveyDetails.questions.length > 0 ? (
+                                <div className="space-y-4">
+                                    {surveyDetails.questions.map((question) => (
+                                        <div key={question.questionNumber} className="border-b pb-2">
+                                            <Text strong>Q{question.questionNumber}: </Text>
+                                            <Text>{question.questionText || "Not specified"}</Text>
+                                            <div className="ml-4 mt-2">
+                                                <Text strong>Answer Options:</Text>
+                                                <ul className="list-disc ml-4">
+                                                    {question.answers && question.answers.length > 0 ? (
+                                                        question.answers.map((answer, index) => (
+                                                            <li key={index}>
+                                                                {answer.answerText || "Not specified"}
+                                                            </li>
+                                                        ))
+                                                    ) : (
+                                                        <Text type="secondary">No answer options available.</Text>
+                                                    )}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <Text type="secondary">No questions available.</Text>
+                            )}
+                        </Card>
+                    </div>
+                ) : (
+                    <div className="text-center py-6">
+                        <Text type="secondary">No survey details available.</Text>
+                    </div>
+                )}
             </Modal>
         </div>
     );

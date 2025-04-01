@@ -2,21 +2,20 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getUserTestById, submitAnswers } from "../../services/api.testq";
 import { toast } from "react-toastify";
- // Import getTestById
 
 const GeneralTestPage = () => {
     const navigate = useNavigate();
-    const { id } = useParams(); // Get testId from URL
+    const { id } = useParams();
     const [testData, setTestData] = useState(null);
     const [answers, setAnswers] = useState([]);
-    const [score, setScore] = useState(null);
+    const [errorQuestions, setErrorQuestions] = useState([]); // Lưu các câu hỏi chưa trả lời
 
     useEffect(() => {
         const fetchTestData = async () => {
             const data = await getUserTestById(id);
             if (data) {
                 setTestData(data);
-                setAnswers(Array(data.questions.length).fill(null)); // Initialize answers array
+                setAnswers(Array(data.questions.length).fill(null));
             }
         };
         fetchTestData();
@@ -26,79 +25,61 @@ const GeneralTestPage = () => {
         const newAnswers = [...answers];
         newAnswers[questionIndex] = value;
         setAnswers(newAnswers);
+
+        // Xóa lỗi của câu hỏi khi người dùng chọn đáp án
+        if (errorQuestions.includes(questionIndex)) {
+            setErrorQuestions(errorQuestions.filter((index) => index !== questionIndex));
+        }
+
+        // Thông báo toast khi chọn đáp án (tùy chọn)
+        const selectedAnswer = testData.questions[questionIndex].answers[answerIndex];
+        // toast.info(`Selected "${selectedAnswer.answerText}" for question ${questionIndex + 1}`, {
+        //     autoClose: 1500,
+        // });
     };
 
-    // const handleSubmit = () => {
-    //     if (answers.includes(null)) {
-    //         alert("Please answer all questions before submitting.");
-    //         return;
-    //     }
-
-    //     let totalScore = 0;
-    //     testData.questions.forEach((question, questionIndex) => {
-    //         const selectedAnswer = question.answers.find(answer => answer.score === answers[questionIndex]);
-    //         if (selectedAnswer) {
-    //             totalScore += selectedAnswer.score;
-    //         }
-    //     });
-    //     setScore(totalScore);
-    // };
-
-    // const handleSubmit = async () => {
-    //     if (answers.includes(null)) {
-    //         toast.error("Please answer all questions before submitting.");
-    //         return;
-    //     }
-    
-    //     const answersToSubmit = testData.questions.map((question, questionIndex) => {
-    //         const selectedAnswer = question.answers.find(answer => answer.score === answers[questionIndex]);
-    //         return {
-    //             questionId: question.questionNumber, // Hoặc question.id, tùy thuộc vào API của bạn
-    //             answerText: selectedAnswer ? selectedAnswer.answerText : "",
-    //             score: answers[questionIndex]
-    //         };
-    //     });
-    
-    //     const data = {
-    //         testId: testData.testId,
-    //         answers: answersToSubmit
-    //     };
-    
-    //     try {
-    //         console.log(data);
-    //         await submitAnswers(data);
-    //         // Có thể thêm logic sau khi submit thành công (ví dụ: chuyển hướng, hiển thị kết quả)
-    //     } catch (error) {
-    //         console.error("Error submitting test:", error);
-    //         // Error toast sẽ được xử lý trong submitAnswers
-    //     }
-    // };
+    const handleClearSelection = (questionIndex) => {
+        const newAnswers = [...answers];
+        newAnswers[questionIndex] = null;
+        setAnswers(newAnswers);
+        // toast.info(`Cleared selection for question ${questionIndex + 1}`, {
+        //     autoClose: 1500,
+        // });
+    };
 
     const handleSubmit = async () => {
-        if (answers.includes(null)) {
+        // Kiểm tra các câu hỏi chưa trả lời
+        const unanswered = answers
+            .map((answer, index) => (answer === null ? index : -1))
+            .filter((index) => index !== -1);
+
+        if (unanswered.length > 0) {
+            setErrorQuestions(unanswered);
             toast.error("Please answer all questions before submitting.");
+            const firstUnanswered = unanswered[0];
+            document.getElementById(`question-${firstUnanswered}`)?.scrollIntoView({ behavior: "smooth" });
             return;
         }
-    
+
         const answersToSubmit = testData.questions.map((question, questionIndex) => {
-            const selectedAnswer = question.answers.find(answer => answer.score === answers[questionIndex]);
+            const selectedAnswer = question.answers.find((answer) => answer.score === answers[questionIndex]);
             return {
-                questionId: question.questionNumber, // Adjust based on your API
+                questionId: question.questionNumber,
                 answerText: selectedAnswer ? selectedAnswer.answerText : "",
-                score: answers[questionIndex]
+                score: answers[questionIndex],
             };
         });
-    
+
         const data = {
             testId: testData.testId,
-            answers: answersToSubmit
+            answers: answersToSubmit,
         };
-    
+
         try {
             const response = await submitAnswers(data);
             if (response) {
-                // Redirect to TestResultPage with the result data
                 navigate("/test-result", { state: response });
+                // toast.success("Test submitted successfully!");
             }
         } catch (error) {
             console.error("Error submitting test:", error);
@@ -106,75 +87,87 @@ const GeneralTestPage = () => {
         }
     };
 
-    const getResultText = (score) => {
-        // Implement your logic to determine result text based on score
-        // This will depend on the specific test and its scoring criteria
-        if (testData.testName === "GAD-7") {
-            if (score <= 4) return { level: "Minimal Anxiety", description: "Your anxiety level is low. No significant symptoms of anxiety were detected." };
-            if (score <= 9) return { level: "Mild Anxiety", description: "You may experience some anxiety symptoms, but they are not severe. Consider monitoring your stress levels and practicing relaxation techniques." };
-            if (score <= 14) return { level: "Moderate Anxiety", description: "Your anxiety level is moderate. It may affect your daily activities. You might benefit from speaking with a mental health professional." };
-            return { level: "Severe Anxiety", description: "Your anxiety level is high. You may experience significant distress and impairment. It is recommended to seek support from a mental health professional." };
-        } else if (testData.testName === "PHQ-9") {
-            if (score <= 4) return { level: "Minimal Depression", description: "Your symptoms are minimal and may not require treatment." };
-            if (score <= 9) return { level: "Mild Depression", description: "You may experience some symptoms of depression. Consider monitoring your mood and seeking support if needed." };
-            if (score <= 14) return { level: "Moderate Depression", description: "Your symptoms indicate moderate depression. Talking to a healthcare provider may be beneficial." };
-            if (score <= 19) return { level: "Moderately Severe Depression", description: "You are experiencing significant depressive symptoms. Seeking professional help is recommended." };
-            return { level: "Severe Depression", description: "Your symptoms are severe. It is highly recommended to consult a mental health professional as soon as possible." };
-        }
-        return { level: "Unknown", description: "Results are not available." };
-    };
+    // Tính tiến độ: số câu đã trả lời / tổng số câu hỏi
+    const answeredCount = answers.filter((answer) => answer !== null).length;
+    const totalQuestions = testData?.questions?.length || 0;
+    const progressPercentage = totalQuestions > 0 ? (answeredCount / totalQuestions) * 100 : 0;
 
     if (!testData) {
-        return <div>Loading...</div>;
+        return <div className="text-center text-lg">Loading...</div>;
     }
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-100 to-blue-50 p-10">
-            <h1 className="text-2xl font-bold mb-6">{testData.testName}</h1>
-            <div className="bg-white p-6 rounded-xl shadow-md w-full max-w-3xl">
-                <table className="w-full border-collapse border border-gray-300 mb-4">
-                    <thead>
-                        <tr className="bg-gray-100">
-                            <th className="border border-gray-300 p-2">Question</th>
-                            {testData.questions[0].answers.map((answer, answerIndex) => (
-                                <th key={answerIndex} className="border border-gray-300 p-2">{answer.answerText}</th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {testData.questions.map((question, questionIndex) => (
-                            <tr key={questionIndex} className="text-center">
-                                <td className="border border-gray-300 p-2 text-left">{question.questionText}</td>
+            <h1 className="text-3xl font-bold mb-6 text-gray-800">{testData.testName}</h1>
+            <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-3xl">
+                {/* Progress Bar */}
+                <div className="mb-6">
+                    <p className="text-sm text-gray-600 mb-2">
+                        Progress: {answeredCount}/{totalQuestions} questions answered
+                    </p>
+                    <div className="w-full bg-gray-200 rounded-full h-4">
+                        <div
+                            className="bg-blue-500 h-4 rounded-full transition-all duration-300"
+                            style={{ width: `${progressPercentage}%` }}
+                        ></div>
+                    </div>
+                </div>
+
+                {/* Danh sách câu hỏi */}
+                <div className="space-y-6 mb-6">
+                    {testData.questions.map((question, questionIndex) => (
+                        <div
+                            id={`question-${questionIndex}`}
+                            key={questionIndex}
+                            className={`border-b border-gray-300 pb-4 ${
+                                errorQuestions.includes(questionIndex) ? "border-l-4 border-red-500 pl-4" : ""
+                            }`}
+                        >
+                            <div className="flex justify-between items-center mb-2">
+                                <p className="text-lg font-medium text-gray-800">
+                                    {question.questionNumber}. {question.questionText}
+                                </p>
+                                <button
+                                    className="text-sm text-blue-500 hover:text-blue-700"
+                                    onClick={() => handleClearSelection(questionIndex)}
+                                >
+                                    Clear
+                                </button>
+                            </div>
+                            <div className="flex flex-wrap gap-4">
                                 {question.answers.map((answer, answerIndex) => (
-                                    <td key={answerIndex} className="border border-gray-300 p-2">
+                                    <label
+                                        key={answerIndex}
+                                        className="flex items-center space-x-2 cursor-pointer p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+                                    >
                                         <input
                                             type="radio"
                                             name={`question-${questionIndex}`}
                                             value={answer.score}
                                             checked={answers[questionIndex] === answer.score}
                                             onChange={() => handleAnswerChange(questionIndex, answerIndex, answer.score)}
-                                            className="form-radio text-blue-500"
+                                            className="form-radio text-blue-500 focus:ring-blue-500"
                                         />
-                                    </td>
+                                        <span className="text-gray-700">{answer.answerText}</span>
+                                    </label>
                                 ))}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                            </div>
+                            {errorQuestions.includes(questionIndex) && (
+                                <p className="text-red-500 text-sm mt-2">Please select an answer for this question.</p>
+                            )}
+                        </div>
+                    ))}
+                </div>
+
+                {/* Nút Submit và Back */}
                 <button
-                    className="bg-green-400 hover:bg-green-500 text-white py-2 px-4 rounded-lg w-full mt-4 transition-colors"
+                    className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg w-full mt-4 transition-colors duration-200"
                     onClick={handleSubmit}
                 >
                     Submit Test
                 </button>
-                {score !== null && (
-                    <div className="mt-6 p-6 bg-yellow-100 text-center text-xl font-bold rounded-lg">
-                        Your Total Score: {score} - {getResultText(score).level}
-                        <p className="text-lg mt-2">{getResultText(score).description}</p>
-                    </div>
-                )}
                 <button
-                    className="bg-gray-400 hover:bg-gray-500 text-white py-2 px-4 rounded-lg w-full mt-4 transition-colors"
+                    className="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg w-full mt-4 transition-colors duration-200"
                     onClick={() => navigate("/testoption")}
                 >
                     Back to Test Selection

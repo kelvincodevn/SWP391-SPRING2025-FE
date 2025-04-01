@@ -1,6 +1,6 @@
 import React from "react";
 import ServicesCard from "./ServicesCard";
-import { RiMicroscopeLine } from "react-icons/ri";
+import { RiMicroscopeLine, RiPsychotherapyFill } from "react-icons/ri";
 import { MdHealthAndSafety, MdPsychology } from "react-icons/md";
 import { FaHeartbeat } from "react-icons/fa";
 

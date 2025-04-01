@@ -50,8 +50,23 @@ const DoubleNavbar = () => {
     if (!userRole) return null;
     switch (userRole.toUpperCase()) {
       case "STUDENT":
+        return (
+          <Link
+            to="/student-dashboard"
+            className="text-blue-600 hover:text-blue-700 font-medium text-sm md:text-base transition-colors duration-200 ml-2"
+          >
+            Student Dashboard
+          </Link>
+        );
       case "PARENT":
-        return <Link to="/user-dashboard" className="text-blue-600 hover:text-blue-700 font-medium ml-2">User Dashboard</Link>;
+        return (
+          <Link
+            to="/parent-dashboard"
+            className="text-blue-600 hover:text-blue-700 font-medium text-sm md:text-base transition-colors duration-200 ml-2"
+          >
+            Parent Dashboard
+          </Link>
+        );
       case "PSYCHOLOGIST":
         return <Link to="/workview" className="text-blue-600 hover:text-blue-700 font-medium ml-2">Workview</Link>;
       case "MANAGER":
