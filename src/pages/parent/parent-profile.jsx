@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getUserProfile, updateUserProfile } from '../../services/api.user';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import { FaUser, FaEnvelope, FaPhoneAlt, FaBirthdayCake, FaTransgenderAlt } from 'react-icons/fa'; // Importing icons
 
 function ParentProfile() {
@@ -87,7 +86,6 @@ function ParentProfile() {
 
   return (
     <div className="max-w-2xl mx-auto p-8 bg-gradient-to-r from-blue-100 via-indigo-200 to-purple-300 border border-gray-300 rounded-lg shadow-xl">
-      <ToastContainer />
       <h2 className="text-4xl font-extrabold text-center mb-8 text-indigo-700">User Profile</h2>
       {isEditing ? (
         <form onSubmit={handleSubmit} className="space-y-6">
