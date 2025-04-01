@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getProgramDetailsForUser } from '../../services/api.program'; // Sử dụng API chi tiết
 import { FaArrowLeft, FaChalkboardTeacher, FaTag, FaInfoCircle, FaLink } from 'react-icons/fa';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 function ProgramDetail() {
   const { programId } = useParams(); // Lấy id từ URL
@@ -48,7 +47,6 @@ function ProgramDetail() {
 
   return (
     <div className="max-w-4xl mx-auto p-8 bg-gradient-to-r from-blue-50 to-blue-100 shadow-lg rounded-3xl mt-10 border-2 border-gray-300">
-      <ToastContainer />
       <button
         onClick={() => navigate(-1)}
         className="mb-6 flex items-center text-indigo-700 hover:underline font-semibold text-lg"
