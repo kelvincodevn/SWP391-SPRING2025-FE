@@ -28,7 +28,6 @@ const items = [
     getItem('Tests', 'tests', <FileTextOutlined />),
     getItem('Booking', 'booking', <FiCalendar />), // Add booking item with FiCalendar icon
     getItem('Surveys', 'surveys', <FormOutlined />),
-    getItem('Programs', 'program', <ProjectOutlined />),
 ];
 
 const UserLayout = () => {
