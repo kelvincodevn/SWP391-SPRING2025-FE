@@ -95,7 +95,8 @@ function PsychologistSlot() {
                     <Button
                         type="primary"
                         onClick={() => handleEdit(record)}
-                        disabled={actionLoading}
+                        disabled={actionLoading || record.availabilityStatus === "BOOKED"} // Thêm điều kiện disable
+                        loading={actionLoading}
                     >
                         Edit
                     </Button>
@@ -202,7 +203,7 @@ function PsychologistSlot() {
                     },
                     editingSlot.slotId
                 );
-                toast.success("Slot updated successfully");
+                // toast.success("Slot updated successfully");
                 setEditingSlot(null);
             } else {
                 await createSlot({
@@ -211,7 +212,7 @@ function PsychologistSlot() {
                     endTime: endTimeMoment.format('HH:mm'),
                     psychologistId,
                 });
-                toast.success("Slot created successfully");
+                // toast.success("Slot created successfully");
             }
             setOpen(false);
             form.resetFields();
