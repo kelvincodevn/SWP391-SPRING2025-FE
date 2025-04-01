@@ -129,7 +129,7 @@ function ManageTest() {
             setActionLoading(true);
             try {
                 await createTest(newFileList[0].originFileObj);
-                toast.success("Test created successfully");
+                // toast.success("Test created successfully");
                 setFileList([]);
                 setOpen(false);
                 fetchTests();

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Modal, Table, Form, Input, Spin, Alert } from 'antd';
+import { Button, Modal, Table, Spin, Alert, Typography, Card, Row, Col } from 'antd';
 import { toast } from 'react-toastify';
 import { getUserTestHistory, getUserTestResults } from '../../services/api.testq';
+
+const { Title, Text } = Typography;
 
 function StudentTestHistory() {
     const [testResults, setTestResults] = useState([]);
@@ -71,18 +73,22 @@ function StudentTestHistory() {
     };
 
     return (
-        <div className="p-6">
-            <h1 className="text-2xl font-bold mb-6">Your Test History</h1>
-            {error && <Alert message={error} type="error" showIcon className="mb-4" />}
+        <div className="p-8 bg-gray-50 min-h-screen">
+            <Title level={2} className="mb-8 text-center">
+                Your Test History
+            </Title>
+            {error && <Alert message={error} type="error" showIcon className="mb-6 max-w-2xl mx-auto" />}
             {loading ? (
-                <div className="flex justify-center">
-                    <Spin tip="Loading data..." />
+                <div className="flex justify-center items-center h-64">
+                    <Spin tip="Loading data..." size="large" />
                 </div>
             ) : (
                 <Table
                     dataSource={testResults}
                     columns={columns}
                     rowKey="resultId"
+                    className="shadow-md rounded-lg"
+                    pagination={{ pageSize: 5 }}
                     locale={{ emptyText: "You haven't taken any tests yet." }}
                 />
             )}
@@ -92,32 +98,73 @@ function StudentTestHistory() {
                 open={viewDetailsModalOpen}
                 onCancel={() => setViewDetailsModalOpen(false)}
                 footer={null}
+                width={800}
+                centered
             >
                 {loading ? (
-                    <div className="flex justify-center">
-                        <Spin tip="Loading details..." />
+                    <div className="flex justify-center items-center h-40">
+                        <Spin tip="Loading test details..." />
                     </div>
                 ) : testHistoryDetails ? (
-                    <Form layout="vertical">
-                        <Form.Item label="Total Score">
-                            <Input value={testHistoryDetails.totalScore} disabled />
-                        </Form.Item>
-                        <Form.Item label="Test Version">
-                            <Input value={testHistoryDetails.testVersion} disabled />
-                        </Form.Item>
-                        <Form.Item label="Answers">
-                            <ul className="list-disc pl-5">
-                                {testHistoryDetails.answers.map((answer, index) => (
-                                    <li key={index} className="mb-2">
-                                        <strong>Question: {answer.question}</strong>
-                                        <p>Answer: {answer.answer} (Score: {answer.score})</p>
-                                    </li>
-                                ))}
-                            </ul>
-                        </Form.Item>
-                    </Form>
+                    <div className="space-y-6">
+                        {/* Card 1: Test Information */}
+                        <Card
+                            title="Test Information"
+                            className="shadow-sm"
+                            headStyle={{ backgroundColor: "#f0f5ff", borderBottom: "none" }}
+                        >
+                            <Row gutter={[16, 16]}>
+                                <Col span={12}>
+                                    <Text strong>Result ID:</Text>
+                                    <Text className="block">{testHistoryDetails.resultId || "N/A"}</Text>
+                                </Col>
+                                <Col span={12}>
+                                    <Text strong>Test Name:</Text>
+                                    <Text className="block">{testHistoryDetails.test?.testsName || "Not specified"}</Text>
+                                </Col>
+                                <Col span={12}>
+                                    <Text strong>Total Score:</Text>
+                                    <Text className="block">{testHistoryDetails.totalScore || "N/A"}</Text>
+                                </Col>
+                                <Col span={12}>
+                                    <Text strong>Level:</Text>
+                                    <Text className="block">{testHistoryDetails.level || "Not specified"}</Text>
+                                </Col>
+                                <Col span={12}>
+                                    <Text strong>Test Version:</Text>
+                                    <Text className="block">{testHistoryDetails.testVersion || "Not specified"}</Text>
+                                </Col>
+                            </Row>
+                        </Card>
+
+                        {/* Card 2: Answers */}
+                        <Card
+                            title="Answers"
+                            className="shadow-sm"
+                            headStyle={{ backgroundColor: "#f0f5ff", borderBottom: "none" }}
+                        >
+                            {testHistoryDetails.answers && testHistoryDetails.answers.length > 0 ? (
+                                <div className="space-y-4">
+                                    {testHistoryDetails.answers.map((answer, index) => (
+                                        <div key={index} className="border-b pb-2">
+                                            <Text strong>Question {index + 1}: </Text>
+                                            <Text>{answer.question || "Not specified"}</Text>
+                                            <div className="ml-4 mt-2">
+                                                <Text strong>Answer: </Text>
+                                                <Text>{answer.answer || "Not specified"} (Score: {answer.score || "0"})</Text>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <Text type="secondary">No answers available.</Text>
+                            )}
+                        </Card>
+                    </div>
                 ) : (
-                    <p>No details available to display.</p>
+                    <div className="text-center py-6">
+                        <Text type="secondary">No test details available.</Text>
+                    </div>
                 )}
             </Modal>
         </div>
