@@ -62,7 +62,8 @@ import ManagerSurveyHistory from "./pages/manager/manage-surveyhistory.jsx";
 import StudentSurveyHistory from "./pages/student/student-surveyhistory.jsx";
 import StudentProfile from "./pages/student/student-profile.jsx";
 import ParentProfile from "./pages/parent/parent-profile.jsx";
-import UserProgram from "./pages/user/user-program.jsx";
+import Program from "./pages/program/Program.jsx";
+import ProgramDetail from "./pages/program/ProgramDetail.jsx";
 
 const ProtectedRoute = ({ children, requiredRole }) => {
   // Replace with your actual authentication and role check logic
@@ -106,7 +107,8 @@ const App = () => {
           <Route path="/services" element={<Services />} />
           <Route path="/psychologist" element={<Psychologist />} />
           <Route path="/resources" element={<MentalHealthResources />} />
-          <Route path="/programu" element={<UserProgram />} />
+          <Route path="/program" element={<Program />} />
+          <Route path="programdetail/:programId" element={<ProgramDetail />} />
           <Route path="/surveymanage" element={<TestManagementSystem />} />
           <Route path="/surveytest" element={<Survey />} />
           <Route path="/blog" element={<Blogs />} />

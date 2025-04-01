@@ -53,7 +53,7 @@ const ServicesList = () => {
             icon={<FaRegCalendarAlt size={40} className="text-blue-700" />}
             title="Program"
             description="Join our structured mental health programs tailored to your needs."
-            link="/programu"
+            link="/program"
           />
         </div>
       </div>
