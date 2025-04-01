@@ -129,9 +129,11 @@ const App = () => {
           <Route path="/services" element={<Services />} />
           <Route path="/psychologist" element={<Psychologist />} />
           <Route path="/resources" element={<MentalHealthResources />} />
+          <Route path="/programu" element={<UserProgram />} />
+
           <Route path="/surveymanage" element={<TestManagementSystem />} />
           <Route path="/surveytest" element={<Survey />} />
-          <Route path="/seminar" element={<MentalHealthSeminar />} />
+          {/* <Route path="/seminar" element={<MentalHealthSeminar />} /> */}
           <Route path="/blog" element={<Blogs />} />
           {/* <Route path="/profile" element={<UserProfile2 />} /> */}
           {/* <Route path="/login" element={<LoginPage />} />
@@ -233,7 +235,6 @@ const App = () => {
             <Route path="overview" element={<UserOverview />} />
             <Route path="tests" element={<UserTestHistory />} />
             <Route path="booking" element={<UserBooking />} />
-            <Route path="program" element={<UserProgram />} />
             <Route path="programdetail/:programId" element={<ProgramDetail />} />
             
             <Route path="profile" element={<UserNProfile />} />
