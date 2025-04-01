@@ -43,9 +43,9 @@ export const getPsychologistStats = async (psychologistId) => {
     }
   };
 
-  export const getPsychologistProfile = async (psychologistId) => {
+  export const getPsychologistProfile = async () => {
     try {
-      const response = await api.get(`/api/psychologists/${psychologistId}/profile`);
+      const response = await api.get(`/api/psychologists/profile`);
       return response.data;
     } catch (error) {
       toast.error(error.response?.data || "Failed to fetch psychologist profile");
@@ -53,9 +53,9 @@ export const getPsychologistStats = async (psychologistId) => {
     }
   };
 
-  export const updatePsychologistProfile = async (psychologistId, profileData) => {
+  export const updatePsychologistProfile = async (psychologistData) => {
     try {
-      const response = await api.put(`/api/psychologists/${psychologistId}/profile`, profileData);
+      const response = await api.put(`/api/psychologists/profile`, psychologistData);
       return response.data;
     } catch (error) {
       toast.error(error.response?.data || "Failed to update psychologist profile");

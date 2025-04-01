@@ -7,167 +7,83 @@ const Navbar = () => {
   const [menu, setMenu] = useState(false);
   const [showForm, setShowForm] = useState(false);
 
-  const handleChange = () => {
-    setMenu(!menu);
-  };
-
-  const closeMenu = () => {
-    setMenu(false);
-  };
-
+  const handleChange = () => setMenu(!menu);
+  const closeMenu = () => setMenu(false);
   const openForm = () => {
     setShowForm(true);
     setMenu(false);
   };
-
-  const closeForm = () => {
-    setShowForm(false);
-  };
+  const closeForm = () => setShowForm(false);
 
   return (
-    <div className="bg-[white] text-black">
-      <div>
-          <div className="flex flex-row justify-between p-5 md:px-32 px-5 bg-fpt-orange shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]">
-          <div className=" flex flex-row items-center cursor-pointer">
-            <Link to="/home" spy={true} smooth={true} duration={500}>
-              <img src="src/assests1/image/Logo_Trường_Đại_học_FPT.svg.png" alt="logo" className="w-25 h-20 mr-7" />
-            </Link>
+    <header className="bg-white text-gray-900 shadow-md sticky top-0 z-50 border-b border-blue-100">
+      <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
+        {/* Logo */}
+        <Link to="/home" className="flex items-center gap-4">
+          <img
+            src="src/assests1/image/Logo_Trường_Đại_học_FPT.svg.png"
+            alt="FPT Logo"
+            className="h-14 w-auto object-contain"
+          />
+          <div className="text-left hidden sm:block">
+            <p className="text-lg font-bold text-blue-800 leading-tight">
+              FPT Mental Health Center
+            </p>
+            <span className="text-sm text-gray-500">Compassionate & Confidential Care</span>
           </div>
+        </Link>
 
-          <nav className=" hidden lg:flex flex-row items-center text-lg font-medium gap-8">
-            <Link
-              to="/home"
-              spy={true}
-              smooth={true}
-              duration={500}
-              className=" hover:text-hoverColor transition-all cursor-pointer"
-            >
-              Home
-            </Link>
-            <Link
-              to="/about"
-              spy={true}
-              smooth={true}
-              duration={500}
-              className=" hover:text-hoverColor transition-all cursor-pointer"
-            >
-              About Us
-            </Link>
-            <Link
-              to="/services"
-              spy={true}
-              smooth={true}
-              duration={500}
-              className=" hover:text-hoverColor transition-all cursor-pointer"
-            >
-              Services
-            </Link>
-            <Link
-              to="/psychologist"
-              spy={true}
-              smooth={true}
-              duration={500}
-              className=" hover:text-hoverColor transition-all cursor-pointer"
-            >
-              Psychologist
-            </Link>
-            <Link
-              to="/blog"
-              spy={true}
-              smooth={true}
-              duration={500}
-              className=" hover:text-hoverColor transition-all cursor-pointer"
-            >
-              Blog
-            </Link>
-          </nav>
+        {/* Desktop Nav */}
+        <nav className="hidden lg:flex items-center space-x-10 text-[16px] font-medium">
+          <Link to="/home" className="hover:text-blue-700 transition">Home</Link>
+          <Link to="/about" className="hover:text-blue-700 transition">About Us</Link>
+          <Link to="/services" className="hover:text-blue-700 transition">Services</Link>
+          <Link to="/psychologist" className="hover:text-blue-700 transition">Psychologist</Link>
+          <Link to="/blog" className="hover:text-blue-700 transition">Blog</Link>
+        </nav>
 
-          <div className=" hidden lg:flex">
-            <button
-              className="bg-orange-500  text-white px-4 py-2 rounded-md hover:bg-hoverColor transition duration-300 ease-in-out"
-              onClick={openForm}
-            >
-              Contact Us
-            </button>
-          </div>
-
-          {showForm && <Contact closeForm={closeForm} />}
-
-          <div className=" lg:hidden flex items-center">
-            {menu ? (
-              <AiOutlineClose size={28} onClick={handleChange} />
-            ) : (
-              <AiOutlineMenu size={28} onClick={handleChange} />
-            )}
-          </div>
-        </div>
-        <div
-          className={`${
-            menu ? "translate-x-0" : "-translate-x-full"
-          } lg:hidden flex flex-col absolute bg-backgroundColor text-white left-0 top-16 font-semibold text-2xl text-center pt-8 pb-4 gap-8 w-full h-fit transition-transform duration-300`}
-        >
-          <Link
-            to="/home"
-            spy={true}
-            smooth={true}
-            duration={500}
-            className=" hover:text-hoverColor transition-all cursor-pointer"
-            onClick={closeMenu}
-          >
-            Home
-          </Link>
-          <Link
-            to="/about"
-            spy={true}
-            smooth={true}
-            duration={500}
-            className=" hover:text-hoverColor transition-all cursor-pointer"
-            onClick={closeMenu}
-          >
-            About Us
-          </Link>
-          <Link
-            to="/services"
-            spy={true}
-            smooth={true}
-            duration={500}
-            className=" hover:text-hoverColor transition-all cursor-pointer"
-            onClick={closeMenu}
-          >
-            Services
-          </Link>
-          <Link
-            to="/doctors"
-            spy={true}
-            smooth={true}
-            duration={500}
-            className=" hover:text-hoverColor transition-all cursor-pointer"
-            onClick={closeMenu}
-          >
-            Psychologist
-          </Link>
-          <Link
-            to="/blog"
-            spy={true}
-            smooth={true}
-            duration={500}
-            className=" hover:text-hoverColor transition-all cursor-pointer"
-            onClick={closeMenu}
-          >
-            Blog
-          </Link>
-
-          <div className=" lg:hidden">
+        {/* Contact Button */}
+        <div className="hidden lg:flex">
           <button
-      className="w-full px-4 py-2 rounded-md bg-blue text-orange-500 font-semibold transition duration-300 ease-in-out hover:bg-gray-200"
-      onClick={openForm}
-    >
-      Contact Us
-    </button>
-          </div>
+            onClick={openForm}
+            className="bg-blue-700 hover:bg-blue-800 text-white px-5 py-2 rounded-md font-medium shadow-sm transition"
+          >
+            Contact Us
+          </button>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <div className="lg:hidden">
+          {menu ? (
+            <AiOutlineClose size={26} onClick={handleChange} className="cursor-pointer text-blue-800" />
+          ) : (
+            <AiOutlineMenu size={26} onClick={handleChange} className="cursor-pointer text-blue-800" />
+          )}
         </div>
       </div>
-    </div>
+
+      {/* Mobile Menu Panel */}
+      <div
+        className={`lg:hidden fixed top-[72px] left-0 w-full bg-white border-t border-blue-100 shadow-md px-6 py-6 transition-transform duration-300 ease-in-out z-40 ${menu ? "translate-x-0" : "-translate-x-full"}`}
+      >
+        <div className="flex flex-col gap-6 text-[17px] font-semibold text-blue-800">
+          <Link to="/home" onClick={closeMenu} className="hover:text-blue-600">Home</Link>
+          <Link to="/about" onClick={closeMenu} className="hover:text-blue-600">About Us</Link>
+          <Link to="/services" onClick={closeMenu} className="hover:text-blue-600">Services</Link>
+          <Link to="/psychologist" onClick={closeMenu} className="hover:text-blue-600">Psychologist</Link>
+          <Link to="/blog" onClick={closeMenu} className="hover:text-blue-600">Blog</Link>
+          <button
+            onClick={openForm}
+            className="mt-2 bg-blue-700 hover:bg-blue-800 text-white py-2 rounded-md shadow-sm"
+          >
+            Contact Us
+          </button>
+        </div>
+      </div>
+
+      {/* Contact Modal */}
+      {showForm && <Contact closeForm={closeForm} />}
+    </header>
   );
 };
 

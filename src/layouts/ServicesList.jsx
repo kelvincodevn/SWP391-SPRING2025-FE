@@ -1,33 +1,3 @@
-// import React from "react";
-// import ServicesCard from "./ServicesCard";
-
-// const ServicesList = ({ services }) => {
-//   return (
-//     <div className="flex flex-wrap justify-center gap-6 p-10">
-//       {services.map((service, index) => (
-//         <ServicesCard key={index} icon={service.icon} title={service.title} />
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default ServicesList;
-
-// import React from "react";
-// import ServicesCard from "./ServicesCard";
-
-// const ServicesList = ({ services }) => {
-//   return (
-//     <div className="flex flex-wrap justify-center gap-6 p-10">
-//       {services.length > 0 && <ServicesCard icon={services[0].icon} title={services[0].title} />}
-//       {services.length > 1 && <ServicesCard icon={services[1].icon} title={services[1].title} />}
-//       {services.length > 2 && <ServicesCard icon={services[2].icon} title={services[2].title} />}
-//     </div>
-//   );
-// };
-
-// export default ServicesList;
-
 import React from "react";
 import ServicesCard from "./ServicesCard";
 import { RiMicroscopeLine, RiPsychotherapyFill } from "react-icons/ri";
@@ -36,59 +6,44 @@ import { FaHeartbeat } from "react-icons/fa";
 
 const ServicesList = () => {
   return (
-    <div className="flex flex-wrap justify-center gap-6 p-10">
-      
-      {/* Service 1 */}
-      <div>
-        <ServicesCard 
-          icon={<RiMicroscopeLine size={35} className="text-backgroundColor" />} 
-          title="Take Test"
-          description="Participate in a quick test to assess your health."
-          link="/testoption"
-        />
-      </div>
+    <section className="bg-blue-100 py-16 px-4">
+      <div className="max-w-7xl mx-auto">
+        <h2 className="text-3xl font-bold text-center text-blue-800 mb-12">
+          Our Services
+        </h2>
 
-      <div>
-        <ServicesCard 
-          icon={<RiPsychotherapyFill size={35} className="text-backgroundColor" />} 
-          title="Take Survey"
-          description="Participate in a quick survey to assess your health."
-          link="/survey-selection"
-        />
-      </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <ServicesCard
+            icon={<RiMicroscopeLine size={40} className="text-blue-700" />}
+            title="Take Test"
+            description="Participate in a quick test to assess your health."
+            link="/testoption"
+          />
 
-      {/* Service 2 */}
-      <div>
-        <ServicesCard 
-          icon={<MdHealthAndSafety size={35} className="text-backgroundColor" />} 
-          title="View Document About Mental Health"
-          description="Access comprehensive mental health resources and documents."
-          link="/resources"
-        />
-      </div>
+          <ServicesCard
+            icon={<MdHealthAndSafety size={40} className="text-blue-700" />}
+            title="View Document About Mental Health"
+            description="Access comprehensive mental health resources and documents."
+            link="/resources"
+          />
 
-      {/* Service 3 */}
-      <div>
-        <ServicesCard 
-          icon={<FaHeartbeat size={35} className="text-backgroundColor" />} 
-          title="Psychology Seminar"
-          description="Join a seminar led by experts in mental health."
-          link="/seminar"
-        />
-      </div>
+          <ServicesCard
+            icon={<FaHeartbeat size={40} className="text-blue-700" />}
+            title="Psychology Seminar"
+            description="Join a seminar led by experts in mental health."
+            link="/seminar"
+          />
 
-      <div>
-        <ServicesCard 
-          icon={<MdPsychology size={35} className="text-backgroundColor" />} 
-          title="Appointment"
-          description="Book an appointment with our excellent psychologist"
-          link="/appointment"
-        />
+          <ServicesCard
+            icon={<MdPsychology size={40} className="text-blue-700" />}
+            title="Appointment"
+            description="Book an appointment with our excellent psychologist"
+            link="/appointment"
+          />
+        </div>
       </div>
-
-    </div>
+    </section>
   );
 };
 
 export default ServicesList;
-

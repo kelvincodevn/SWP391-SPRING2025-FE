@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaUser, FaEnvelope, FaPhoneAlt, FaBirthdayCake, FaTransgenderAlt } from 'react-icons/fa'; // Importing icons
 
-function ManagerProfile2() {
+function UserNProfile() {
   // Define state for the user data
   const [userData, setUserData] = useState({
     fullName: '',
@@ -197,4 +197,4 @@ function ManagerProfile2() {
   );
 }
 
-export default ManagerProfile2;
+export default UserNProfile;
