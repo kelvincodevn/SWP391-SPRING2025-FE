@@ -21,6 +21,13 @@ const ServicesList = () => {
           />
 
           <ServicesCard
+            icon={<RiMicroscopeLine size={40} className="text-blue-700" />}
+            title="Take Survey"
+            description="Participate in a quick test to assess your health."
+            link="/survey-selection"
+          />
+
+          <ServicesCard
             icon={<MdHealthAndSafety size={40} className="text-blue-700" />}
             title="View Document About Mental Health"
             description="Access comprehensive mental health resources and documents."
