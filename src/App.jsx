@@ -86,6 +86,8 @@ import SurveySelectionPage from "./pages/survey/SurveyOption.jsx";
 import GeneralSurveyPage from "./pages/survey/GeneralSurveyPage.jsx";
 import ManagerSurveyHistory from "./pages/manager/manage-surveyhistory.jsx";
 import StudentSurveyHistory from "./pages/student/student-surveyhistory.jsx";
+import StudentProfile from "./pages/student/student-profile.jsx";
+import ParentProfile from "./pages/parent/parent-profile.jsx";
 // import Appointment1 from "./pages/appointment/Appointment1.jsx";
 // import BookingForm from "./pages/appointment/AppointmentForm.jsx";
 // import Confirmation from "./pages/appointment/Confirm.jsx";
@@ -119,8 +121,8 @@ const App = () => {
   const hideNavbarFooterRoutes = ["/register", "/register1", "/register2", "/login", "/profile", "/dashboard",
      "dashboard1", "/dashboard/test", "/dashboard/test-score", "/dashboard/survey", "/dashboard/user", "/dashboard/program", "/dashboard/program1",
     "/dashboard/overview", "/dashboard/profile", "/dashboard/client", "/dashboard/psychologist", "/dashboard/survey-history", "/workview/profile", "/workview/booking", "/workview/overview",
-      "/workview/clients", "/student-dashboard/overview", "/student-dashboard/tests", "/payment-success", "/payment-callback", "/workview/slots", "/booking-successfully"
-    ,"/student-dashboard/booking", "/student-dashboard/associate", "/student-dashboard/survey", "/parent-dashboard/overview", "/parent-dashboard/associate"];
+      "/workview/clients", "/student-dashboard/overview", "/student-dashboard/profile", "/student-dashboard/tests", "/payment-success", "/payment-callback", "/workview/slots", "/booking-successfully"
+    ,"/student-dashboard/booking", "/student-dashboard/associate", "/student-dashboard/survey", "/parent-dashboard/overview", "/parent-dashboard/associate", "/parent-dashboard/profile"];
 
   return (
     <>
@@ -243,6 +245,7 @@ const App = () => {
             <Route path="survey" element={<StudentSurveyHistory />} />
             <Route path="booking" element={<StudentBooking />} />
             <Route path="associate" element={<StudentAssociate />} />
+            <Route path="profile" element={<StudentProfile />} />
             {/* <Route path="profile" element={<ManagerProfile1 />} />
             <Route path="user" element={<ManageUser />} />
             <Route path="test" element={<ManageTest />} />
@@ -263,6 +266,7 @@ const App = () => {
           >
             <Route path="overview" element={<ParentOverview />} />
             <Route path="associate" element={<ParentAssociate />} />
+            <Route path="profile" element={<ParentProfile />} />
             {/* <Route path="overview" element={<StudentOverview />} />
             <Route path="tests" element={<StudentTestHistory />} />
             <Route path="booking" element={<StudentBooking />} /> */}
