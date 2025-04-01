@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getPsychologistProfile, updatePsychologistProfile } from '../../services/api.psychologist';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import { FaUser, FaEnvelope, FaGraduationCap, FaBriefcase } from 'react-icons/fa';
 import { UserRoundIcon } from 'lucide-react';
 
@@ -80,7 +79,6 @@ function PsychologistProfile() {
 
   return (
     <div className="max-w-2xl mx-auto p-8 bg-gradient-to-r from-blue-100 via-indigo-200 to-purple-300 border border-gray-300 rounded-lg shadow-xl">
-      <ToastContainer />
       <h2 className="text-4xl font-extrabold text-center mb-8 text-indigo-700">Psychologist Profile</h2>
       {isEditing ? (
         <form onSubmit={handleSubmit} className="space-y-6">
