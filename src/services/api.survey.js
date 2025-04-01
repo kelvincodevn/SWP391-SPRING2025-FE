@@ -73,3 +73,15 @@ export const getSurveyHistoryDetails = async (responseId) => {
         throw new Error(errorMsg);
     }
 };
+
+// Thêm hàm getSurveyDetails để lấy chi tiết survey cho manager
+export const getSurveyDetails = async (surveyId) => {
+    try {
+        const response = await api.get(`/api/manager/survey/${surveyId}`);
+        return response.data;
+    } catch (error) {
+        const errorMsg = error.response?.data || "Failed to fetch survey details";
+        toast.error(errorMsg);
+        throw new Error(errorMsg);
+    }
+};

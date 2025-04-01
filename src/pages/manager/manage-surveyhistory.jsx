@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Modal, Table, Form, Input, Spin, Alert } from 'antd';
+import { Button, Modal, Table, Spin, Alert, Typography, Card, Row, Col } from 'antd';
 import { toast } from 'react-toastify';
 import api from '../../config/axios';
 
+const { Title, Text } = Typography;
 
 function ManagerSurveyHistory() {
     const [surveyHistory, setSurveyHistory] = useState([]);
@@ -80,18 +81,22 @@ function ManagerSurveyHistory() {
     };
 
     return (
-        <div className="p-6">
-            <h1 className="text-2xl font-bold mb-6">Survey History (Manager View)</h1>
-            {error && <Alert message={error} type="error" showIcon className="mb-4" />}
+        <div className="p-8 bg-gray-50 min-h-screen">
+            <Title level={2} className="mb-8 text-center">
+                Survey History (Manager View)
+            </Title>
+            {error && <Alert message={error} type="error" showIcon className="mb-6 max-w-2xl mx-auto" />}
             {loading ? (
-                <div className="flex justify-center">
-                    <Spin tip="Loading data..." />
+                <div className="flex justify-center items-center h-64">
+                    <Spin tip="Loading data..." size="large" />
                 </div>
             ) : (
                 <Table
                     dataSource={surveyHistory}
                     columns={columns}
                     rowKey="responseId"
+                    className="shadow-md rounded-lg"
+                    pagination={{ pageSize: 5 }}
                     locale={{ emptyText: "No survey history available." }}
                 />
             )}
@@ -101,38 +106,73 @@ function ManagerSurveyHistory() {
                 open={viewDetailsModalOpen}
                 onCancel={() => setViewDetailsModalOpen(false)}
                 footer={null}
+                width={800}
+                centered
             >
                 {loading ? (
-                    <div className="flex justify-center">
-                        <Spin tip="Loading details..." />
+                    <div className="flex justify-center items-center h-40">
+                        <Spin tip="Loading survey details..." />
                     </div>
                 ) : surveyDetails ? (
-                    <Form layout="vertical">
-                        <Form.Item label="Survey Name">
-                            <Input value={surveyDetails.surveyName} disabled />
-                        </Form.Item>
-                        <Form.Item label="Student Name">
-                            <Input value={surveyDetails.studentName} disabled />
-                        </Form.Item>
-                        <Form.Item label="Student Email">
-                            <Input value={surveyDetails.studentEmail} disabled />
-                        </Form.Item>
-                        <Form.Item label="Submitted At">
-                            <Input value={surveyDetails.submittedAt} disabled />
-                        </Form.Item>
-                        <Form.Item label="Answers">
-                            <ul className="list-disc pl-5">
-                                {surveyDetails.answers.map((answer, index) => (
-                                    <li key={index} className="mb-2">
-                                        <strong>Question: {answer.questionText}</strong>
-                                        <p>Answer: {answer.answerText}</p>
-                                    </li>
-                                ))}
-                            </ul>
-                        </Form.Item>
-                    </Form>
+                    <div className="space-y-6">
+                        {/* Card 1: Survey Information */}
+                        <Card
+                            title="Survey Information"
+                            className="shadow-sm"
+                            headStyle={{ backgroundColor: "#f0f5ff", borderBottom: "none" }}
+                        >
+                            <Row gutter={[16, 16]}>
+                                <Col span={12}>
+                                    <Text strong>Response ID:</Text>
+                                    <Text className="block">{surveyDetails.responseId || "N/A"}</Text>
+                                </Col>
+                                <Col span={12}>
+                                    <Text strong>Survey Name:</Text>
+                                    <Text className="block">{surveyDetails.surveyName || "Not specified"}</Text>
+                                </Col>
+                                <Col span={12}>
+                                    <Text strong>Student Name:</Text>
+                                    <Text className="block">{surveyDetails.studentName || "Not specified"}</Text>
+                                </Col>
+                                <Col span={12}>
+                                    <Text strong>Student Email:</Text>
+                                    <Text className="block">{surveyDetails.studentEmail || "Not specified"}</Text>
+                                </Col>
+                                <Col span={12}>
+                                    <Text strong>Submitted At:</Text>
+                                    <Text className="block">{surveyDetails.submittedAt || "Not specified"}</Text>
+                                </Col>
+                            </Row>
+                        </Card>
+
+                        {/* Card 2: Answers */}
+                        <Card
+                            title="Answers"
+                            className="shadow-sm"
+                            headStyle={{ backgroundColor: "#f0f5ff", borderBottom: "none" }}
+                        >
+                            {surveyDetails.answers && surveyDetails.answers.length > 0 ? (
+                                <div className="space-y-4">
+                                    {surveyDetails.answers.map((answer, index) => (
+                                        <div key={index} className="border-b pb-2">
+                                            <Text strong>Question {index + 1}: </Text>
+                                            <Text>{answer.questionText || "Not specified"}</Text>
+                                            <div className="ml-4 mt-2">
+                                                <Text strong>Answer: </Text>
+                                                <Text>{answer.answerText || "Not specified"}</Text>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <Text type="secondary">No answers available.</Text>
+                            )}
+                        </Card>
+                    </div>
                 ) : (
-                    <p>No details available to display.</p>
+                    <div className="text-center py-6">
+                        <Text type="secondary">No survey details available.</Text>
+                    </div>
                 )}
             </Modal>
         </div>
