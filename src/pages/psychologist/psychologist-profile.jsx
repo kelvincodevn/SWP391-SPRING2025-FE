@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { getPsychologistProfile, updatePsychologistProfile } from '../../services/api.psychologist';
 import { toast } from 'react-toastify';
 import { FaUser, FaEnvelope, FaGraduationCap, FaBriefcase, FaMoneyBillWave, FaPhoneAlt } from 'react-icons/fa';
-import { UserRoundIcon } from 'lucide-react';
 
 function PsychologistProfile() {
   const [psychologistData, setPsychologistData] = useState({
@@ -144,6 +143,42 @@ function PsychologistProfile() {
             className="w-full p-4 border-2 border-indigo-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600 shadow-md"
           />
 
+          {/* Major */}
+          <div className="flex items-center mb-6">
+            <FaGraduationCap className="text-2xl text-indigo-600 mr-4" />
+            <label className="text-lg font-medium text-gray-800">Major:</label>
+          </div>
+          <select
+            name="major"
+            value={psychologistData.major}
+            onChange={handleChange}
+            className="w-full p-4 border-2 border-indigo-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600 shadow-md"
+          >
+            <option value="">Select your major</option>
+
+            <option value="Psychology">Community Psychology</option>
+            <option value="Clinical Psychology">Clinical Psychology</option>
+            <option value="Counseling Psychology">Counseling Psychology</option>
+            <option value="Other">Other</option>
+          </select>
+
+          {/* Degree */}
+          <div className="flex items-center mb-6">
+            <FaGraduationCap className="text-2xl text-indigo-600 mr-4" />
+            <label className="text-lg font-medium text-gray-800">Degree:</label>
+          </div>
+          <select
+            name="degree"
+            value={psychologistData.degree}
+            onChange={handleChange}
+            className="w-full p-4 border-2 border-indigo-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600 shadow-md"
+          >
+            <option value="">Select your degree</option>
+            <option value="Bachelor's">Bachelor's</option>
+            <option value="Master's">Master's</option>
+            <option value="Other">Other</option>
+          </select>
+
           {/* Workplace */}
           <div className="flex items-center mb-6">
             <FaBriefcase className="text-2xl text-indigo-600 mr-4" />
@@ -176,7 +211,6 @@ function PsychologistProfile() {
             onChange={handleChange}
             placeholder="Enter your fee"
             className="w-full p-4 border-2 border-indigo-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600 shadow-md"
-            step="0.01"
           />
 
           {/* Phone */}
@@ -234,7 +268,7 @@ function PsychologistProfile() {
               <p><strong>Workplace:</strong> {psychologistData.workplace}</p>
               <p><strong>Major: </strong>{psychologistData.major}</p>
               <p><strong>Degree:</strong> {psychologistData.degree}</p>
-              <p><strong>Fee:</strong> {psychologistData.fee}.000</p>
+              <p><strong>Fee:</strong> {psychologistData.fee}</p>
               <p><strong>Phone:</strong> {psychologistData.phone}</p>
               <p><strong>Date of Birth:</strong> {psychologistData.dob}</p>
             </div>

@@ -31,7 +31,7 @@ const studentItems = [
     getItem('Tests', 'tests', <FileTextOutlined />),
     getItem('Booking', 'booking', <FiCalendar />),
     getItem('Surveys', 'survey', <FormOutlined />),
-    getItem('Programs', 'programs', <ProjectOutlined />),
+    // getItem('Programs', 'programs', <ProjectOutlined />),
     getItem('Associate', 'associate', <UserSwitchOutlined />),
 ];
 
