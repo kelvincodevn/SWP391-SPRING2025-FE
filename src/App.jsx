@@ -45,9 +45,6 @@ import PsychologistBooking from "./pages/psychologist/psychologist-booking.jsx";
 import ManageClient from "./pages/manager/manage-client.jsx";
 import ManagePsychologist from "./pages/manager/manage-psychologist.jsx";
 import PsychologistSlot from "./pages/psychologist/psychologist-slot.jsx";
-import AppointmentTest from "./components/appointment/AppointmentTest.jsx";
-import AppointmentFormTest from "./components/appointment/AppointmentFormTest.jsx";
-import ConfirmationPageTest from "./components/appointment/ConfirmationPageTest.jsx";
 import BookingSuccessfully from "./components/appointment/BookingSuccessfully.jsx";
 import TestResultPage from "./pages/testpage/TestResultPage.jsx";
 import StudentOverview from "./pages/student/student-overview.jsx";
@@ -137,11 +134,6 @@ const App = () => {
           <Route path="/payment" element={<Payment />} />
           <Route path="/payment-callback" element={<PaymentCallback />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
-          
-          <Route path="/appointment1" element={<AppointmentTest />} />
-          <Route path="/appointmentform1" element={<AppointmentFormTest />} />
-          <Route path="/confirmationform1" element={<ConfirmationPageTest />} /> 
-
           <Route
             path="/dashboard"
             element={
