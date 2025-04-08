@@ -343,7 +343,7 @@ function StudentBooking() {
                             )}
                         </Card>
 
-                        <Card
+                        {/* <Card
                             title="Client Information"
                             className="shadow-sm"
                             headStyle={{ backgroundColor: "#f0f5ff", borderBottom: "none" }}
@@ -366,7 +366,7 @@ function StudentBooking() {
                             ) : (
                                 <Text type="secondary">Client information not available.</Text>
                             )}
-                        </Card>
+                        </Card> */}
                     </div>
                 ) : (
                     <div className="text-center py-6">

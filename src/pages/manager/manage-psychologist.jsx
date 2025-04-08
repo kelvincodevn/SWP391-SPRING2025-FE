@@ -85,7 +85,7 @@ function ManagePsychologist() {
                 setActionLoading(true);
                 try {
                     await deletePsychologist(userID);
-                    toast.success("Psychologist deleted successfully");
+                    // toast.success("Psychologist deleted successfully");
                     fetchPsychologists();
                 } catch (error) {
                     console.error("Error deleting psychologist:", error);

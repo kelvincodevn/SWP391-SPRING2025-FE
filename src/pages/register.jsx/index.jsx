@@ -50,7 +50,7 @@ const RegistrationPage = () => {
     // Password validation
     if (!formData.password) {
       newErrors.password = "Password is required";
-    } else if (formData.password.length < 8) { // Tăng lên 8 cho bảo mật
+    } else if (formData.password.length < 8) {
       newErrors.password = "Password must be at least 8 characters";
     } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])/.test(formData.password)) {
       newErrors.password = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character";
@@ -68,7 +68,6 @@ const RegistrationPage = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    // Xóa lỗi của field khi người dùng bắt đầu nhập lại
     if (errors[name]) {
       setErrors({ ...errors, [name]: "" });
     }
@@ -89,7 +88,9 @@ const RegistrationPage = () => {
         toast.success("Register Successfully");
         navigate("/login");
       } catch (error) {
-        toast.error(error.response?.data || "Registration failed");
+        const errorMessage = error.response?.data || "Registration failed";
+        toast.error(errorMessage); // Hiển thị lỗi cụ thể từ backend
+        console.error("Registration error:", error);
       } finally {
         setLoading(false);
       }
@@ -122,14 +123,12 @@ const RegistrationPage = () => {
       {/* Right Side - Form */}
       <div className="lg:w-1/2 ml-auto min-h-screen overflow-y-auto flex flex-col items-center p-8 bg-white">
         <div className="max-w-md w-full space-y-8">
-          {/* Form Header */}
           <div className="text-center">
             <h2 className="text-3xl font-bold text-slate-800">Create Account</h2>
             <p className="mt-2 text-gray-600">Join our mental wellness community</p>
           </div>
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-            {/* Account Type Selection */}
             <div className="flex gap-4 justify-center mt-4">
               {["parent", "student"].map((type) => (
                 <button

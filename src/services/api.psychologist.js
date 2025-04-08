@@ -87,10 +87,10 @@ export const updatePsychologist = async (psychologistId, psychologistData) => {
   }
 };
 
-// Thêm hàm deletePsychologist (nếu cần)
+// Cập nhật hàm deletePsychologist để gọi endpoint mới
 export const deletePsychologist = async (psychologistId) => {
   try {
-      const response = await api.delete(`/api/psychologists/${psychologistId}`);
+      const response = await api.delete(`/api/manager/psychologists/${psychologistId}`);
       toast.success("Psychologist deleted successfully");
       return response.data;
   } catch (error) {

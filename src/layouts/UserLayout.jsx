@@ -32,7 +32,7 @@ const studentItems = [
     getItem('Booking', 'booking', <FiCalendar />),
     getItem('Surveys', 'survey', <FormOutlined />),
     // getItem('Programs', 'programs', <ProjectOutlined />),
-    getItem('Associate', 'associate', <UserSwitchOutlined />),
+    // getItem('Associate', 'associate', <UserSwitchOutlined />),
 ];
 
 // Các mục sidebar cho PARENT
@@ -41,7 +41,7 @@ const parentItems = [
     getItem('Tests', 'tests', <FileTextOutlined />),
     getItem('Survey', 'survey', <FormOutlined />),
     getItem('Booking', 'booking', <FiCalendar />),
-    getItem('Associate', 'associate', <UserSwitchOutlined />),
+    // getItem('Associate', 'associate', <UserSwitchOutlined />),
 ];
 
 const UserLayout = () => {

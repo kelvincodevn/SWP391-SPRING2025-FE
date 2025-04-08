@@ -68,6 +68,32 @@ function PsychologistBooking() {
             dataIndex: "slotTime",
             key: "slotTime",
         },
+        // {
+        //     title: "Status",
+        //     dataIndex: "status",
+        //     key: "status",
+        //     render: (status) => {
+        //         let color;
+        //         switch (status) {
+        //             case "PENDING":
+        //                 color = "orange";
+        //                 break;
+        //             case "PAID":
+        //                 color = "purple";
+        //                 break;
+        //             case "COMPLETED":
+        //                 color = "green";
+        //                 break;
+        //             case "CANCELLED":
+        //                 color = "red";
+        //                 break;
+        //             default:
+        //                 color = "default";
+        //         }
+        //         return <Tag color={color}>{status}</Tag>;
+        //     },
+        // },
+
         {
             title: "Status",
             dataIndex: "status",
@@ -81,6 +107,9 @@ function PsychologistBooking() {
                     case "PAID":
                         color = "purple";
                         break;
+                    case "AWAITING_CONFIRMATION":
+                        color = "blue";
+                        break;
                     case "COMPLETED":
                         color = "green";
                         break;
@@ -93,6 +122,33 @@ function PsychologistBooking() {
                 return <Tag color={color}>{status}</Tag>;
             },
         },
+        // {
+        //     title: "Action",
+        //     key: "action",
+        //     render: (text, record) => (
+        //         <Space>
+        //             {record.status === "PAID" && (
+        //                 <Button
+        //                     type="primary"
+        //                     onClick={() => handleComplete(record.bookingId)}
+        //                     disabled={actionLoading}
+        //                 >
+        //                     Complete
+        //                 </Button>
+        //             )}
+        //             {record.status === "PENDING" && (
+        //                 <Tag color="orange">Waiting for payment</Tag>
+        //             )}
+        //             {record.status === "COMPLETED" && (
+        //                 <Tag color="green">Booking Completed</Tag>
+        //             )}
+        //             {record.status === "CANCELLED" && (
+        //                 <Tag color="red">Booking Cancelled</Tag>
+        //             )}
+        //         </Space>
+        //     ),
+        // },
+
         {
             title: "Action",
             key: "action",
@@ -106,6 +162,9 @@ function PsychologistBooking() {
                         >
                             Complete
                         </Button>
+                    )}
+                    {record.status === "AWAITING_CONFIRMATION" && (
+                        <Tag color="blue">Awaiting Client Confirmation</Tag>
                     )}
                     {record.status === "PENDING" && (
                         <Tag color="orange">Waiting for payment</Tag>

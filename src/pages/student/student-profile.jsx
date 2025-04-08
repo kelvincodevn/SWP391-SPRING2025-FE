@@ -76,7 +76,7 @@ function StudentProfile() {
     try {
       const updatedData = await updateUserProfile(userData);
       setUserData(updatedData);
-      toast.success('Profile saved successfully!');
+      // toast.success('Profile saved successfully!');
       setIsEditing(false); // Switch back to view mode after saving
     } catch (error) {
       console.error('Error saving user profile:', error);

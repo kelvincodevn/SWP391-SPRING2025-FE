@@ -158,7 +158,7 @@ function PsychologistSlot() {
                 setActionLoading(true);
                 try {
                     await deleteSlot(psychologistId, slotId);
-                    toast.success("Slot deleted successfully");
+                    // toast.success("Slot deleted successfully");
                     fetchSlots();
                 } catch (error) {
                     console.error("Error deleting slot:", error);
