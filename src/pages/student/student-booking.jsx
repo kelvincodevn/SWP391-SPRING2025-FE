@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Button, Modal, Table, Card, Row, Col, Typography, Tag, Spin, Alert } from "antd";
 import { toast } from "react-toastify";
-import { getUserBookings, cancelBooking, getBookingDetails } from "../../services/api.booking";
+import { getUserBookings, cancelBooking, getBookingDetails, confirmBooking } from "../../services/api.booking";
 import { useLocation } from "react-router-dom";
 import { createPayment } from "../../services/api.payment";
 
@@ -83,6 +83,25 @@ function StudentBooking() {
             setActionLoading(false);
         }
     }, []);
+
+    const handleConfirm = useCallback(async (bookingId) => {
+        setActionLoading(true);
+        try {
+            const response = await confirmBooking(userId, bookingId); // Gọi hàm từ api.booking.js
+            if (response) {
+                toast.success("Booking confirmed successfully.");
+                setBookings((prevBookings) =>
+                    prevBookings.map((b) =>
+                        b.bookingId === bookingId ? { ...b, status: "COMPLETED" } : b
+                    )
+                );
+            }
+        } catch (error) {
+            toast.error("Failed to confirm booking."); // Lỗi đã được xử lý trong api.booking.js
+        } finally {
+            setActionLoading(false);
+        }
+    }, [userId]);
 
     const handleViewDetails = useCallback(async (bookingId) => {
         setModalLoading(true);
@@ -187,7 +206,16 @@ function StudentBooking() {
                         </>
                     )}
                     {record.status === "PAID" && (
-                        <Tag color="blue">Waiting for consultation report</Tag>
+                        <Tag color="purple">Waiting for consultation</Tag>
+                    )}
+                    {record.status === "AWAITING_CONFIRMATION" && (
+                        <Button
+                            type="primary"
+                            onClick={() => handleConfirm(record.bookingId)}
+                            disabled={actionLoading}
+                        >
+                            Confirm
+                        </Button>
                     )}
                     {record.status === "COMPLETED" && (
                         <Tag color="green">Booking Completed</Tag>

@@ -37,6 +37,12 @@ const TestResultPage = () => {
                     Take Another Test
                 </button>
                 <button
+                    className="bg-blue-400 hover:bg-blue-500 text-white py-2 px-4 rounded-lg w-full mt-4 transition-colors"
+                    onClick={() => navigate("/recommendation")}
+                >
+                    See Recommended Psychologists
+                </button>
+                <button
                     className="bg-gray-400 hover:bg-gray-500 text-white py-2 px-4 rounded-lg w-full mt-4 transition-colors"
                     onClick={() => navigate("/")}
                 >

@@ -152,39 +152,75 @@ function PsychologistBooking() {
         {
             title: "Action",
             key: "action",
-            render: (text, record) => (
-                <Space>
-                    {record.status === "PAID" && (
-                        <Button
-                            type="primary"
-                            onClick={() => handleComplete(record.bookingId)}
-                            disabled={actionLoading}
-                        >
-                            Complete
-                        </Button>
-                    )}
-                    {record.status === "AWAITING_CONFIRMATION" && (
-                        <Tag color="blue">Awaiting Client Confirmation</Tag>
-                    )}
-                    {record.status === "PENDING" && (
-                        <Tag color="orange">Waiting for payment</Tag>
-                    )}
-                    {record.status === "COMPLETED" && (
-                        <Tag color="green">Booking Completed</Tag>
-                    )}
-                    {record.status === "CANCELLED" && (
-                        <Tag color="red">Booking Cancelled</Tag>
-                    )}
-                </Space>
-            ),
+            render: (text, record) => {
+                const slotDateTime = new Date(`${record.slotDate}T${record.slotTime.split(" - ")[0]}`);
+                const slotEndTime = new Date(`${record.slotDate}T${record.slotTime.split(" - ")[1]}`);
+                const now = new Date();
+        
+                const isWithinSlotTime = now >= slotDateTime && now <= slotEndTime;
+        
+                return (
+                    <Space>
+                        {record.status === "PAID" && isWithinSlotTime && (
+                            <Button
+                                type="primary"
+                                onClick={() => handleComplete(record.bookingId)}
+                                disabled={actionLoading}
+                            >
+                                Complete
+                            </Button>
+                        )}
+                        {record.status === "PAID" && !isWithinSlotTime && (
+                            <Tag color="purple">Waiting for slot time</Tag>
+                        )}
+                        {record.status === "AWAITING_CONFIRMATION" && (
+                            <Tag color="blue">Awaiting Client Confirmation</Tag>
+                        )}
+                        {record.status === "PENDING" && (
+                            <Tag color="orange">Waiting for payment</Tag>
+                        )}
+                        {record.status === "COMPLETED" && (
+                            <Tag color="green">Booking Completed</Tag>
+                        )}
+                        {record.status === "CANCELLED" && (
+                            <Tag color="red">Booking Cancelled</Tag>
+                        )}
+                    </Space>
+                );
+            },
         },
     ];
 
-    const handleComplete = (bookingId) => {
-        setSelectedBookingId(bookingId);
-        setOpenCompleteModal(true);
-        form.resetFields();
-    };
+    // const handleComplete = (bookingId) => {
+    //     setSelectedBookingId(bookingId);
+    //     setOpenCompleteModal(true);
+    //     form.resetFields();
+    // };
+
+    const handleComplete = useCallback(async (bookingId) => {
+        setActionLoading(true);
+        try {
+            const file = document.getElementById(`report-${bookingId}`).files[0];
+            if (!file) {
+                toast.error("Please upload a report file.");
+                return;
+            }
+    
+            const response = await completeBooking(psychologistId, bookingId, file);
+            if (response) {
+                toast.success("Booking completed successfully. Awaiting client confirmation.");
+                setBookings((prevBookings) =>
+                    prevBookings.map((b) =>
+                        b.bookingId === bookingId ? { ...b, status: "AWAITING_CONFIRMATION" } : b
+                    )
+                );
+            }
+        } catch (error) {
+            toast.error("Failed to complete booking.");
+        } finally {
+            setActionLoading(false);
+        }
+    }, [psychologistId]);
 
     const handleCompleteSubmit = useCallback(async (values) => {
         if (!psychologistId) {

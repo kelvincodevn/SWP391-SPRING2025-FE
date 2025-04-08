@@ -124,6 +124,30 @@ export const completeBooking = async (psychologistId, bookingId, file) => {
     }
 };
 
+export const confirmBooking = async (userId, bookingId) => {
+    try {
+        const response = await api.post(`/api/bookings/${bookingId}/confirm`, null, {
+            params: { userId },
+        });
+        return response.data;
+    } catch (error) {
+        toast.error(error.response?.data || "Failed to confirm booking");
+        return null;
+    }
+};
+
+export const getRecommendedPsychologists = async (userId) => {
+    try {
+        const response = await api.get(`/api/bookings/recommend-psychologists`, {
+            params: { userId },
+        });
+        return response.data;
+    } catch (error) {
+        toast.error(error.response?.data || "Failed to fetch recommended psychologists");
+        return [];
+    }
+};
+
 
 // Helper function for consistent error handling
 const handleApiError = (error, operation) => {

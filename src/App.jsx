@@ -61,6 +61,7 @@ import StudentProfile from "./pages/student/student-profile.jsx";
 import ParentProfile from "./pages/parent/parent-profile.jsx";
 import Program from "./pages/program/Program.jsx";
 import ProgramDetail from "./pages/program/ProgramDetail.jsx";
+import RecommendationPage from "./pages/testpage/RecommendationPage.jsx";
 
 const ProtectedRoute = ({ children, requiredRole }) => {
   // Replace with your actual authentication and role check logic
@@ -217,7 +218,7 @@ const App = () => {
 
           <Route path="/test/:id" element={<GeneralTestPage />} />
           <Route path="/test-result" element={<TestResultPage />} />
-
+          <Route path="/recommendation" element={<RecommendationPage />} />
           <Route
             path="/survey-selection"
             element={
