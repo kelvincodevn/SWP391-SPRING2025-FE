@@ -68,31 +68,6 @@ function PsychologistBooking() {
             dataIndex: "slotTime",
             key: "slotTime",
         },
-        // {
-        //     title: "Status",
-        //     dataIndex: "status",
-        //     key: "status",
-        //     render: (status) => {
-        //         let color;
-        //         switch (status) {
-        //             case "PENDING":
-        //                 color = "orange";
-        //                 break;
-        //             case "PAID":
-        //                 color = "purple";
-        //                 break;
-        //             case "COMPLETED":
-        //                 color = "green";
-        //                 break;
-        //             case "CANCELLED":
-        //                 color = "red";
-        //                 break;
-        //             default:
-        //                 color = "default";
-        //         }
-        //         return <Tag color={color}>{status}</Tag>;
-        //     },
-        // },
 
         {
             title: "Status",
@@ -122,32 +97,6 @@ function PsychologistBooking() {
                 return <Tag color={color}>{status}</Tag>;
             },
         },
-        // {
-        //     title: "Action",
-        //     key: "action",
-        //     render: (text, record) => (
-        //         <Space>
-        //             {record.status === "PAID" && (
-        //                 <Button
-        //                     type="primary"
-        //                     onClick={() => handleComplete(record.bookingId)}
-        //                     disabled={actionLoading}
-        //                 >
-        //                     Complete
-        //                 </Button>
-        //             )}
-        //             {record.status === "PENDING" && (
-        //                 <Tag color="orange">Waiting for payment</Tag>
-        //             )}
-        //             {record.status === "COMPLETED" && (
-        //                 <Tag color="green">Booking Completed</Tag>
-        //             )}
-        //             {record.status === "CANCELLED" && (
-        //                 <Tag color="red">Booking Cancelled</Tag>
-        //             )}
-        //         </Space>
-        //     ),
-        // },
 
         {
             title: "Action",
@@ -196,69 +145,6 @@ function PsychologistBooking() {
         setOpenCompleteModal(true);
         form.resetFields();
     };
-
-    // const handleComplete = useCallback(async (bookingId) => {
-    //     setActionLoading(true);
-    //     try {
-    //         const file = document.getElementById(`report-${bookingId}`).files[0];
-    //         if (!file) {
-    //             toast.error("Please upload a report file.");
-    //             return;
-    //         }
-    
-    //         const response = await completeBooking(psychologistId, bookingId, file);
-    //         if (response) {
-    //             toast.success("Booking completed successfully. Awaiting client confirmation.");
-    //             setBookings((prevBookings) =>
-    //                 prevBookings.map((b) =>
-    //                     b.bookingId === bookingId ? { ...b, status: "AWAITING_CONFIRMATION" } : b
-    //                 )
-    //             );
-    //         }
-    //     } catch (error) {
-    //         toast.error("Failed to complete booking.");
-    //     } finally {
-    //         setActionLoading(false);
-    //     }
-    // }, [psychologistId]);
-
-    // const handleComplete = useCallback(async (bookingId) => {
-    //     setActionLoading(true);
-    //     try {
-    //         // Kiểm tra psychologistId
-    //         if (!psychologistId) {
-    //             throw new Error("Psychologist ID not found. Please log in.");
-    //         }
-    
-    //         // Lấy file từ input
-    //         const fileInput = document.getElementById(`report-${bookingId}`);
-    //         if (!fileInput) {
-    //             throw new Error("File input element not found.");
-    //         }
-    
-    //         const file = fileInput.files[0];
-    //         if (!file) {
-    //             throw new Error("Please upload a report file.");
-    //         }
-    
-    //         console.log("Calling completeBooking API with:", { psychologistId, bookingId, file });
-    //         const response = await completeBooking(psychologistId, bookingId, file);
-    //         if (response) {
-    //             toast.success("Booking completed successfully. Awaiting client confirmation.");
-    //             setBookings((prevBookings) =>
-    //                 prevBookings.map((b) =>
-    //                     b.bookingId === bookingId ? { ...b, status: "AWAITING_CONFIRMATION" } : b
-    //                 )
-    //             );
-    //         }
-    //     } catch (error) {
-    //         console.error("Error in handleComplete:", error.message);
-    //         toast.error(error.message || "Failed to complete booking.");
-    //     } finally {
-    //         setActionLoading(false);
-    //     }
-    // }, [psychologistId]);
-
 
     const handleCompleteSubmit = useCallback(async (values) => {
         if (!psychologistId) {
