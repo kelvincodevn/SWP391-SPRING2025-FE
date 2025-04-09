@@ -1,30 +1,6 @@
 import api from "../config/axios";
 import { toast } from "react-toastify";
 
-// export const createBooking = async (userId, psychologistSlotId) => {
-//     try {
-//         const response = await api.post(`/api/bookings/create`, null, {
-//             params: { userId, psychologistSlotId },
-//         });
-//         return response.data;
-//     } catch (error) {
-//         toast.error(error.response?.data || "Failed to create booking");
-//         return null;
-//     }
-// };
-
-// export const createBooking = async (userId, request) => {
-//     try {
-//       const response = await api.post(`/api/bookings/create`, request, {
-//         params: { userId },
-//       });
-//       return response.data;
-//     } catch (error) {
-//       toast.error(error.response?.data || "Failed to create booking");
-//       return null;
-//     }
-//   };
-
 // Create a booking
 export const createBooking = async (userId, bookingRequest) => {
     try {
@@ -59,31 +35,6 @@ export const getPsychologistBookings = async (psychologistId) => {
         return [];
     }
 };
-
-// export const confirmBooking = async (psychologistId, bookingId) => {
-//     try {
-//         const response = await api.put(`/api/bookings/confirm`, null, {
-//             params: { psychologistId, bookingId },
-//         });
-//         return response.data;
-//     } catch (error) {
-//         toast.error(error.response?.data || "Failed to confirm booking");
-//         return null;
-//     }
-// };
-
-
-// export const cancelBooking = async (userId, bookingId) => {
-//     try {
-//         const response = await api.put(`/api/bookings/cancel`, null, {
-//             params: { userId, bookingId },
-//         });
-//         return response.data;
-//     } catch (error) {
-//         toast.error(error.response?.data || "Failed to cancel booking");
-//         return null;
-//     }
-// };
 
 export const cancelBooking = async (userId, bookingId) => {
     try {

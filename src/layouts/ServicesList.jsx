@@ -35,13 +35,6 @@ const ServicesList = () => {
             link="/resources"
           />
 
-          {/* <ServicesCard
-            icon={<FaHeartbeat size={40} className="text-blue-700" />}
-            title="Psychology Seminar"
-            description="Join a seminar led by experts in mental health."
-            link="/seminar"
-          /> */}
-
           <ServicesCard
             icon={<MdPsychology size={40} className="text-blue-700" />}
             title="Appointment"

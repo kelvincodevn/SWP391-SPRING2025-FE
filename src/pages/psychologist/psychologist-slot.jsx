@@ -170,61 +170,6 @@ function PsychologistSlot() {
         });
     }, [psychologistId, slots, fetchSlots]);
 
-    // const handleSubmit = useCallback(async (formValues) => {
-    //     const startTimeMoment = formValues.time[0];
-    //     const endTimeMoment = formValues.time[1];
-
-    //     // Kiểm tra thời gian bắt đầu phải trước thời gian kết thúc
-    //     if (startTimeMoment >= endTimeMoment) {
-    //         toast.error("Start time must be before end time");
-    //         return;
-    //     }
-
-    //     // Kiểm tra thời gian không vượt quá 2 giờ
-    //     const duration = (endTimeMoment.valueOf() - startTimeMoment.valueOf()) / (1000 * 60);
-    //     if (duration > 120) {
-    //         toast.error("Slot duration cannot exceed 2 hours");
-    //         return;
-    //     }
-
-    //     setActionLoading(true);
-    //     try {
-    //         if (editingSlot && editingSlot.slotId) {
-    //             if (editingSlot.availabilityStatus === "BOOKED") {
-    //                 toast.error("Cannot update a booked slot");
-    //                 return;
-    //             }
-    //             await updateSlot(
-    //                 {
-    //                     date: formValues.date.format('DD-MM-YYYY'),
-    //                     startTime: startTimeMoment.format('HH:mm'),
-    //                     endTime: endTimeMoment.format('HH:mm'),
-    //                     psychologistId,
-    //                 },
-    //                 editingSlot.slotId
-    //             );
-    //             // toast.success("Slot updated successfully");
-    //             setEditingSlot(null);
-    //         } else {
-    //             await createSlot({
-    //                 date: formValues.date.format('DD-MM-YYYY'),
-    //                 startTime: startTimeMoment.format('HH:mm'),
-    //                 endTime: endTimeMoment.format('HH:mm'),
-    //                 psychologistId,
-    //             });
-    //             // toast.success("Slot created successfully");
-    //         }
-    //         setOpen(false);
-    //         form.resetFields();
-    //         fetchSlots();
-    //     } catch (error) {
-    //         console.error("Error creating/updating slot:", error);
-    //         toast.error("Failed to create/update slot.");
-    //     } finally {
-    //         setActionLoading(false);
-    //     }
-    // }, [psychologistId, editingSlot, fetchSlots, form]);
-
     const handleSubmit = useCallback(async (formValues) => {
         const startTimeMoment = formValues.time[0];
         const endTimeMoment = formValues.time[1];
