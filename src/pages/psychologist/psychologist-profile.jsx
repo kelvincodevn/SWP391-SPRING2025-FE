@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getPsychologistProfile, updatePsychologistProfile } from '../../services/api.psychologist';
 import { toast } from 'react-toastify';
-import { FaUser, FaEnvelope, FaGraduationCap, FaBriefcase, FaMoneyBillWave, FaPhoneAlt } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaGraduationCap, FaBriefcase, FaMoneyBillWave, FaPhoneAlt, FaClock } from 'react-icons/fa';
 
 function PsychologistProfile() {
   const [psychologistData, setPsychologistData] = useState({
@@ -11,9 +11,10 @@ function PsychologistProfile() {
     major: '',
     degree: '',
     workplace: '',
-    fee: '', 
+    fee: '',
     phone: '',
     dob: '',
+    experience: '', // Thêm field experience
   });
 
   const [isEditing, setIsEditing] = useState(false);
@@ -77,6 +78,10 @@ function PsychologistProfile() {
       toast.error('Date of birth is required');
       return false;
     }
+    if (!psychologistData.experience || psychologistData.experience < 0) { // Thêm validate cho experience
+      toast.error('Experience must be a non-negative number');
+      return false;
+    }
     return true;
   };
 
@@ -89,7 +94,7 @@ function PsychologistProfile() {
       const updatedData = await updatePsychologistProfile(psychologistData);
       setPsychologistData(updatedData);
       toast.success('Profile saved successfully!');
-      setIsEditing(false); // Switch back to view mode after saving
+      setIsEditing(false);
     } catch (error) {
       console.error('Error saving psychologist profile:', error);
       toast.error('Failed to save profile. Please try again.');
@@ -155,7 +160,6 @@ function PsychologistProfile() {
             className="w-full p-4 border-2 border-indigo-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600 shadow-md"
           >
             <option value="">Select your major</option>
-
             <option value="Psychology">Community Psychology</option>
             <option value="Clinical Psychology">Clinical Psychology</option>
             <option value="Counseling Psychology">Counseling Psychology</option>
@@ -213,6 +217,20 @@ function PsychologistProfile() {
             className="w-full p-4 border-2 border-indigo-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600 shadow-md"
           />
 
+          {/* Experience */}
+          <div className="flex items-center mb-6">
+            <FaClock className="text-2xl text-indigo-600 mr-4" />
+            <label className="text-lg font-medium text-gray-800">Experience (years):</label>
+          </div>
+          <input
+            type="number"
+            name="experience"
+            value={psychologistData.experience}
+            onChange={handleChange}
+            placeholder="Enter your years of experience"
+            className="w-full p-4 border-2 border-indigo-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600 shadow-md"
+          />
+
           {/* Phone */}
           <div className="flex items-center mb-6">
             <FaPhoneAlt className="text-2xl text-indigo-600 mr-4" />
@@ -266,9 +284,10 @@ function PsychologistProfile() {
               <p><strong>Username:</strong> {psychologistData.username}</p>
               <p><strong>Email:</strong> {psychologistData.email}</p>
               <p><strong>Workplace:</strong> {psychologistData.workplace}</p>
-              <p><strong>Major: </strong>{psychologistData.major}</p>
+              <p><strong>Major:</strong> {psychologistData.major}</p>
               <p><strong>Degree:</strong> {psychologistData.degree}</p>
               <p><strong>Fee:</strong> {psychologistData.fee}</p>
+              <p><strong>Experience:</strong> {psychologistData.experience} years</p>
               <p><strong>Phone:</strong> {psychologistData.phone}</p>
               <p><strong>Date of Birth:</strong> {psychologistData.dob}</p>
             </div>

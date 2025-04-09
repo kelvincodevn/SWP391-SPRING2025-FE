@@ -74,7 +74,8 @@ export const createSlot = async (slotData) => {
         toast.success("Slot created successfully");
         return response.data;
     } catch (error) {
-        toast.error(error.response?.data || "Failed to create slot");
+        const errorMessage = error.response?.data || "Failed to create slot";
+        toast.error(errorMessage);
         throw error;
     }
 };
@@ -85,7 +86,7 @@ export const updateSlot = async (slotData, slotId) => {
         const response = await api.put("/api/psychologist/slots/update", null, {
             params: {
                 psychologistId,
-                slotId, // Sửa từ psychologistSlotId thành slotId
+                slotId,
                 date,
                 startTime,
                 endTime,
@@ -95,7 +96,8 @@ export const updateSlot = async (slotData, slotId) => {
         toast.success("Slot updated successfully");
         return response.data;
     } catch (error) {
-        toast.error(error.response?.data || "Failed to update slot");
+        const errorMessage = error.response?.data || "Failed to update slot";
+        toast.error(errorMessage);
         throw error;
     }
 };

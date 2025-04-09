@@ -51,7 +51,6 @@ const LoginPage = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    // Xóa lỗi của field khi người dùng bắt đầu nhập lại
     if (errors[name]) {
       setErrors({ ...errors, [name]: "" });
     }
@@ -67,16 +66,13 @@ const LoginPage = () => {
         localStorage.setItem("token", token);
         localStorage.setItem("userID", response.data.userID);
 
-        // Store user data in localStorage and Redux store
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("fullName", response.data.fullName);
         localStorage.setItem("role", response.data.roleEnum);
 
-        // Set default avatar if user hasn't uploaded one
-        const userAvatar = DEFAULT_AVATAR[0]; // Lấy phần tử đầu tiên thay vì mảng
+        const userAvatar = DEFAULT_AVATAR[0];
         localStorage.setItem("userAvatar", userAvatar);
 
-        // Dispatch the setUser action with user data
         dispatch(setUser({ ...response.data, avatar: userAvatar }));
 
         toast.success("Login Successfully");
@@ -89,15 +85,12 @@ const LoginPage = () => {
         } else if (roleEnum === "PSYCHOLOGIST") {
           navigate("/workview");
         } else {
-          navigate("/"); // Default navigation
+          navigate("/");
         }
       } catch (error) {
-        if (error.response && error.response.data) {
-          toast.error(error.response.data);
-        } else {
-          toast.error("An unexpected error occurred.");
-          console.error("Login error:", error);
-        }
+        const errorMessage = error.response?.data || "An unexpected error occurred";
+        toast.error(errorMessage); // Hiển thị lỗi cụ thể từ backend
+        console.error("Login error:", error);
       } finally {
         setIsLoading(false);
       }
@@ -147,7 +140,6 @@ const LoginPage = () => {
       {/* Right Side - Login Form */}
       <div className="lg:w-1/2 ml-auto h-screen overflow-y-auto flex flex-col items-center justify-center p-8 bg-white lg:pl-32">
         <div className="max-w-md w-full space-y-8">
-          {/* Form Header */}
           <div className="text-center">
             <h2 className="text-3xl font-bold text-slate-800">Login</h2>
             <p className="mt-2 text-gray-600">Welcome back to our community</p>

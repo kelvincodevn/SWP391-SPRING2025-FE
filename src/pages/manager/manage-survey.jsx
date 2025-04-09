@@ -65,7 +65,7 @@ function ManageSurvey() {
         try {
             const file = values.file.fileList[0].originFileObj;
             await createSurveyFromExcel(file);
-            toast.success("Survey created successfully");
+            // toast.success("Survey created successfully");
             form.resetFields();
             setIsModalOpen(false); // Đóng Modal sau khi submit thành công
             fetchSurveys(); // Làm mới danh sách survey
