@@ -96,7 +96,6 @@ function PsychologistBooking() {
                 return <Tag color={color}>{status}</Tag>;
             },
         },
-
         {
             title: "Action",
             key: "action",
@@ -144,6 +143,7 @@ function PsychologistBooking() {
         setOpenCompleteModal(true);
         form.resetFields();
     };
+
     const handleCompleteSubmit = useCallback(async (values) => {
         if (!psychologistId) {
             toast.error("Psychologist not logged in. Please log in to continue.");
@@ -154,9 +154,13 @@ function PsychologistBooking() {
         try {
             const file = values.report.fileList[0].originFileObj;
             await completeBooking(psychologistId, selectedBookingId, file);
-            toast.success("Booking completed and report sent");
+            toast.success("Booking marked as completed, awaiting client confirmation");
             setOpenCompleteModal(false);
-            setBookings(bookings.map(b => b.bookingId === selectedBookingId ? { ...b, status: "COMPLETED" } : b));
+            setBookings(bookings.map(b => 
+                b.bookingId === selectedBookingId 
+                ? { ...b, status: "AWAITING_CONFIRMATION" } 
+                : b
+            ));
         } catch (error) {
             toast.error("Failed to complete booking");
         } finally {

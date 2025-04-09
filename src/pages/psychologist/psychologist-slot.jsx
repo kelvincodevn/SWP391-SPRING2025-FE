@@ -9,15 +9,14 @@ const { Title, Text } = Typography;
 
 function PsychologistSlot() {
     const [slots, setSlots] = useState([]);
-    const [open, setOpen] = useState(false); // Modal cho Create/Edit Slot
+    const [open, setOpen] = useState(false);
     const [form] = useForm();
     const [editingSlot, setEditingSlot] = useState(null);
-    const [loading, setLoading] = useState(false); // Loading cho danh sách slots
-    const [actionLoading, setActionLoading] = useState(false); // Loading cho các hành động (create, update, delete)
-    const [error, setError] = useState(null); // Lưu lỗi nếu có
+    const [loading, setLoading] = useState(false);
+    const [actionLoading, setActionLoading] = useState(false);
+    const [error, setError] = useState(null);
     const psychologistId = localStorage.getItem('userID');
 
-    // Hàm lấy danh sách slots
     const fetchSlots = useCallback(async () => {
         if (!psychologistId) {
             toast.error("Psychologist ID not found. Please log in.");
@@ -95,7 +94,7 @@ function PsychologistSlot() {
                     <Button
                         type="primary"
                         onClick={() => handleEdit(record)}
-                        disabled={actionLoading || record.availabilityStatus === "BOOKED"} // Thêm điều kiện disable
+                        disabled={actionLoading || record.availabilityStatus === "BOOKED"}
                         loading={actionLoading}
                     >
                         Edit
@@ -158,7 +157,6 @@ function PsychologistSlot() {
                 setActionLoading(true);
                 try {
                     await deleteSlot(psychologistId, slotId);
-                    // toast.success("Slot deleted successfully");
                     fetchSlots();
                 } catch (error) {
                     console.error("Error deleting slot:", error);
@@ -174,32 +172,29 @@ function PsychologistSlot() {
         const startTimeMoment = formValues.time[0];
         const endTimeMoment = formValues.time[1];
         const selectedDate = formValues.date;
-    
-        // Kiểm tra thời gian bắt đầu phải trước thời gian kết thúc
+
         if (startTimeMoment >= endTimeMoment) {
             toast.error("Start time must be before end time");
             return;
         }
-    
-        // Kiểm tra thời gian không vượt quá 2 giờ
+
         const duration = (endTimeMoment.valueOf() - startTimeMoment.valueOf()) / (1000 * 60);
         if (duration > 120) {
             toast.error("Slot duration cannot exceed 2 hours");
             return;
         }
-    
-        // Kiểm tra slot không nằm trong quá khứ
-        const now = moment(); // Thời gian hiện tại
+
+        const now = moment();
         const selectedDateTime = moment(
             `${selectedDate.format('YYYY-MM-DD')} ${startTimeMoment.format('HH:mm')}`,
             'YYYY-MM-DD HH:mm'
         );
-    
+
         if (selectedDateTime.isBefore(now)) {
             toast.error("Cannot create a slot in the past");
             return;
         }
-    
+
         setActionLoading(true);
         try {
             if (editingSlot && editingSlot.slotId) {
@@ -275,7 +270,6 @@ function PsychologistSlot() {
                 />
             )}
 
-            {/* Modal for Create/Edit Slot */}
             <Modal
                 title={editingSlot ? "Edit Slot" : "Create Slot"}
                 open={open}
@@ -296,20 +290,6 @@ function PsychologistSlot() {
                             disabledDate={(current) => current && current < moment().startOf('day')}
                         />
                     </Form.Item>
-                    {/* <Form.Item
-                        label="Time"
-                        name="time"
-                        rules={[{ required: true, message: "Time is required" }]}
-                    >
-                        <TimePicker.RangePicker
-                            format="HH:mm"
-                            minuteStep={15}
-                            getPopupContainer={trigger => trigger.parentElement}
-                            popupClassName="disable-auto-scroll-picker"
-                            disabled={actionLoading}
-                        />
-                    </Form.Item> */}
-
                     <Form.Item
                         label="Time"
                         name="time"
@@ -321,30 +301,11 @@ function PsychologistSlot() {
                             getPopupContainer={trigger => trigger.parentElement}
                             popupClassName="disable-auto-scroll-picker"
                             disabled={actionLoading}
-                            disabledTime={(current) => {
-                                const selectedDate = form.getFieldValue('date');
-                                const isToday = selectedDate && moment().isSame(selectedDate, 'day');
-                                if (!isToday) return {};
-
-                                const now = moment();
+                            disabledTime={() => {
+                                // Không disable bất kỳ giờ/phút nào
                                 return {
-                                    disabledHours: () => {
-                                        const hours = [];
-                                        for (let i = 0; i < now.hour(); i++) {
-                                            hours.push(i);
-                                        }
-                                        return hours;
-                                    },
-                                    disabledMinutes: (selectedHour) => {
-                                        if (selectedHour === now.hour()) {
-                                            const minutes = [];
-                                            for (let i = 0; i < now.minute(); i++) {
-                                                minutes.push(i);
-                                            }
-                                            return minutes;
-                                        }
-                                        return [];
-                                    },
+                                    disabledHours: () => [],
+                                    disabledMinutes: () => [],
                                 };
                             }}
                         />

@@ -370,31 +370,6 @@ function StudentBooking() {
                                 <Text type="secondary">Psychologist information not available.</Text>
                             )}
                         </Card>
-
-                        {/* <Card
-                            title="Client Information"
-                            className="shadow-sm"
-                            headStyle={{ backgroundColor: "#f0f5ff", borderBottom: "none" }}
-                        >
-                            {selectedBooking.clientDetails ? (
-                                <Row gutter={[16, 16]}>
-                                    <Col span={8}>
-                                        <Text strong>Name:</Text>
-                                        <Text className="block">
-                                            {selectedBooking.clientDetails.fullName || "Not specified"}
-                                        </Text>
-                                    </Col>
-                                    <Col span={8}>
-                                        <Text strong>Email:</Text>
-                                        <Text className="block">
-                                            {selectedBooking.clientDetails.email || "Not specified"}
-                                        </Text>
-                                    </Col>
-                                </Row>
-                            ) : (
-                                <Text type="secondary">Client information not available.</Text>
-                            )}
-                        </Card> */}
                     </div>
                 ) : (
                     <div className="text-center py-6">
