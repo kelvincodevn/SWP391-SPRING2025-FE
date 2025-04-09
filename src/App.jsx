@@ -7,8 +7,6 @@ import Blogs from "./components/Blogs";
 import Footer from "./components/Footer";
 import MentalHealthResources from "./components/MentalHealthResources";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import TestManagementSystem from "./components/Test1";
-import Survey from "./components/SurveyTest";
 import AdminLayout from "./layouts/adminLayout";
 import ManagerDashboard from "./layouts/managerDashboard";
 import ManageTest from "./pages/manager/manage-test";
@@ -19,9 +17,7 @@ import ManageOverview from "./pages/manager/manage-overview";
 import RegistrationPage from "./pages/register.jsx";
 import LoginPage from "./pages/login/index.jsx";
 import DoubleNavbar from "./components/NavbarCombine.jsx";
-import RegistrationPage1 from "./pages/register.jsx/registerpage.jsx";
 import PsychologistLayout from "./layouts/psychologistLayout.jsx";
-import RegistrationPage2 from "./pages/register.jsx/registerTest.jsx";
 import TestList from "./pages/mentalhealth-test/testlist.jsx";
 import Dass21TestPage from "./pages/mentalhealth-test/dass21.jsx";
 import TestQuestionAndAnswer from "./pages/mentalhealth-test/testrun.jsx";
@@ -62,6 +58,7 @@ import ParentProfile from "./pages/parent/parent-profile.jsx";
 import Program from "./pages/program/Program.jsx";
 import ProgramDetail from "./pages/program/ProgramDetail.jsx";
 import RecommendationPage from "./pages/testpage/RecommendationPage.jsx";
+import Cooperate from "./components/Cooperate.jsx";
 
 const ProtectedRoute = ({ children, requiredRole }) => {
   // Replace with your actual authentication and role check logic
@@ -107,12 +104,9 @@ const App = () => {
           <Route path="/resources" element={<MentalHealthResources />} />
           <Route path="/program" element={<Program />} />
           <Route path="programdetail/:programId" element={<ProgramDetail />} />
-          <Route path="/surveymanage" element={<TestManagementSystem />} />
-          <Route path="/surveytest" element={<Survey />} />
           <Route path="/blog" element={<Blogs />} />
+          <Route path="/cooperate" element={<Cooperate />} />
           <Route path="/register" element={<RegistrationPage />} />
-          <Route path="/register1" element={<RegistrationPage1 />} />
-          <Route path="/register2" element={<RegistrationPage2 />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="*" element={<h2>404 - Page Not Found</h2>} />
           <Route path="/dashboard1" element={<ManagerDashboard />} />

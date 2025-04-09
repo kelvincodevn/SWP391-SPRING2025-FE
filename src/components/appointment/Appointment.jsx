@@ -32,11 +32,20 @@ function Appointment() {
 
     const fetchSlots = async (psychologist) => {
         const slots = await getPsychologistSlots(psychologist.userID);
-        const normalizedSlots = slots.map((slot) => ({
-            id: slot.slotId,
-            date: slot.availableDate,
-            time: `${slot.startTime.slice(0, 5)} - ${slot.endTime.slice(0, 5)}`,
-        }));
+        const currentDateTime = new Date();
+        
+        const normalizedSlots = slots
+            .map((slot) => {
+                const slotDateTime = new Date(`${slot.availableDate}T${slot.startTime}`);
+                return {
+                    id: slot.slotId,
+                    date: slot.availableDate,
+                    time: `${slot.startTime.slice(0, 5)} - ${slot.endTime.slice(0, 5)}`,
+                    dateTime: slotDateTime // Lưu thêm datetime để so sánh
+                };
+            })
+            .filter((slot) => slot.dateTime > currentDateTime); // Lọc các slot trong tương lai
+        
         setAvailableSlots(normalizedSlots);
     };
 
@@ -79,6 +88,15 @@ function Appointment() {
                 time: selectedTime,
                 fee: selectedPsychologist.fee,
             },
+        });
+    };
+
+    // Hàm helper để kiểm tra ngày có slot khả dụng
+    const hasAvailableSlots = (date) => {
+        const currentDateTime = new Date();
+        return availableSlots.some(slot => {
+            const slotDateTime = new Date(`${slot.date}T${slot.time.split(" - ")[0]}`);
+            return slot.date === date && slotDateTime > currentDateTime;
         });
     };
 
@@ -140,10 +158,13 @@ function Appointment() {
                     {selectedDate && (
                         <div className="mb-6">
                             <h3 className="text-xl font-semibold mb-2">Available Slots</h3>
-                            {availableSlots.filter((slot) => slot.date === selectedDate).length > 0 ? (
+                            {hasAvailableSlots(selectedDate) ? (
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                     {availableSlots
-                                        .filter((slot) => slot.date === selectedDate)
+                                        .filter((slot) => {
+                                            const slotDateTime = new Date(`${slot.date}T${slot.time.split(" - ")[0]}`);
+                                            return slot.date === selectedDate && slotDateTime > new Date();
+                                        })
                                         .map((slot) => (
                                             <button
                                                 key={slot.id}
